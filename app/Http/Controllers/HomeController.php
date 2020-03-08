@@ -7,6 +7,9 @@ use App\Anggota;
 use App\Divisi;
 use Illuminate\Support\Facades\DB;
 use Options;
+use Auth;
+use App\Periode;
+use App\TransaksiHarian;
 
 class HomeController extends Controller
 {
@@ -27,55 +30,73 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $countAnggota = Anggota::select()->count();
-        $countDivisi = Divisi::select()->count();
-        return view('home')->with(compact('countAnggota', 'countDivisi'));
-    }
+        $user = Auth::user();
+        $periode = Periode::select()->where('status', 1)->first();
+        if($user->roles->pluck( 'name' )->contains( 'admin' ))
+        {
 
-    public function authOtp(Request $request)
-    {
-        $URL = 'https://indocast.asia/gateway/auth';
-        $tenantId = "20001";
-        $token = "secret_token";
-        $userExtId = uniqid();
-
-        $authParams = new \stdClass();
-        $authParams->guiText = "Do you okay this transaction";
-        $authParams->guiHeader = "Authorization requested";
-        $req = new \stdClass();
-        $req->tenantId = $tenantId;
-        $req->userExternalId = $userExtId;
-        $req->type = "101";
-        $req->authParams = $authParams;
-
-        $signatureText = $tenantId.$userExtId.$authParams->guiHeader.$authParams->guiText.$req->type.$token;
-        $hashed = hash("sha256", $signatureText);
-        $signature = base64_encode(hex2bin($hashed));
-        $req->signature = $signature;
-        $data_string = json_encode($req);
-        //dd($data_string);
-        $curl = curl_init();
-        // Set some options - we are passing in a useragent too here
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $URL,
-            CURLOPT_USERAGENT => 'OKay Demo'
-        ]);
-        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
-        curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/json',
-            'Content-Length: ' . strlen($data_string))
-        );
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        //var_dump($resp);
-        // Close request to clear up some resources
-        curl_close($curl);
-
-        return response()->json([
-            'resp' => $resp
-        ]);
+            $transaksi_harian = TransaksiHarian::with(['sumKreditAll', 'sumDebitAll'])
+                ->select(['id', 'tgl', 'keterangan', 'jenis_transaksi'])
+                ->orderBy('tgl', 'DESC')
+                ->limit(10)
+                ->get();
+            $sum_pokok = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '1')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $sum_wajib = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '2')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $sum_sukarela = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '3')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $kredit_simpanan = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '4')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $debet_pinjaman = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '6')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $bunga_pinjaman = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '7')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $kredit_pinjaman = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harian_biayas.biaya_id', '8')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+            $countAnggota = Anggota::select()->count();
+            $countDivisi = Divisi::select()->count();
+            return view('dashboard.admin')->with(compact('countAnggota', 'countDivisi', 'periode', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'kredit_simpanan', 
+                    'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian'));
+        }
+        if($user->roles->pluck( 'name' )->contains( 'admin' ))
+        {
+            return view('dashboard.member');
+        }
     }
 }

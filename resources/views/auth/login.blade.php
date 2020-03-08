@@ -38,7 +38,7 @@
                                     <div class="account-logo-box">
                                         <h2 class="text-uppercase text-center">
                                             <a href="{{ url('/') }}" class="text-success">
-                                                <span><img src="{{ asset('images/logo-kopkar.png') }}" alt="" height="150"></span>
+                                                <span><img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="150"></span>
                                             </a>
                                         </h2>
                                         <h6 class="text-uppercase text-center font-bold mt-4">

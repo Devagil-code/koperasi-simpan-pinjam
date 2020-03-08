@@ -8,7 +8,6 @@
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-
         <!-- App favicon -->
         <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
         <!-- CSRF Token -->
@@ -21,7 +20,6 @@
         <link href="{{ asset('css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
         <script src="{{ asset('js/modernizr.min.js') }}"></script>
-
     </head>
     <body>
         <!-- Begin page -->
@@ -32,10 +30,10 @@
                 <div class="topbar-left">
                     <a href="{{ route('home') }}" class="logo">
                         <span>
-                            <img src="{{ asset('images/logo.png') }}" alt="" height="35">
+                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="35">
                         </span>
                         <i>
-                            <img src="{{ asset('images/logo-kopkar.png') }}" alt="" height="28">
+                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="28">
                         </i>
                     </a>
                 </div>
