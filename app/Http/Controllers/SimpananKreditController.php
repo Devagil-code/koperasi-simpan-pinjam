@@ -130,7 +130,7 @@ class SimpananKreditController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Menambahkan Data Pengambilan Simpanan');
         return redirect()->route('simpanan-kredit.index');
     }
 
@@ -204,7 +204,7 @@ class SimpananKreditController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Merubah Data Pengambilan Simpanan');
         return redirect()->route('simpanan-kredit.index');
     }
 
@@ -319,6 +319,7 @@ class SimpananKreditController extends Controller
                 $transaksi_harian->update();
             }
         }
+        activity()->log('Mengupload Data Pengambilan Simpanan');
         return redirect()->route('simpanan-kredit.index');
     }
 }

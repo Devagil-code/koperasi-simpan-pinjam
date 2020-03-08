@@ -10,6 +10,8 @@ use Options;
 use Auth;
 use App\Periode;
 use App\TransaksiHarian;
+use App\ActivityLog;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -91,8 +93,9 @@ class HomeController extends Controller
                         ->sum('transaksi_harian_biayas.nominal');
             $countAnggota = Anggota::select()->count();
             $countDivisi = Divisi::select()->count();
+            $activity_log =  ActivityLog::with('user')->limit(10)->get();
             return view('dashboard.admin')->with(compact('countAnggota', 'countDivisi', 'periode', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'kredit_simpanan', 
-                    'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian'));
+                    'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian', 'activity_log'));
         }
         if($user->roles->pluck( 'name' )->contains( 'admin' ))
         {

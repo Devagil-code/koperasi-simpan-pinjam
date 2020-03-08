@@ -152,7 +152,8 @@ class SimpananDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Menambahkan Data Simpanan');
+        
         return redirect()->route('simpanan-debet.index');
     }
 
@@ -247,6 +248,7 @@ class SimpananDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
+        activity()->log('Merubah Data Simpanan');
 
         return redirect()->route('simpanan-debet.index');
     }
@@ -267,6 +269,8 @@ class SimpananDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Menghapus Transaksi !!!"
         ]);
+        activity()->log('Menghapus Data Simpanan');
+
         return redirect()->route('simpanan-debet.index');
     }
 
@@ -318,7 +322,8 @@ class SimpananDebetController extends Controller
 		// notifikasi dengan session
 		//Session::flash('sukses','Data Siswa Berhasil Di import!');
 
-		// alihkan halaman kembali
+        // alihkan halaman kembali
+        activity()->log('Upload Data Simpanan');
 		return redirect()->route('simpanan-debet.index');
     }
 
@@ -408,6 +413,7 @@ class SimpananDebetController extends Controller
                 $transaksi_harian->update();
             }
         }
+        activity()->log('Tutup Buku Data Simpanan');
         return redirect()->route('simpanan-debet.index');
     }
 }

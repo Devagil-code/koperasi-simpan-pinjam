@@ -80,7 +80,6 @@
     <div class="col-xl-5">
         <div class="card-box">
             <h4 class="header-title">Sales History</h4>
-
             <div class="row">
                 <div class="col-sm-4">
                     <div class="text-center mt-3">
@@ -137,70 +136,16 @@
             <h4 class="header-title mb-4">LOG PENGGUNA</h4>
 
             <div class="inbox-widget slimscroll" style="max-height: 370px;">
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-1.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Chadengle</p>
-                        <p class="inbox-item-text">Hey! there I'm available...</p>
-                        <p class="inbox-item-date">13:40 PM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-2.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Tomaslau</p>
-                        <p class="inbox-item-text">I've finished it! See you so...</p>
-                        <p class="inbox-item-date">13:34 PM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-3.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Stillnotdavid</p>
-                        <p class="inbox-item-text">This theme is awesome!</p>
-                        <p class="inbox-item-date">13:17 PM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-4.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Kurafire</p>
-                        <p class="inbox-item-text">Nice to meet you</p>
-                        <p class="inbox-item-date">12:20 PM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-5.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Shahedk</p>
-                        <p class="inbox-item-text">Hey! there I'm available...</p>
-                        <p class="inbox-item-date">10:15 AM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-6.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Adhamdannaway</p>
-                        <p class="inbox-item-text">This theme is awesome!</p>
-                        <p class="inbox-item-date">9:56 AM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-8.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Arashasghari</p>
-                        <p class="inbox-item-text">Hey! there I'm available...</p>
-                        <p class="inbox-item-date">10:15 AM</p>
-                    </div>
-                </a>
-                <a href="#">
-                    <div class="inbox-item">
-                        <div class="inbox-item-img"><img src="assets/images/users/avatar-9.jpg" class="rounded-circle bx-shadow-lg" alt=""></div>
-                        <p class="inbox-item-author">Joshaustin</p>
-                        <p class="inbox-item-text">I've finished it! See you so...</p>
-                        <p class="inbox-item-date">9:56 AM</p>
-                    </div>
-                </a>
+                @foreach ($activity_log as $item)
+                    <a href="#">
+                        <div class="inbox-item">
+                            <div class="inbox-item-img"><img src="{{ asset('images/users/avatar-1.jpg') }}" class="rounded-circle bx-shadow-lg" alt=""></div>
+                            <p class="inbox-item-author">{{ $item->user->name }}</p>
+                            <p class="inbox-item-text">{{ $item->description}}</p>
+                            <p class="inbox-item-date">{{ Carbon\Carbon::parse($item->created_at)->format('g:i A') }}</p>
+                        </div>
+                    </a>
+                @endforeach
             </div>
 
         </div>

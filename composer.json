@@ -15,7 +15,9 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.2.0",
         "maatwebsite/excel": "^3.1",
+        "nesbot/carbon": "^2.31",
         "santigarcor/laratrust": "5.2.*",
+        "spatie/laravel-activitylog": "3.9.1",
         "yajra/laravel-datatables-oracle": "^9.6"
     },
     "require-dev": {

@@ -116,7 +116,7 @@ class DivisiKreditController extends Controller
             "level" => "success",
             "message" => "Berhasil Menambah Data Transaksi !!!"
         ]);
-
+        activity()->log('Menambahkan Data Divisi Kredit');
         return redirect()->route('divisi-kredit.index');
     }
 
@@ -186,7 +186,7 @@ class DivisiKreditController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Merubah Data Divisi Kredit');
         return redirect()->route('divisi-kredit.index');
     }
 
@@ -205,6 +205,7 @@ class DivisiKreditController extends Controller
             "level" => "success",
             "message" => "Berhasil Menghapus Transaksi !!!"
         ]);
+        activity()->log('Menghapus Data Divisi Kredit');
         return redirect()->route('divisi-kredit.index');
     }
 
@@ -255,6 +256,7 @@ class DivisiKreditController extends Controller
                 $transaksi_harian->update();
             }
         }
+        activity()->log('Tutup Buku Data Divisi Kredit');
         return redirect()->route('divisi-kredit.index');
     }
 }

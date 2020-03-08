@@ -117,7 +117,7 @@ class DivisiDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Manambah Data Transaksi !!!"
         ]);
-
+        activity()->log('Menambahkan Data Divisi Debet');
         return redirect()->route('divisi-debet.index');
     }
 
@@ -187,7 +187,7 @@ class DivisiDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Merubah Data Divisi Debet');
         return redirect()->route('divisi-debet.index');
     }
 
@@ -206,6 +206,7 @@ class DivisiDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Menghapus Transaksi !!!"
         ]);
+        activity()->log('Menghapus Data Divisi Debet');
         return redirect()->route('divisi-debet.index');
     }
 
@@ -256,6 +257,7 @@ class DivisiDebetController extends Controller
                 $transaksi_harian->update();
             }
         }
+        activity()->log('Tutup Buku Data Divisi Debet');
         return redirect()->route('divisi-debet.index');
     }
 }

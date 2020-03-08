@@ -139,7 +139,7 @@ class PinjamanDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Menambah Data Transaksi !!!"
         ]);
-
+        activity()->log('Menambahkan Data Pinjaman Debet');
         return redirect()->route('pinjaman-debet.index');
     }
 
@@ -224,7 +224,7 @@ class PinjamanDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Merubah Data Transaksi !!!"
         ]);
-
+        activity()->log('Merubah Data Pinjaman Debet');
         return redirect()->route('pinjaman-debet.index');
     }
 
@@ -244,6 +244,8 @@ class PinjamanDebetController extends Controller
             "level" => "success",
             "message" => "Berhasil Menghapus Transaksi !!!"
         ]);
+        activity()->log('Menghapus Data Pinjaman Debet');
+
         return redirect()->route('pinjaman-debet.index');
     }
 
@@ -275,7 +277,7 @@ class PinjamanDebetController extends Controller
         File::delete(public_path('/pinjaman_debet/'.$nama_file));
 		// notifikasi dengan session
 		//Session::flash('sukses','Data Siswa Berhasil Di import!');
-
+        activity()->log('Upload Data Pinjaman Debet');
 		// alihkan halaman kembali
 		return redirect()->route('pinjaman-debet.index');
     }
@@ -350,6 +352,7 @@ class PinjamanDebetController extends Controller
                 $transaksi_harian->update();
             }
         }
+        activity()->log('Tutup Buku Data Pinjaman Debet');
         return redirect()->route('pinjaman-debet.index');
     }
 }
