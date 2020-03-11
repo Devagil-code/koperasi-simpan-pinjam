@@ -91,11 +91,21 @@ class HomeController extends Controller
                         ->where('transaksi_harian_biayas.biaya_id', '8')
                         ->where('divisi_id', '2')
                         ->sum('transaksi_harian_biayas.nominal');
+            $saldo_kredit = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harians.jenis_transaksi', 2)
+                        ->sum('transaksi_harian_biayas.nominal');
+            $saldo_debit = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode->open_date, $periode->close_date])
+                        ->where('transaksi_harians.jenis_transaksi', 1)
+                        ->sum('transaksi_harian_biayas.nominal');
             $countAnggota = Anggota::select()->count();
             $countDivisi = Divisi::select()->count();
             $activity_log =  ActivityLog::with('user')->limit(10)->get();
             return view('dashboard.admin')->with(compact('countAnggota', 'countDivisi', 'periode', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'kredit_simpanan', 
-                    'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian', 'activity_log'));
+                    'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian', 'activity_log', 'saldo_kredit', 'saldo_debit'));
         }
         if($user->roles->pluck( 'name' )->contains( 'admin' ))
         {

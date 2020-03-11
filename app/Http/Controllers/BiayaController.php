@@ -72,7 +72,7 @@ class BiayaController extends Controller
         $biaya->name = $request->name;
         $biaya->jenis_biaya = $request->jenis_biaya;
         $biaya->save();
-
+        activity()->log('Menambahkan Data Biaya');
         return redirect()->route('biaya.index');
     }
 

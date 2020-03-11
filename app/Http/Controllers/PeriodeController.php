@@ -125,6 +125,7 @@ class PeriodeController extends Controller
                 "level" => "success",
                 "message" => "Data Periode Telah Di Simpan !!!"
             ]);
+            activity()->log('Menambahkan Data Periode');
             return redirect()->route('periode.index');
         }
     }
@@ -205,6 +206,7 @@ class PeriodeController extends Controller
                 "level" => "success",
                 "message" => "Data Periode Telah Di Simpan !!!"
             ]);
+            activity()->log('Merubah Data Periode');
             return redirect()->route('periode.index');
         }
     }

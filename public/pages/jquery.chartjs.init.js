@@ -4,9 +4,7 @@ Author: CoderThemes
 Email: coderthemes@gmail.com
 File: Chartjs
 */
-
-
-!function($) {
+$(function(){
     "use strict";
 
     var ChartJs = function() {};
@@ -91,38 +89,6 @@ File: Chartjs
                     }
                 }]
             }
-        };
-
-        this.respChart($("#lineChart"),'Line',lineChart, lineOpts);
-
-        //donut chart
-        var donutChart = {
-            labels: [
-                "Desktops",
-                "Tablets",
-                "Mobiles",
-                "Mobiles",
-                "Tablets"
-            ],
-            datasets: [
-                {
-                    data: [80, 50, 100,121,77],
-                    backgroundColor: [
-                        "#5553ce",
-                        "#297ef6",
-                        "#e52b4c",
-                        "#ffa91c",
-                        "#32c861"
-                    ],
-                    hoverBackgroundColor: [
-                        "#5553ce",
-                        "#297ef6",
-                        "#e52b4c",
-                        "#ffa91c",
-                        "#32c861"
-                    ],
-                    hoverBorderColor: "#fff"
-                }]
         };
         this.respChart($("#doughnut"),'Doughnut',donutChart);
 
@@ -233,12 +199,4 @@ File: Chartjs
         this.respChart($("#polarArea"),'PolarArea',polarChart);
     },
     $.ChartJs = new ChartJs, $.ChartJs.Constructor = ChartJs
-
-}(window.jQuery),
-
-//initializing
-function($) {
-    "use strict";
-    $.ChartJs.init()
-}(window.jQuery);
-
+});

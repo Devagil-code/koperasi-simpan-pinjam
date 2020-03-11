@@ -102,7 +102,7 @@ class OptionController extends Controller
         $option->option_name = $request->option_name;
         $option->option_value = $request->option_value;
         $option->update();
-
+        activity()->log('Merubah Data Option');
         return redirect()->route('option.index');
     }
 

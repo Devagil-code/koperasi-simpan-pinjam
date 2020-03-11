@@ -30,16 +30,14 @@
                 <div class="topbar-left">
                     <a href="{{ route('home') }}" class="logo">
                         <span>
-                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="35">
+                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="60">
                         </span>
                         <i>
-                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="28">
+                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="50">
                         </i>
                     </a>
                 </div>
-
                 <nav class="navbar-custom">
-
                     <ul class="list-unstyled topbar-right-menu float-right mb-0">
                         <li class="dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
@@ -110,9 +108,6 @@
 
         </div>
         <!-- END wrapper -->
-
-
-
         <!-- jQuery  -->
         <script src="{{ asset('js/jquery.min.js') }}"></script>
         <script src="{{ asset('js/popper.min.js') }}"></script>

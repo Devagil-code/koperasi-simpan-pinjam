@@ -5,14 +5,14 @@
         <div class="page-title-box">
             <div class="float-left">
                 <h4 class="page-title">Dashboard </h4>
-                <small>Periode : {{ $periode->name }}</small>
+                <small class="text-danger">Periode : {{ $periode->name }}</small>
             </div>
             <div class="float-right">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Kopkar</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
-                <small>Tahun Buku : {{ date('d-m-Y', strtotime($periode->open_date)) }} - {{ date('d-m-Y', strtotime($periode->close_date)) }}</small>
+                <small class="text-danger">Tahun Buku : {{ date('d-m-Y', strtotime($periode->open_date)) }} - {{ date('d-m-Y', strtotime($periode->close_date)) }}</small>
             </div>
             <div class="clearfix"></div>
         </div>
@@ -50,58 +50,30 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xl-7">
+    <div class="col-xl-6">
         <div class="card-box">
-            <h4 class="header-title">Transactions History</h4>
-
+            <h4 class="header-title">TRANSAKSI Periode : {{ $periode->name }}</h4>
+            <small class="text-danger">Tahun Buku : {{ date('d-m-Y', strtotime($periode->open_date)) }} - {{ date('d-m-Y', strtotime($periode->close_date)) }}</small>
             <div class="row">
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Conversion Rate</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">1.78%</span> <small></small></h6>
+                        <h6 class="font-normal text-muted font-14">Total Kredit</h6>
+                        <h6 class="font-18"><i class="mdi mdi-arrow-down-bold-hexagon-outline text-danger"></i> <span class="text-dark">{{ Money::stringToRupiah($saldo_kredit) }}</span> </h6>
                     </div>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-6">
                     <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Average Order Value</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">25.87</span> <small>USD</small></h6>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Total Wallet Balance</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">87,4517</span> <small>USD</small></h6>
+                        <h6 class="font-normal text-muted font-14">Total Debit</h6>
+                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">{{ Money::stringToRupiah($saldo_debit) }}</span> </h6>
                     </div>
                 </div>
             </div>
-            <canvas id="transactions-chart" height="350" class="mt-4"></canvas>
         </div>
     </div>
-    <div class="col-xl-5">
+    <div class="col-lg-6">
         <div class="card-box">
-            <h4 class="header-title">Sales History</h4>
-            <div class="row">
-                <div class="col-sm-4">
-                    <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Conversion Rate</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">3.94%</span> <small></small></h6>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Average Sales</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-down-bold-hexagon-outline text-danger"></i> <span class="text-dark">16.25</span> <small>USD</small></h6>
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="text-center mt-3">
-                        <h6 class="font-normal text-muted font-14">Total Sales</h6>
-                        <h6 class="font-18"><i class="mdi mdi-arrow-up-bold-hexagon-outline text-success"></i> <span class="text-dark">124,858.67</span> <small>USD</small></h6>
-                    </div>
-                </div>
-            </div>
-
-            <canvas id="sales-history" height="350" class="mt-4"></canvas>
+            <h4 class="header-title m-t-0">Donut Chart</h4>
+            <canvas id="doughnut" height="350" class="mt-4"></canvas>
         </div>
     </div>
 </div>
@@ -110,7 +82,7 @@
 <div class="row">
     <div class="col-xs-12 col-md-6 col-lg-6 col-xl-3">
         <div class="card-box tilebox-one">
-            <i class="fi-head float-right"></i>
+            <i class="fi-layers float-right"></i>
             <h6 class="text-muted text-uppercase mb-3">Kredit Pinjaman</h6>
             <h6 class="mb-3">{{ Money::stringToRupiah($kredit_pinjaman) }}</h6>
         </div>
@@ -180,13 +152,11 @@
 </div>
 @endsection
 @section('script')
-
-<script src="{{ asset('plugins/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-<script src="{{ asset('plugins/counterup/jquery.counterup.min.js') }}"></script>
-
 <!-- Chart JS -->
-<script src="{{ asset('plugins/chart.js/chart.bundle.js') }}"></script>
-
-<!-- init dashboard -->
-<script src="{{ asset('pages/jquery.dashboard.init.js') }}"></script>
+<script src="{{ asset('js/Chart.min.js') }}"></script>
+<script>
+    $(function(){
+        
+    });
+</script>
 @endsection

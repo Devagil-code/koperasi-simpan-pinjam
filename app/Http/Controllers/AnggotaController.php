@@ -104,7 +104,7 @@ class AnggotaController extends Controller
         $userAnggota->anggota_id = $anggota->id;
         $userAnggota->user_id = $user->id;
         $userAnggota->save();
-
+        activity()->log('Menambahkan Data Anggota');
         return redirect()->route('anggota.index');
     }
 
@@ -163,7 +163,7 @@ class AnggotaController extends Controller
         $user->email = $request->nik;
         $user->name = $request->nama;
         $user->save();
-
+        activity()->log('Merubah Data Anggota');
         return redirect()->route('anggota.index');
     }
 
@@ -181,6 +181,7 @@ class AnggotaController extends Controller
     public function export()
     {
         $anggota = Anggota::select()->get();
+        activity()->log('Mendowload Data Anggota');
         return Excel::download(new AnggotaExport($anggota), 'Anggota-Koperasi.xlsx');
     }
 }

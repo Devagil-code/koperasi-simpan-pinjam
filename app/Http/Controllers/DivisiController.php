@@ -64,6 +64,7 @@ class DivisiController extends Controller
         ]);
 
         Divisi::create($request->all());
+        activity()->log('Menambahkan Data Divisi');
         return redirect()->route('divisi.index');
     }
 
@@ -106,6 +107,7 @@ class DivisiController extends Controller
         $divisi = Divisi::find($divisi->id);
         $divisi->name = $request->name;
         $divisi->update();
+        activity()->log('Merubah Data Divisi');
         return redirect()->route('divisi.index');
     }
 
