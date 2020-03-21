@@ -12,6 +12,7 @@ use App\Anggota;
 use App\TransaksiHarianBiaya;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class SimpananDebet implements ToCollection, WithStartRow
 {
@@ -36,7 +37,13 @@ class SimpananDebet implements ToCollection, WithStartRow
 
     public function collection(Collection $rows)
     {
-
+        Validator::make($rows->toArray(), [
+            '*.0' => 'required',
+            '*.1' => 'required',
+            '*.2' => 'required',
+            '*.3' => 'required',
+            '*.4' => 'required'
+        ])->validate();
         foreach ($rows as $row)
         {
 			

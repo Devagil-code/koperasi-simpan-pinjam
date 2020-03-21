@@ -68,12 +68,13 @@
                     </div>
                 </div>
             </div>
+            <canvas id="chartPeriode" height="350" class="mt-4"></canvas>
         </div>
     </div>
     <div class="col-lg-6">
         <div class="card-box">
-            <h4 class="header-title m-t-0">Donut Chart</h4>
-            <canvas id="doughnut" height="350" class="mt-4"></canvas>
+            <h4 class="header-title m-t-0">CHART ANGGOTA KOPERASI</h4>
+            <canvas id="chartAnggota" height="350" class="mt-4"></canvas>
         </div>
     </div>
 </div>
@@ -129,7 +130,7 @@
                 @foreach ($transaksi_harian as $item)
                     @if ($item->jenis_transaksi == '1')
                         <li>
-                            <i class="dripicons-arrow-down text-success"></i>
+                            <i class="dripicons-arrow-up text-success"></i>
                             <span class="tran-text">{{ $item->keterangan }}</span>
                             <span class="pull-right text-success tran-price">+{{ Money::stringToRupiah($item->sumDebitAll->sum('nominal')) }}</span>
                             <span class="pull-right text-muted">{{ Tanggal::tanggal_id($item->tgl) }}</span>
@@ -137,7 +138,7 @@
                         </li>
                     @else
                         <li>
-                            <i class="dripicons-arrow-up text-danger"></i>
+                            <i class="dripicons-arrow-down text-danger"></i>
                             <span class="tran-text">{{ $item->keterangan }}</span>
                             <span class="pull-right text-danger tran-price">-{{ Money::stringToRupiah($item->sumKreditAll->sum('nominal'))}}</span>
                             <span class="pull-right text-muted">{{ Tanggal::tanggal_id($item->tgl) }}</span>
@@ -155,8 +156,71 @@
 <!-- Chart JS -->
 <script src="{{ asset('js/Chart.min.js') }}"></script>
 <script>
-    $(function(){
-        
+    var ctx = document.getElementById('chartAnggota').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Aktif', 'Non Aktif'],
+            datasets: [{
+                label: '# of Votes',
+                data: {{ json_encode($status_anggota) }},
+                backgroundColor: [
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        }
+    });
+
+    var data = {
+            labels: {!! json_encode($months) !!},
+            datasets: [
+                {
+                    label: "Debit",
+                    backgroundColor: "blue",
+                    borderColor: [
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    data: {!! json_encode($debitAll) !!}
+                },
+                {
+                    label: "Kredit",
+                    backgroundColor: "red",
+                    data: {!! json_encode($kreditAll) !!}
+                }
+            ]
+    };
+
+    var options = {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true,
+                    userCallback: function(value, index, values) {
+                        // Convert the number to a string and splite the string every 3 charaters from the end
+                        value = value.toString();
+                        value = value.split(/(?=(?:...)*$)/);
+
+                        // Convert the array to a string and format the output
+                        value = value.join('.');
+                        return 'Rp ' + value;
+                    }
+                }
+            }] 
+        }
+    };
+
+    var ctz = document.getElementById("chartPeriode").getContext("2d");
+    var chartAnggota = new Chart(ctz, {
+        type: 'bar',
+        data: data,
+        options: options
     });
 </script>
 @endsection

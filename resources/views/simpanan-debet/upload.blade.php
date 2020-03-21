@@ -30,6 +30,11 @@
                             <label class="control-label " for="userName">Upload Excell</label>
                             <div class="">
                                 <input class="form-control required" id="userName" name="file" type="file" autocomplete="off">
+                                @error('file')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
                             </div>
                         </div>
                     </section>

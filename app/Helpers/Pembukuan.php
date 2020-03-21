@@ -22,8 +22,8 @@ class Pembukuan {
                     ->where('transaksi_harians.is_close', '0')
                     ->where('transaksi_harians.periode_id', $want_close->id)
                     ->select('transaksi_harians.id as id')
-                    ->orderBy('id', 'DESC')
-                    ->first();
+                    ->orderBy('transaksi_harians.id', 'DESC')
+                    ->get();
             if(!empty($transaksi_harian))
             {
                 return '1';
