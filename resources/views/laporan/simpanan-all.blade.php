@@ -21,9 +21,9 @@
 </div>
 <!-- end row -->
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card-box">
-            <form id="basic-form" action="{{ route('laporan.simpanan') }}" method="GET">
+            <form id="basic-form" action="{{ route('laporan.simpanan-all') }}" method="GET">
                 @csrf
                 <div class="form-group">
                     <label for="">Tanggal Awal</label>
@@ -36,7 +36,7 @@
                 @role('admin')
                 <div class="form-group clearfix">
                     <label class="control-label " for="confirm">No Anggota *</label>
-                    {!! Form::select('anggota_id', [''=>'Pilih Anggota']+App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2']) !!}
+                    {!! Form::select('anggota_id', App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2', 'multiple'=>"multiple"]) !!}
                 </div>
                 @endrole
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
@@ -46,61 +46,6 @@
             </form>
         </div>
     </div>
-    @if (!empty($anggota))
-        <div class="col-lg-6 anggota">
-            <div class="card-box">
-                <table class="table">
-                    <tr>
-                        <td><strong>Nama Anggota</strong></td>
-                        <td>:</td>
-                        <td id="nama-anggota">{{ $anggota->nama }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Nama Inisial</strong></td>
-                        <td>:</td>
-                        <td id="nama-inisial">{{ $anggota->inisial }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Status Anggota</strong></td>
-                        <td>:</td>
-                        <td id="status-anggota">{{ $anggota->status }}</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tanggal Daftar</strong></td>
-                        <td>:</td>
-                        <td id="tanggal-daftar">{{ Tanggal::tanggal_id($anggota->tgl_daftar )}}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    @else
-        <div class="col-lg-6 anggota" style="display: none;">
-            <div class="card-box">
-                <table class="table">
-                    <tr>
-                        <td><strong>Nama Anggota</strong></td>
-                        <td>:</td>
-                        <td id="nama-anggota"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Nama Inisial</strong></td>
-                        <td>:</td>
-                        <td id="nama-inisial"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Status Anggota</strong></td>
-                        <td>:</td>
-                        <td id="status-anggota"></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Tanggal Daftar</strong></td>
-                        <td>:</td>
-                        <td id="tanggal-daftar"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    @endif
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -111,6 +56,8 @@
                         <tr>
                             <th>Tgl</th>
                             <th>Keterangan</th>
+                            <th>NIK</th>
+                            <th>Nama</th>
                             <th>Pokok</th>
                             <th>Wajib</th>
                             <th>Sukarela</th>
@@ -130,6 +77,8 @@
                             <tr>
                                 <td></td>
                                 <td><strong>Saldo Mutasi</strong></td>
+                                <td></td>
+                                <td></td>
                                 <td>{{ Money::stringToRupiah($sum_pokok) }}</td>
                                 <td>{{ Money::stringToRupiah($sum_wajib) }}</td>
                                 <td>{{ Money::stringToRupiah($sum_sukarela) }}</td>
@@ -143,6 +92,8 @@
                                 <tr>
                                     <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
                                     <td>{{ $row->keterangan }}</td>
+                                    <td>{{ $anggota->nik }}</td>
+                                    <td>{{ $anggota->nama }}</td>
                                     <td>{{ Money::stringToRupiah($row->sumPokok->sum('nominal')) }}</td>
                                     <td>{{ Money::stringToRupiah($row->sumWajib->sum('nominal')) }}</td>
                                     <td>{{ Money::stringToRupiah($row->sumSukarela->sum('nominal')) }}</td>
@@ -170,35 +121,6 @@
             format: 'dd-mm-yyyy',
             autoclose: true,
             todayHighlight: true,
-        });
-
-        $('select[name=anggota_id]').on('change', function(){
-            var anggotaId = $(this). children("option:selected"). val();
-            if(anggotaId === '')
-            {
-                $('.anggota').css('display', 'none');
-            }else {
-                $('.anggota').css('display', '');
-                $.ajax({
-                    url: '{{ route('transaksi-harian.chek-anggota')}}',
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        anggota_id: anggotaId
-                    },
-                    success: function(data)
-                    {
-                        console.log(data)
-                        $('#nama-anggota').text(data.nama)
-                        $('#nama-inisial').text(data.inisial)
-                        $('#status-anggota').text(data.status)
-                        $('#tanggal-daftar').text(data.tgl_daftar)
-                    }
-                });
-            }
-
         });
     })
 </script>

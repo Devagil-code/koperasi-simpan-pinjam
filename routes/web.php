@@ -16,14 +16,15 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::group(['middleware' => 'web'], function () {
-    Route::group(['middleware'=>['auth', 'role:admin|member']], function (){
+    Route::group(['middleware' => ['auth', 'role:admin|member']], function () {
         Route::get('laporan-simpanan', 'LaporanController@simpanan')->name('laporan.simpanan');
-        Route::get('laporan-pinjaman', 'LaporanController@pinjaman')->name('laporan.pinjaman');        
+        Route::get('laporan-pinjaman', 'LaporanController@pinjaman')->name('laporan.pinjaman');
+        Route::get('laporan-simpanan-all', 'LaporanAllController@simpananAll')->name('laporan.simpanan-all');
         Route::get('/user/{user}/profile-user/', 'UserController@editPasswordMember')->name('user.user-profile');
         Route::put('/user/profile/{user}', 'UserController@putEditPassword')->name('user.edit-password');
         Route::get('/home', 'HomeController@index')->name('home');
     });
-    Route::group(['prefix'=>'admin', 'middleware'=>['auth', 'role:admin']], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
         Route::resource('anggota', 'AnggotaController');
         Route::get('/anggota-export', 'AnggotaController@export')->name('anggota.export');
         Route::resource('divisi', 'DivisiController');

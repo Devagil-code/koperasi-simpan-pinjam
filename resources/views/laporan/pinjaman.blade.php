@@ -8,11 +8,11 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Pinjaman</h4>
+            <h4 class="page-title float-left">Laporan Pinjaman Anggota</h4>
 
             <ol class="breadcrumb float-right">
                 <li class="breadcrumb-item"><a href="#">Laporan</a></li>
-                <li class="breadcrumb-item active">Laporan Pinjaman</li>
+                <li class="breadcrumb-item active">Laporan Pinjaman Anggota</li>
             </ol>
 
             <div class="clearfix"></div>

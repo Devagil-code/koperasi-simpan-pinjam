@@ -10,17 +10,17 @@
                 <li class="menu-title">Master Data</li>
                 <li class="{{ set_active(['anggota.index', 'anggota.create', 'anggota.edit'])}}">
                     <a href="{{ route('anggota.index') }}" class="{{ set_active(['anggota.index', 'anggota.create', 'anggota.edit'])}}">
-                        <i class="fi-head"></i> <span>Anggota</span> 
+                        <i class="fi-head"></i> <span>Anggota</span>
                     </a>
                 </li>
                 <li class="{{ set_active(['divisi.index', 'divisi.create', 'divisi.edit'])}}">
                     <a href="{{ route('divisi.index') }}" class="{{ set_active(['divisi.index', 'divisi.create', 'divisi.edit'])}}">
-                        <i class="fi-layers"></i> <span>Divisi</span> 
+                        <i class="fi-layers"></i> <span>Divisi</span>
                     </a>
                 </li>
                 <li class="{{ set_active(['periode.index', 'periode.create', 'periode.edit'])}}">
                     <a href="{{ route('periode.index') }}" class="{{ set_active(['periode.index', 'periode.create', 'periode.edit'])}}">
-                        <i class="fi-clock"></i> <span>Periode</span> 
+                        <i class="fi-clock"></i> <span>Periode</span>
                     </a>
                 </li>
                 <li class="{{ set_active(['biaya.index', 'biaya.create'])}}">
@@ -31,7 +31,7 @@
                 <li class="menu-title">Transaksi</li>
                 <li class="{{ set_active(['simpanan-debet.index', 'simpanan-debet.create', 'simpanan-debet.edit', 'simpanan-debet.upload',
                 'simpanan-kredit.index', 'simpanan-kredit.create', 'simpanan-kredit.edit', 'simpanan-kredit.upload'])}}">
-                    <a href="javascript: void(0);" class="{{ set_active(['simpanan-debet.index', 'simpanan-debet.create', 'simpanan-debet.edit', 'simpanan-debet.upload', 
+                    <a href="javascript: void(0);" class="{{ set_active(['simpanan-debet.index', 'simpanan-debet.create', 'simpanan-debet.edit', 'simpanan-debet.upload',
                     'simpanan-kredit.index', 'simpanan-kredit.create', 'simpanan-kredit.edit', 'simpanan-kredit.upload'])}}">
                         <i class="fi-map"></i> <span> Simpanan </span> <span class="menu-arrow"></span>
                     </a>
@@ -82,9 +82,11 @@
                 </li>
                 <li class="menu-title">Laporan</li>
                 <li><a href="{{ route('laporan.cash-bank') }}"><i class="fi-file"></i> <span>Laporan Kas/Bank</span> </a></li>
+                <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Simpanan</span> </a></li>
+                {{-- <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li> --}}
                 @endrole
-                <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Laporan Simpanan</span> </a></li>
-                <li><a href="{{ route('laporan.pinjaman') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
+                <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Simpanan Anggota</span> </a></li>
+                <li><a href="{{ route('laporan.pinjaman') }}"><i class="fi-file"></i> <span>Pinjaman Anggota</span> </a></li>
                 @role('admin')
                 <li><a href="{{ route('laporan.per-divisi') }}"><i class="fi-file"></i> <span>Laporan Per Divisi</span> </a></li>
                 <li class="menu-title">Management</li>
