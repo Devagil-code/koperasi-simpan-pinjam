@@ -41,7 +41,6 @@
             <table id="role" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
-                        <th>#ID</th>
                         <th>Nama Role</th>
                         <th>Hak Akses</th>
                         <th></th>
@@ -76,10 +75,9 @@
                         serverSide: true,
                         ajax: "{{ route('role.index') }}",
                         columns: [
-                            {data: 'id', name: 'id'},
-                            {data: 'display_name', name: 'display_name'},
-                            {data: 'permission_role.', name: 'display_name', searchable: false, orderable: false},
-                            { data: 'action', name: 'action', searchable: false, orderable: false}
+                            { data: 'display_name', name: 'display_name' },
+                            { data: 'permission_role.', name: 'display_name', searchable: false, orderable: false },
+                            { data: 'action', name: 'action', searchable: false, orderable: false }
                         ],
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
