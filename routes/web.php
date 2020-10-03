@@ -24,12 +24,13 @@ Route::group(['middleware' => 'web'], function () {
         Route::put('/user/profile/{user}', 'UserController@putEditPassword')->name('user.edit-password');
         Route::get('/home', 'HomeController@index')->name('home');
     });
-    Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:admin']], function () {
+    Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('anggota', 'AnggotaController');
         Route::get('/anggota-export', 'AnggotaController@export')->name('anggota.export');
         Route::resource('divisi', 'DivisiController');
         Route::resource('transaksi-harian', 'TransaksiHarianController');
         Route::resource('periode', 'PeriodeController');
+        Route::resource('role', 'RoleController');
         Route::get('laporan-kas-bank', 'LaporanController@cashBank')->name('laporan.cash-bank');
         Route::get('laporan-perdivisi', 'LaporanController@perDivisi')->name('laporan.per-divisi');
         Route::get('transaksi-harian.chek-anggota', 'TransaksiHarianController@cekAnggota')->name('transaksi-harian.chek-anggota');

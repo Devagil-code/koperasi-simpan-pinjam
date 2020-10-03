@@ -83,13 +83,18 @@
                 <li class="menu-title">Laporan</li>
                 <li><a href="{{ route('laporan.cash-bank') }}"><i class="fi-file"></i> <span>Laporan Kas/Bank</span> </a></li>
                 <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Simpanan</span> </a></li>
-                {{-- <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li> --}}
+                <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
                 @endrole
                 <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Simpanan Anggota</span> </a></li>
                 <li><a href="{{ route('laporan.pinjaman') }}"><i class="fi-file"></i> <span>Pinjaman Anggota</span> </a></li>
                 @role('admin')
                 <li><a href="{{ route('laporan.per-divisi') }}"><i class="fi-file"></i> <span>Laporan Per Divisi</span> </a></li>
                 <li class="menu-title">Management</li>
+                <li class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
+                    <a href="{{ route('role.index') }}" class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
+                        <i class="fi-head"></i> <span>Role</span>
+                    </a>
+                </li>
                 <li class="{{ set_active(['user.index', 'user.create', 'user.edit'])}}">
                     <a href="{{ route('user.index') }}" class="{{ set_active(['user.index', 'user.create', 'user.edit'])}}">
                         <i class="fi-head"></i> <span>Pengguna</span>
