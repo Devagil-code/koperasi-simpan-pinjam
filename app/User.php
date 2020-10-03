@@ -45,9 +45,12 @@ class User extends Authenticatable
     }
 
     public function roles()
-    {
-        // you will need a role model
-        // Role::class is equivalent to string 'App\Role'
-        return $this->belongsToMany(Role::class, 'role_user' );
+	{
+		return $this->belongsToMany('App\Role');
     }
+
+    public function getRoleListAttribute()
+	{
+		return $this->roles->pluck('id')->toArray();
+	}
 }

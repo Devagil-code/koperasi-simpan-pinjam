@@ -20,9 +20,11 @@ class CreateTransaksiHariansTable extends Migration
             $table->integer('jenis_pembayaran');
             $table->integer('jenis_transaksi');
             $table->text('keterangan')->nullable();
+            $table->bigInteger('periode_id')->unsigned()->nullable();
             $table->timestamps();
 
             $table->foreign('divisi_id')->references('id')->on('divisis');
+            $table->foreign('periode_id')->references('id')->on('periodes');
         });
     }
 
