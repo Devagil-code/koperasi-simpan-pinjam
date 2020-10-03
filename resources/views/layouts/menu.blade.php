@@ -8,11 +8,13 @@
                 <li><a href="{{ route('home') }}"><i class="fa fa-home"></i> <span>Dashboard</span> </a></li>
                 @role('admin')
                 <li class="menu-title">Master Data</li>
+                @permission('manage-anggota')
                 <li class="{{ set_active(['anggota.index', 'anggota.create', 'anggota.edit'])}}">
                     <a href="{{ route('anggota.index') }}" class="{{ set_active(['anggota.index', 'anggota.create', 'anggota.edit'])}}">
                         <i class="fi-head"></i> <span>Anggota</span>
                     </a>
                 </li>
+                @endpermission
                 <li class="{{ set_active(['divisi.index', 'divisi.create', 'divisi.edit'])}}">
                     <a href="{{ route('divisi.index') }}" class="{{ set_active(['divisi.index', 'divisi.create', 'divisi.edit'])}}">
                         <i class="fi-layers"></i> <span>Divisi</span>

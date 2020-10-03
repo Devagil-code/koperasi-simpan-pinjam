@@ -15,6 +15,8 @@
         <!-- App css -->
 
         @yield('style')
+        <!-- Toastr css -->
+        <link href="{{ asset('plugins/jquery-toastr/jquery.toast.min.css') }}" rel="stylesheet" />
         <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
@@ -120,6 +122,20 @@
         <!-- App js -->
         <script src="{{ asset('js/jquery.core.js') }}"></script>
         <script src="{{ asset('js/jquery.app.js') }}"></script>
+        <script src="{{ asset('plugins/jquery-toastr/jquery.toast.min.js') }}" type="text/javascript"></script>
+        @if ($message = Session::get('error'))
 
+            <script>
+                $.toast({
+                    heading: 'Error !',
+                    text: '{!! $message !!}',
+                    position: 'top-right',
+                    loaderBg: '#bf441d',
+                    icon: 'error',
+                    hideAfter: 3000,
+                    stack: 1
+                });
+            </script>
+        @endif
     </body>
 </html>

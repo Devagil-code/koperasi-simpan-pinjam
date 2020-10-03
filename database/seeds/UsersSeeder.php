@@ -17,7 +17,7 @@ class UsersSeeder extends Seeder
     {
         $permission = [
             [
-                'name' => 'manage anggota',
+                'name' => 'manage-anggota',
                 'display_name' => 'Manage Anggota',
                 'description' => 'Bisa Memanage Anggota'
             ],
@@ -333,10 +333,11 @@ class UsersSeeder extends Seeder
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
-                'description' => 'Bisa Memanage Debet Simpanan'
+                'description' => $key['description']
             ]);
         }
 
+        //Adminstrator Rules
         Role::create([
             'name' => 'admin',
             'display_name' => 'Administrator',
@@ -345,7 +346,6 @@ class UsersSeeder extends Seeder
 
         $adminRole = Role::where('name', 'admin')->first();
         $adminPermission = [
-            'manage debet simpanan',
             'create debet simpanan',
             'edit debet simpanan',
         ];
@@ -362,47 +362,33 @@ class UsersSeeder extends Seeder
             $adminRole->attachPermission($permission->id);
         }
 
-
         $userAdmin->attachRole($adminRole);
 
+        //Member Rules
+        Role::create([
+            'name' => 'member',
+            'display_name' => 'Member',
+            'description' => 'Role Member'
+        ]);
 
-        /*
-        // Membuat role admin
-        $adminRole = new Role();
-        $adminRole->name = "admin";
-        $adminRole->display_name = "Admin";
-        $adminRole->save();
-        // Membuat role member
-        $memberRole = new Role();
-        $memberRole->name = "member";
-        $memberRole->display_name = "Member";
-        $memberRole->save();
-        // Membuat sample admin
+        $memberRole = Role::where('name', 'member')->first();
+        $memberPermission = [
+            'create debet simpanan',
+            'edit debet simpanan',
+        ];
 
-        $admin = new User();
-        $admin->name = 'Admin Larapus';
-        $admin->email = 'admin@gmail.com';
-        $admin->password = bcrypt('Kopkar2019');
-        $admin->save();
+        $memberUser = User::create([
+            'name' => 'Member Koperasi',
+            'email' => 'member@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
 
-        // Membuat sample member
-        $member = new User();
-        $member->name = "Sample Member";
-        $member->email = '563211';
-        $member->password = bcrypt('Kopkar2019');
-        $member->save();
 
-        $role_user = new RoleUser();
-        $role_user->role_id = $adminRole->id;
-        $role_user->user_id = $admin->id;
-        $role_user->user_type = 'App\User';
-        $role_user->save();
+        foreach ($memberPermission as $ap) {
+            $permission = Permission::where('name', $ap)->first();
+            $memberRole->attachPermission($permission->id);
+        }
 
-        $role_user = new RoleUser();
-        $role_user->role_id = $memberRole->id;
-        $role_user->user_id = $member->id;
-        $role_user->user_type = 'App\User';
-        $role_user->save();
-        */
+        $memberUser->attachRole($memberRole);
     }
 }
