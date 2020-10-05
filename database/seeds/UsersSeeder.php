@@ -37,7 +37,7 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Download Anggota'
             ],
             [
-                'name' => 'manage-divi',
+                'name' => 'manage-divisi',
                 'display_name' => 'Manage Divisi',
                 'description' => 'Bisa Memanage Divis'
             ],
@@ -192,18 +192,18 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Mengubah debet divisi'
             ],
             [
-                'name' => 'manage-debet-kredit',
-                'display_name' => 'Manage debet kredit',
+                'name' => 'manage-kredit-divisi',
+                'display_name' => 'Manage kredit Divisi',
                 'description' => 'Bisa Memanage debet kredit'
             ],
             [
-                'name' => 'create-debet-kredit',
-                'display_name' => 'Create Debet Kredit',
+                'name' => 'create-kredit-divisi',
+                'display_name' => 'Create Kredit Divisi',
                 'description' => 'Bisa Membuat debet kredit'
             ],
             [
-                'name' => 'edit-debet-kredit',
-                'display_name' => 'Edit Debet Kredit',
+                'name' => 'edit-kredit-divisi',
+                'display_name' => 'Edit Kredit Divisi',
                 'description' => 'Bisa Mengubah debet kredit'
             ],
             [
@@ -282,19 +282,19 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Download pinjaman anggota'
             ],
             [
-                'name' => 'manage-laporan-devisi',
-                'display_name' => 'Manage laporan devisi',
-                'description' => 'Bisa Memanage laporan devisi'
+                'name' => 'manage-laporan-divisi',
+                'display_name' => 'Manage laporan divisi',
+                'description' => 'Bisa Memanage laporan divisi'
             ],
             [
-                'name' => 'search-laporan-devisi',
-                'display_name' => 'search laporan devisi',
-                'description' => 'Bisa Mencari laporan devisi'
+                'name' => 'search-laporan-divisi',
+                'display_name' => 'search laporan divisi',
+                'description' => 'Bisa Mencari laporan divisi'
             ],
             [
-                'name' => 'excell-laporan-devisi',
-                'display_name' => 'excell laporan devisi',
-                'description' => 'Bisa Download laporan devisi'
+                'name' => 'excell-laporan-divisi',
+                'display_name' => 'excell laporan divisi',
+                'description' => 'Bisa Download laporan divisi'
             ],
             [
                 'name' => 'manage-user',
@@ -379,7 +379,7 @@ class UsersSeeder extends Seeder
             'create-anggota',
             'create-biaya',
             'create-debet-divisi',
-            'create-debet-kredit',
+            'create-kredit-divisi',
             'create-debet-pinjaman',
             'create-debet-simpanan',
             'create-divisi',
@@ -395,7 +395,7 @@ class UsersSeeder extends Seeder
             'download-kredit-simpanan',
             'edit-anggota',
             'edit-debet-divisi',
-            'edit-debet-kredit',
+            'edit-kredit-divisi',
             'edit-debet-pinjaman',
             'edit-debet-simpanan',
             'edit-divisi',
@@ -404,7 +404,7 @@ class UsersSeeder extends Seeder
             'edit-option',
             'edit-periode',
             'edit-user',
-            'excell-laporan-devisi',
+            'excell-laporan-divisi',
             'excell-laporan-kas-bank',
             'excell-laporan-pinjaman-all',
             'excell-laporan-simpanan-all',
@@ -413,13 +413,13 @@ class UsersSeeder extends Seeder
             'manage-anggota',
             'manage-biaya',
             'manage-debet-divisi',
-            'manage-debet-kredit',
+            'manage-kredit-divisi',
             'manage-debet-pinjaman',
             'manage-debet-simpanan',
-            'manage-divi',
+            'manage-divisi',
             'manage-kredit-pinjaman',
             'manage-kredit-simpanan',
-            'manage-laporan-devisi',
+            'manage-laporan-divisi',
             'manage-laporan-kas-bank',
             'manage-laporan-pinjaman-all',
             'manage-laporan-simpanan-all',
@@ -428,7 +428,7 @@ class UsersSeeder extends Seeder
             'manage-pinjaman-anggota',
             'manage-simpanan-anggota',
             'manage-user',
-            'search-laporan-devisi',
+            'search-laporan-divisi',
             'search-laporan-kas-bank',
             'search-laporan-pinjaman-all',
             'search-laporan-simpanan-all',

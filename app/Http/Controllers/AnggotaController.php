@@ -28,24 +28,21 @@ class AnggotaController extends Controller
     public function index(Request $request)
     {
         //
-        if(\Auth::user()->can('manage-anggota'))
-        {
-            if($request->ajax())
-            {
+        if (\Auth::user()->can('manage-anggota')) {
+            if ($request->ajax()) {
                 $anggota = Anggota::select();
                 return DataTables::of($anggota)
-                    ->editColumn('status', function($anggota){
-                        if($anggota->status == '0')
-                        {
+                    ->editColumn('status', function ($anggota) {
+                        if ($anggota->status == '0') {
                             return '<span class="badge badge-danger badge-pill">Non Aktif</span>';
-                        }else {
+                        } else {
                             return '<span class="badge badge-gradient badge-pill">Aktif</span>';
                         }
                     })
-                    ->editColumn('tgl_daftar', function($anggota){
+                    ->editColumn('tgl_daftar', function ($anggota) {
                         return Tanggal::tanggal_id($anggota->tgl_daftar);
                     })
-                    ->addColumn('action', function($anggota){
+                    ->addColumn('action', function ($anggota) {
                         return view('datatable._nodelete', [
                             'edit_url' => route('anggota.edit', $anggota->id)
                         ]);
@@ -54,7 +51,7 @@ class AnggotaController extends Controller
                     ->make(true);
             }
             return view('anggota.index');
-        }else {
+        } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
     }
@@ -66,8 +63,12 @@ class AnggotaController extends Controller
      */
     public function create()
     {
-        //
-        return view('anggota.create');
+        if (\Auth::user()->can('create-anggota')) {
+
+            return view('anggota.create');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -149,7 +150,7 @@ class AnggotaController extends Controller
     {
         //
         $this->validate($request, [
-            'nik' => 'required|unique:anggotas,nik,'.$id,
+            'nik' => 'required|unique:anggotas,nik,' . $id,
             'nama' => 'required',
             'tgl_daftar' => 'required'
         ]);
