@@ -1,5 +1,6 @@
 <?php
 
+use App\Module;
 use Illuminate\Database\Seeder;
 use Laratrust\Models\LaratrustRole as Role;
 use App\User;
@@ -15,7 +16,11 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        $permission = [
+        $moduleAnggota = Module::create([
+            'name' => 'Module Anggota'
+        ]);
+
+        $permissionModuleAnggota = [
             [
                 'name' => 'manage-anggota',
                 'display_name' => 'Manage Anggota',
@@ -36,6 +41,22 @@ class UsersSeeder extends Seeder
                 'display_name' => 'download anggota',
                 'description' => 'Bisa Download Anggota'
             ],
+        ];
+
+        foreach($permissionModuleAnggota as $key){
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleAnggota->id
+            ]);
+        }
+
+        $moduleDivisi = Module::create([
+            'name' => 'Module Divisi'
+        ]);
+
+        $permissionModuleDivisi = [
             [
                 'name' => 'manage-divisi',
                 'display_name' => 'Manage Divisi',
@@ -51,6 +72,23 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Edit Divisi',
                 'description' => 'Bisa Mengubah Divisi'
             ],
+        ];
+
+        foreach($permissionModuleDivisi as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleDivisi->id
+            ]);
+        }
+
+        $modulePeriode = Module::create([
+            'name' => 'Module Periode Buku'
+        ]);
+
+        $permissionModulePeriode = [
             [
                 'name' => 'manage-periode',
                 'display_name' => 'Manage Periode',
@@ -66,6 +104,23 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Edit Periode',
                 'description' => 'Bisa Mengubah Periode'
             ],
+        ];
+
+        foreach($permissionModulePeriode as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $modulePeriode->id
+            ]);
+        }
+
+        $moduleBiaya = Module::create([
+            'name' => 'Module Biaya'
+        ]);
+
+        $permissionModuleBiaya = [
             [
                 'name' => 'manage-biaya',
                 'display_name' => 'Manage biaya',
@@ -76,6 +131,23 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create biaya',
                 'description' => 'Bisa Membuat biaya'
             ],
+        ];
+
+        foreach($permissionModuleBiaya as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleBiaya->id
+            ]);
+        }
+
+        $moduleSimpananDebet = Module::create([
+            'name' => 'Module Simpanan Debet'
+        ]);
+
+        $permissionSimpananDebet = [
             [
                 'name' => 'manage-debet-simpanan',
                 'display_name' => 'Manage Debet Simpanan',
@@ -101,111 +173,22 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Upload Debet Simpanan',
                 'description' => 'Bisa Upload debet simpanan'
             ],
-            [
-                'name' => 'manage-kredit-simpanan',
-                'display_name' => 'Manage Kredit Simpanan',
-                'description' => 'Bisa Memanage kredit simpanan'
-            ],
-            [
-                'name' => 'create-kredit-simpanan',
-                'display_name' => 'Create Kredit Simpanan',
-                'description' => 'Bisa Membuat kredit simpanan'
-            ],
-            [
-                'name' => 'edit-kredit-simpanan',
-                'display_name' => 'Edit Credit Simpanan',
-                'description' => 'Bisa Mengubah kredit simpanan'
-            ],
-            [
-                'name' => 'download-kredit-simpanan',
-                'display_name' => 'Download Kredit Simpanan',
-                'description' => 'Bisa Mendownload kredit simpanan'
-            ],
-            [
-                'name' => 'upload-kredit-simpanan',
-                'display_name' => 'Upload Kredit Simpanan',
-                'description' => 'Bisa Upload kredit simpanan'
-            ],
-            [
-                'name' => 'manage-debet-pinjaman',
-                'display_name' => 'Manage Debet Pinjaman',
-                'description' => 'Bisa Memanage debet pinjaman'
-            ],
-            [
-                'name' => 'create-debet-pinjaman',
-                'display_name' => 'Create Debet Pinjaman',
-                'description' => 'Bisa Membuat debet pinjaman'
-            ],
-            [
-                'name' => 'edit-debet-pinjaman',
-                'display_name' => 'Edit Debet Pinjaman',
-                'description' => 'Bisa Mengubah debet pinjaman'
-            ],
-            [
-                'name' => 'download-debet-pinjaman',
-                'display_name' => 'Download Debet Pinjaman',
-                'description' => 'Bisa Mendownload debet pinjaman'
-            ],
-            [
-                'name' => 'upload-debet-pinjaman',
-                'display_name' => 'Upload Debet Pinjaman',
-                'description' => 'Bisa Upload debet pinjaman'
-            ],
-            [
-                'name' => 'manage-kredit-pinjaman',
-                'display_name' => 'Manage Debet Pinjaman',
-                'description' => 'Bisa Memanage kredit pinjaman'
-            ],
-            [
-                'name' => 'create-kredit-pinjaman',
-                'display_name' => 'Create Kredit Pinjaman',
-                'description' => 'Bisa Membuat kredit pinjaman'
-            ],
-            [
-                'name' => 'edit-kredit-pinjaman',
-                'display_name' => 'Edit Kredit Pinjaman',
-                'description' => 'Bisa Mengubah kredit pinjaman'
-            ],
-            [
-                'name' => 'download-kredit-pinjaman',
-                'display_name' => 'Download Kredit Pinjaman',
-                'description' => 'Bisa Mendownload kredit pinjaman'
-            ],
-            [
-                'name' => 'upload-kredit-pinjaman',
-                'display_name' => 'Upload Kredit Pinjaman',
-                'description' => 'Bisa Upload kredit pinjaman'
-            ],
-            [
-                'name' => 'manage-debet-divisi',
-                'display_name' => 'Manage Debet Divisi',
-                'description' => 'Bisa Memanage debet divisi'
-            ],
-            [
-                'name' => 'create-debet-divisi',
-                'display_name' => 'Create Debet Divisi',
-                'description' => 'Bisa Membuat debet divisi'
-            ],
-            [
-                'name' => 'edit-debet-divisi',
-                'display_name' => 'Edit Debet Divisi',
-                'description' => 'Bisa Mengubah debet divisi'
-            ],
-            [
-                'name' => 'manage-kredit-divisi',
-                'display_name' => 'Manage kredit Divisi',
-                'description' => 'Bisa Memanage debet kredit'
-            ],
-            [
-                'name' => 'create-kredit-divisi',
-                'display_name' => 'Create Kredit Divisi',
-                'description' => 'Bisa Membuat debet kredit'
-            ],
-            [
-                'name' => 'edit-kredit-divisi',
-                'display_name' => 'Edit Kredit Divisi',
-                'description' => 'Bisa Mengubah debet kredit'
-            ],
+        ];
+
+        foreach($permissionSimpananDebet as $key){
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleSimpananDebet->id
+            ]);
+        }
+
+        $moduleLaporan = Module::create([
+            'name' => 'Module Laporan'
+        ]);
+
+        $permissionLaporan = [
             [
                 'name' => 'manage-laporan-kas-bank',
                 'display_name' => 'Manage laporan kas bank',
@@ -296,6 +279,213 @@ class UsersSeeder extends Seeder
                 'display_name' => 'excell laporan divisi',
                 'description' => 'Bisa Download laporan divisi'
             ],
+        ];
+
+        foreach($permissionLaporan as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleLaporan->id
+            ]);
+        }
+
+        $moduleSimpananKredit = Module::create([
+            'name' => 'Module Simpanan Kredit'
+        ]);
+
+        $permissionSimpananKredit = [
+            [
+                'name' => 'manage-kredit-simpanan',
+                'display_name' => 'Manage Kredit Simpanan',
+                'description' => 'Bisa Memanage kredit simpanan'
+            ],
+            [
+                'name' => 'create-kredit-simpanan',
+                'display_name' => 'Create Kredit Simpanan',
+                'description' => 'Bisa Membuat kredit simpanan'
+            ],
+            [
+                'name' => 'edit-kredit-simpanan',
+                'display_name' => 'Edit Credit Simpanan',
+                'description' => 'Bisa Mengubah kredit simpanan'
+            ],
+            [
+                'name' => 'download-kredit-simpanan',
+                'display_name' => 'Download Kredit Simpanan',
+                'description' => 'Bisa Mendownload kredit simpanan'
+            ],
+            [
+                'name' => 'upload-kredit-simpanan',
+                'display_name' => 'Upload Kredit Simpanan',
+                'description' => 'Bisa Upload kredit simpanan'
+            ],
+        ];
+
+        foreach($permissionSimpananKredit as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleSimpananKredit->id
+            ]);
+        }
+
+        $modulePinjamanDebet = Module::create([
+            'name' => 'Module Pinjaman Debet'
+        ]);
+
+        $permissionPinjamanDebet = [
+            [
+                'name' => 'manage-debet-pinjaman',
+                'display_name' => 'Manage Debet Pinjaman',
+                'description' => 'Bisa Memanage debet pinjaman'
+            ],
+            [
+                'name' => 'create-debet-pinjaman',
+                'display_name' => 'Create Debet Pinjaman',
+                'description' => 'Bisa Membuat debet pinjaman'
+            ],
+            [
+                'name' => 'edit-debet-pinjaman',
+                'display_name' => 'Edit Debet Pinjaman',
+                'description' => 'Bisa Mengubah debet pinjaman'
+            ],
+            [
+                'name' => 'download-debet-pinjaman',
+                'display_name' => 'Download Debet Pinjaman',
+                'description' => 'Bisa Mendownload debet pinjaman'
+            ],
+            [
+                'name' => 'upload-debet-pinjaman',
+                'display_name' => 'Upload Debet Pinjaman',
+                'description' => 'Bisa Upload debet pinjaman'
+            ],
+        ];
+
+        foreach($permissionPinjamanDebet as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $modulePinjamanDebet->id
+            ]);
+        }
+
+        $modulePinjamanKredit = Module::create([
+            'name' => 'Module Pinjaman Kredit'
+        ]);
+
+        $permissionPinjamanKredit = [
+            [
+                'name' => 'manage-kredit-pinjaman',
+                'display_name' => 'Manage Kredit Pinjaman',
+                'description' => 'Bisa Memanage kredit pinjaman'
+            ],
+            [
+                'name' => 'create-kredit-pinjaman',
+                'display_name' => 'Create Kredit Pinjaman',
+                'description' => 'Bisa Membuat kredit pinjaman'
+            ],
+            [
+                'name' => 'edit-kredit-pinjaman',
+                'display_name' => 'Edit Kredit Pinjaman',
+                'description' => 'Bisa Mengubah kredit pinjaman'
+            ],
+            [
+                'name' => 'download-kredit-pinjaman',
+                'display_name' => 'Download Kredit Pinjaman',
+                'description' => 'Bisa Mendownload kredit pinjaman'
+            ],
+            [
+                'name' => 'upload-kredit-pinjaman',
+                'display_name' => 'Upload Kredit Pinjaman',
+                'description' => 'Bisa Upload kredit pinjaman'
+            ],
+        ];
+
+        foreach($permissionPinjamanKredit as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $modulePinjamanKredit->id
+            ]);
+        }
+
+        $moduleDivisiDebet = Module::create([
+            'name' => 'Module Divisi Debet'
+        ]);
+
+        $permissionDivisiDebet = [
+            [
+                'name' => 'manage-debet-divisi',
+                'display_name' => 'Manage Debet Divisi',
+                'description' => 'Bisa Memanage debet divisi'
+            ],
+            [
+                'name' => 'create-debet-divisi',
+                'display_name' => 'Create Debet Divisi',
+                'description' => 'Bisa Membuat debet divisi'
+            ],
+            [
+                'name' => 'edit-debet-divisi',
+                'display_name' => 'Edit Debet Divisi',
+                'description' => 'Bisa Mengubah debet divisi'
+            ],
+        ];
+
+        foreach($permissionDivisiDebet as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleDivisiDebet->id
+            ]);
+        }
+
+        $moduleDivisiKredit = Module::create([
+            'name' => 'Module Divisi Kredit'
+        ]);
+
+        $permissionDivisiKredit = [
+            [
+                'name' => 'manage-kredit-divisi',
+                'display_name' => 'Manage kredit Divisi',
+                'description' => 'Bisa Memanage debet kredit'
+            ],
+            [
+                'name' => 'create-kredit-divisi',
+                'display_name' => 'Create Kredit Divisi',
+                'description' => 'Bisa Membuat debet kredit'
+            ],
+            [
+                'name' => 'edit-kredit-divisi',
+                'display_name' => 'Edit Kredit Divisi',
+                'description' => 'Bisa Mengubah debet kredit'
+            ],
+        ];
+
+        foreach($permissionDivisiKredit as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleDivisiKredit->id
+            ]);
+        }
+
+        $modulePengguna = Module::create([
+            'name' => 'Module Pengguna'
+        ]);
+
+        $permissionPengguna = [
             [
                 'name' => 'manage-user',
                 'display_name' => 'Manage user',
@@ -311,6 +501,23 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create user',
                 'description' => 'Bisa menambah user'
             ],
+        ];
+
+        foreach($permissionPengguna as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $modulePengguna->id
+            ]);
+        }
+
+        $moduleOption = Module::create([
+            'name' => 'Module Option'
+        ]);
+
+        $permissionOption = [
             [
                 'name' => 'manage-option',
                 'display_name' => 'Manage option',
@@ -326,6 +533,23 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create option',
                 'description' => 'Bisa menambah option'
             ],
+        ];
+
+        foreach($permissionOption as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleOption->id
+            ]);
+        }
+
+        $moduleRole = Module::create([
+            'name' => 'Module Role'
+        ]);
+
+        $permissionRole = [
             [
                 'name' => 'manage-role',
                 'display_name' => 'Manage Role',
@@ -341,6 +565,24 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Create Role',
                 'description' => 'Bisa Menambah role'
             ],
+        ];
+
+        foreach($permissionRole as $key)
+        {
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleRole->id
+            ]);
+        }
+
+        $modulePermission = Module::create([
+            'name' => 'Module Permission'
+        ]);
+
+        $permission = [
+
             [
                 'name' => 'manage-permissions',
                 'display_name' => 'Manage Permission',
@@ -363,7 +605,8 @@ class UsersSeeder extends Seeder
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
-                'description' => $key['description']
+                'description' => $key['description'],
+                'module_id' => $modulePermission->id
             ]);
         }
 

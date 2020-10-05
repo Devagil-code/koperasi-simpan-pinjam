@@ -40,8 +40,10 @@
             <table id="table" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>#ID</th>
+                        <th>Module</th>
                         <th>Nama Permission</th>
-                        <th>Displayy</th>
+                        <th>Display</th>
                         <th>Deskripsi</th>
                         <th></th>
                     </tr>
@@ -75,6 +77,8 @@
                         serverSide: true,
                         ajax: "{{ route('permission.index') }}",
                         columns: [
+                            { data: 'id', name: 'id' },
+                            { data: 'module.name', name: 'module.name' },
                             { data: 'name', name: 'name' },
                             { data: 'display_name', name: 'display_name' },
                             { data: 'description', name: 'description' },

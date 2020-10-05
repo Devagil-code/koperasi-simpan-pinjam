@@ -19,7 +19,7 @@ class PermissionController extends Controller
         if (\Auth::user()->can('manage-permissions')) {
             # code...
             if ($request->ajax()) {
-                $permission = Permission::select();
+                $permission = Permission::with('module')->select();
                 return  DataTables::of($permission)
                     ->addColumn('action', function ($permission) {
                         return view('datatable._nodelete', [

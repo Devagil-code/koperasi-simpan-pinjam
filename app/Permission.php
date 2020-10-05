@@ -11,4 +11,9 @@ class Permission extends LaratrustPermission
         'display_name',
         'description'
     ];
+
+    public function module()
+    {
+        return $this->belongsTo('App\Module');
+    }
 }
