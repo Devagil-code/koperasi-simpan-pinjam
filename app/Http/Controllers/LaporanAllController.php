@@ -45,17 +45,18 @@ class LaporanAllController extends Controller
         } else {
             if ($user->roles->pluck('name')->contains('admin')) {
                 if (!empty($request->anggota_id)) {
-                    $transaksi_harian = TransaksiHarian::with([
+                    $transaksi_harian = TransaksiHarian::with(
+                        [
 
-                        'transaksi_harian_biaya',
-                        'transaksi_harian_anggota' => function($sql){
-                            $sql->with('anggota');
-                        },
-                        'sumPokok',
-                        'sumWajib',
-                        'sumSukarela',
-                        'sumKredit'
-                    ]
+                            'transaksi_harian_biaya',
+                            'transaksi_harian_anggota' => function ($sql) {
+                                $sql->with('anggota');
+                            },
+                            'sumPokok',
+                            'sumWajib',
+                            'sumSukarela',
+                            'sumKredit'
+                        ]
                     )
                         ->whereHas('transaksi_harian_anggota', function ($q) use ($request) {
                             $q->where('anggota_id', $request->anggota_id);

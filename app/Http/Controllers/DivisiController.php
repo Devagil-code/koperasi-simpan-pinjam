@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Divisi;
 use Illuminate\Http\Request;
 use DataTables;
+use Session;
 
 class DivisiController extends Controller
 {
@@ -22,21 +23,26 @@ class DivisiController extends Controller
     public function index(Request $request)
     {
         //
-        if($request->ajax())
-        {
-            $divisi = Divisi::select();
-            return  DataTables::of($divisi)
-                        ->addColumn('action', function($divisi){
-                            return view('datatable._nodelete', [
-                                'model' => $divisi,
-                                'form_url' => route('divisi.destroy', $divisi->id),
-                                'edit_url' => route('divisi.edit', $divisi->id),
-                                'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran '.$divisi->name.'?'
-                            ]);
-                        })
-                        ->make(true);
+        if (\Auth::user()->can('manage-divisi')) {
+            # code...
+            if ($request->ajax()) {
+                $divisi = Divisi::select();
+                return  DataTables::of($divisi)
+                    ->addColumn('action', function ($divisi) {
+                        return view('datatable._nodelete', [
+                            'model' => $divisi,
+                            'form_url' => route('divisi.destroy', $divisi->id),
+                            'edit_url' => route('divisi.edit', $divisi->id),
+                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $divisi->name . '?'
+                        ]);
+                    })
+                    ->make(true);
+            }
+            return view('divisi.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return view('divisi.index');
     }
 
     /**
@@ -47,7 +53,11 @@ class DivisiController extends Controller
     public function create()
     {
         //
-        return view('divisi.create');
+        if (\Auth::user()->can('create-divisi')) {
+            return view('divisi.create');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -59,13 +69,21 @@ class DivisiController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'name' => 'required|unique:divisis'
-        ]);
+        if (\Auth::user()->can('create-divisi')) {
+            $this->validate($request, [
+                'name' => 'required|unique:divisis'
+            ]);
 
-        Divisi::create($request->all());
-        activity()->log('Menambahkan Data Divisi');
-        return redirect()->route('divisi.index');
+            Divisi::create($request->all());
+            activity()->log('Menambahkan Data Divisi');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil ditambah !!!"
+            ]);
+            return redirect()->route('divisi.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -88,7 +106,13 @@ class DivisiController extends Controller
     public function edit(Divisi $divisi)
     {
         //
-        return view('divisi.edit')->with(compact('divisi'));
+        if (\Auth::user()->can('edit-divisi')) {
+            # code...
+            return view('divisi.edit')->with(compact('divisi'));
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -101,14 +125,22 @@ class DivisiController extends Controller
     public function update(Request $request, Divisi $divisi)
     {
         //
-        $this->validate($request, [
-            'name' => 'required|unique:divisis,name,'.$divisi->id
-        ]);
-        $divisi = Divisi::find($divisi->id);
-        $divisi->name = $request->name;
-        $divisi->update();
-        activity()->log('Merubah Data Divisi');
-        return redirect()->route('divisi.index');
+        if (\Auth::user()->can('edit-divisi')) {
+            $this->validate($request, [
+                'name' => 'required|unique:divisis,name,' . $divisi->id
+            ]);
+            $divisi = Divisi::find($divisi->id);
+            $divisi->name = $request->name;
+            $divisi->update();
+            activity()->log('Merubah Data Divisi');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil diubah !!!"
+            ]);
+            return redirect()->route('divisi.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**

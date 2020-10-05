@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Biaya;
 use Illuminate\Http\Request;
 use DataTables;
+use Session;
 
 class BiayaController extends Controller
 {
@@ -21,25 +22,25 @@ class BiayaController extends Controller
 
     public function index(Request $request)
     {
-        //
-        if($request->ajax())
-        {
-            $biaya = Biaya::with('divisi')->select();
-            return DataTables::of($biaya)
-                ->editColumn('jenis_biaya', function($biaya){
-                    if($biaya->jenis_biaya == '1')
-                    {
-                        return 'Debet';
-                    }
+        if (\Auth::user()->can('manage-biaya')) {
+            if ($request->ajax()) {
+                $biaya = Biaya::with('divisi')->select();
+                return DataTables::of($biaya)
+                    ->editColumn('jenis_biaya', function ($biaya) {
+                        if ($biaya->jenis_biaya == '1') {
+                            return 'Debet';
+                        }
 
-                    if($biaya->jenis_biaya == '2')
-                    {
-                        return 'Kredit';
-                    }
-                })
-                ->make(true);
+                        if ($biaya->jenis_biaya == '2') {
+                            return 'Kredit';
+                        }
+                    })
+                    ->make(true);
+            }
+            return view('biaya.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return view('biaya.index');
     }
 
     /**
@@ -50,7 +51,11 @@ class BiayaController extends Controller
     public function create()
     {
         //
-        return view('biaya.create');
+        if (\Auth::user()->can('create-biaya')) {
+            return view('biaya.create');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -62,18 +67,25 @@ class BiayaController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'name' => 'required',
-            'divisi_id' => 'required',
-            'jenis_biaya' => 'required'
-        ]);
-        $biaya = new Biaya();
-        $biaya->divisi_id = $request->divisi_id;
-        $biaya->name = $request->name;
-        $biaya->jenis_biaya = $request->jenis_biaya;
-        $biaya->save();
-        activity()->log('Menambahkan Data Biaya');
-        return redirect()->route('biaya.index');
+        if (\Auth::user()->can('create-biaya')) {
+            $this->validate($request, [
+                'name' => 'required',
+                'divisi_id' => 'required',
+                'jenis_biaya' => 'required'
+            ]);
+            $biaya = new Biaya();
+            $biaya->divisi_id = $request->divisi_id;
+            $biaya->name = $request->name;
+            $biaya->jenis_biaya = $request->jenis_biaya;
+            $biaya->save();
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil ditambah !!!"
+            ]);
+            return redirect()->route('biaya.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**

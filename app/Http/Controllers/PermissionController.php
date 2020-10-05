@@ -16,20 +16,26 @@ class PermissionController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->ajax()) {
-            $permission = Permission::select();
-            return  DataTables::of($permission)
-                ->addColumn('action', function ($permission) {
-                    return view('datatable._nodelete', [
-                        'model' => $permission,
-                        'form_url' => route('permission.destroy', $permission->id),
-                        'edit_url' => route('permission.edit', $permission->id),
-                        'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $permission->name . '?'
-                    ]);
-                })
-                ->make(true);
+        if (\Auth::user()->can('manage-permissions')) {
+            # code...
+            if ($request->ajax()) {
+                $permission = Permission::select();
+                return  DataTables::of($permission)
+                    ->addColumn('action', function ($permission) {
+                        return view('datatable._nodelete', [
+                            'model' => $permission,
+                            'form_url' => route('permission.destroy', $permission->id),
+                            'edit_url' => route('permission.edit', $permission->id),
+                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $permission->name . '?'
+                        ]);
+                    })
+                    ->make(true);
+            }
+            return view('permission.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return view('permission.index');
     }
 
     /**
@@ -39,7 +45,13 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('permission.create');
+        if (\Auth::user()->can('create-permissions')) {
+            # code...
+            return view('permission.create');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -50,18 +62,24 @@ class PermissionController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:permissions',
-            'display_name' => 'required',
-            'description' => 'required'
-        ]);
+        if (\Auth::user()->can('create-permissions')) {
+            # code...
+            $this->validate($request, [
+                'name' => 'required|unique:permissions',
+                'display_name' => 'required',
+                'description' => 'required'
+            ]);
 
-        Permission::create($request->all());
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data Permission Berhasil ditambah !!!"
-        ]);
-        return redirect()->route('permission.index');
+            Permission::create($request->all());
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Permission Berhasil ditambah !!!"
+            ]);
+            return redirect()->route('permission.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -83,8 +101,14 @@ class PermissionController extends Controller
      */
     public function edit($id)
     {
-        $permission = Permission::find($id);
-        return view('permission.edit')->with(compact('permission'));
+        if (\Auth::user()->can('edit-permissions')) {
+            # code...
+            $permission = Permission::find($id);
+            return view('permission.edit')->with(compact('permission'));
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -96,21 +120,27 @@ class PermissionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'name' => 'required|unique:permissions,name,' . $id,
-            'display_name' => 'required',
-            'description' => 'required',
-        ]);
-        $permission = Permission::find($id);
-        $permission->name = $request->name;
-        $permission->display_name = $request->display_name;
-        $permission->description = $request->description;
-        $permission->update();
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Data Permission Berhasil update !!!"
-        ]);
-        return redirect()->route('permission.index');
+        if (\Auth::user()->can('edit-permissions')) {
+            # code...
+            $this->validate($request, [
+                'name' => 'required|unique:permissions,name,' . $id,
+                'display_name' => 'required',
+                'description' => 'required',
+            ]);
+            $permission = Permission::find($id);
+            $permission->name = $request->name;
+            $permission->display_name = $request->display_name;
+            $permission->description = $request->description;
+            $permission->update();
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Permission Berhasil update !!!"
+            ]);
+            return redirect()->route('permission.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**

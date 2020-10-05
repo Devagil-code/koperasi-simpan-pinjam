@@ -28,56 +28,59 @@ class PinjamanDebetController extends Controller
     public function index(Request $request)
     {
         //
-        if($request->ajax())
-        {
-            $transaksiHarian = TransaksiHarian::with([
-                'divisi', 'nama_anggota' => function($sql){
-                    $sql->with('anggota');
-                }, 'sumBunga', 'sumCicilan'
-            ])
-                ->where('divisi_id', '2')
-                ->where('jenis_transaksi', '1');
-            return DataTables::of($transaksiHarian)
-                ->editColumn('tgl', function($transaksiHarian){
-                    return Tanggal::tanggal_id($transaksiHarian->tgl);
-                })
-                ->editColumn('jenis_pembayaran', function($transaksiHarian){
-                    if($transaksiHarian->jenis_pembayaran == '1')
-                    {
-                        return '<span class="badge badge-success badge-pill">Cash</span>';
-                    }else {
-                        return '<span class="badge badge-danger badge-pill">Bank</span>';
-                    }
-                })
-                ->editColumn('jenis_transaksi', function($transaksiHarian){
-                    return '<span class="badge badge-info badge-pill">Debet</span>';
-                })
-                ->addColumn('action', function($transaksiHarian){
-                    return view('datatable._action-default', [
-                        'model' => $transaksiHarian,
-                        'form_url' => route('pinjaman-debet.destroy', $transaksiHarian->id),
-                        'edit_url' => route('pinjaman-debet.edit', $transaksiHarian->id),
-                        'confirm_message' => 'Apakah anda yakin mau Transaksi'
-                    ]);
-                })
-                ->editColumn('sumBunga', function($transaksiHarian){
-                    return Money::stringToRupiah($transaksiHarian->sumBunga->sum('nominal'));
-                })
-                ->editColumn('sumCicilan', function($transaksiHarian){
-                    return Money::stringToRupiah($transaksiHarian->sumCicilan->sum('nominal'));
-                })
-                ->editColumn('is_close', function($transaksiHarian){
-                    if($transaksiHarian->is_close == '0')
-                    {
-                        return '<p class="text-primary">Aktif</p>';
-                    }else {
-                        return '<p class="text-danger">None Aktif</p>';
-                    }
-                })
-                ->rawColumns(['jenis_pembayaran', 'jenis_transaksi', 'action', 'is_close'])
-                ->make(true);
+        if (condition) {
+            # code...
+            if ($request->ajax()) {
+                $transaksiHarian = TransaksiHarian::with([
+                    'divisi', 'nama_anggota' => function ($sql) {
+                        $sql->with('anggota');
+                    }, 'sumBunga', 'sumCicilan'
+                ])
+                    ->where('divisi_id', '2')
+                    ->where('jenis_transaksi', '1');
+                return DataTables::of($transaksiHarian)
+                    ->editColumn('tgl', function ($transaksiHarian) {
+                        return Tanggal::tanggal_id($transaksiHarian->tgl);
+                    })
+                    ->editColumn('jenis_pembayaran', function ($transaksiHarian) {
+                        if ($transaksiHarian->jenis_pembayaran == '1') {
+                            return '<span class="badge badge-success badge-pill">Cash</span>';
+                        } else {
+                            return '<span class="badge badge-danger badge-pill">Bank</span>';
+                        }
+                    })
+                    ->editColumn('jenis_transaksi', function ($transaksiHarian) {
+                        return '<span class="badge badge-info badge-pill">Debet</span>';
+                    })
+                    ->addColumn('action', function ($transaksiHarian) {
+                        return view('datatable._action-default', [
+                            'model' => $transaksiHarian,
+                            'form_url' => route('pinjaman-debet.destroy', $transaksiHarian->id),
+                            'edit_url' => route('pinjaman-debet.edit', $transaksiHarian->id),
+                            'confirm_message' => 'Apakah anda yakin mau Transaksi'
+                        ]);
+                    })
+                    ->editColumn('sumBunga', function ($transaksiHarian) {
+                        return Money::stringToRupiah($transaksiHarian->sumBunga->sum('nominal'));
+                    })
+                    ->editColumn('sumCicilan', function ($transaksiHarian) {
+                        return Money::stringToRupiah($transaksiHarian->sumCicilan->sum('nominal'));
+                    })
+                    ->editColumn('is_close', function ($transaksiHarian) {
+                        if ($transaksiHarian->is_close == '0') {
+                            return '<p class="text-primary">Aktif</p>';
+                        } else {
+                            return '<p class="text-danger">None Aktif</p>';
+                        }
+                    })
+                    ->rawColumns(['jenis_pembayaran', 'jenis_transaksi', 'action', 'is_close'])
+                    ->make(true);
+            }
+            return view('pinjaman-debet.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return view('pinjaman-debet.index');
     }
 
     /**
@@ -256,30 +259,30 @@ class PinjamanDebetController extends Controller
 
     public function doUpload(Request $request)
     {
-		/*Bug Pada Linux Centos Sehingga Validasi Tidak Berjalan
+        /*Bug Pada Linux Centos Sehingga Validasi Tidak Berjalan
         $this->validate($request, [
 			'file' => 'required|mimes:csv,xls,xlsx'
 		]);
 		*/
         $periode = Periode::where('status', '1')->first();
-		$file = $request->file('file');
+        $file = $request->file('file');
         // menangkap file excel
 
         // membuat nama file unik
-		$nama_file = rand().$file->getClientOriginalName();
+        $nama_file = rand() . $file->getClientOriginalName();
 
-		// upload ke folder file_siswa di dalam folder public
-		$file->move('pinjaman_debet',$nama_file);
+        // upload ke folder file_siswa di dalam folder public
+        $file->move('pinjaman_debet', $nama_file);
 
-		// import data
-        Excel::import(new PinjamanDebet($periode), public_path('/pinjaman_debet/'.$nama_file));
+        // import data
+        Excel::import(new PinjamanDebet($periode), public_path('/pinjaman_debet/' . $nama_file));
 
-        File::delete(public_path('/pinjaman_debet/'.$nama_file));
-		// notifikasi dengan session
-		//Session::flash('sukses','Data Siswa Berhasil Di import!');
+        File::delete(public_path('/pinjaman_debet/' . $nama_file));
+        // notifikasi dengan session
+        //Session::flash('sukses','Data Siswa Berhasil Di import!');
         activity()->log('Upload Data Pinjaman Debet');
-		// alihkan halaman kembali
-		return redirect()->route('pinjaman-debet.index');
+        // alihkan halaman kembali
+        return redirect()->route('pinjaman-debet.index');
     }
 
     public function closeBook()
@@ -287,33 +290,32 @@ class PinjamanDebetController extends Controller
         $periode = Periode::where('status', '1')->first();
         $want_close = Periode::where('status', 2)->first();
         $anggota = Anggota::select()->where('status', 1)->get();
-        foreach($anggota as $row)
-        {
+        foreach ($anggota as $row) {
             $transaksiHarian = new TransaksiHarian();
             $transaksiHarian->tgl = Tanggal::convert_tanggal($periode->open_date);
             $transaksiHarian->divisi_id = '2';
             $transaksiHarian->jenis_pembayaran = '1';
             $transaksiHarian->jenis_transaksi = '1';
-            $transaksiHarian->keterangan = 'Saldo Awal Periode '.$periode->name;
+            $transaksiHarian->keterangan = 'Saldo Awal Periode ' . $periode->name;
             $transaksiHarian->periode_id = $periode->id;
             $transaksiHarian->save();
             //SUMP SIMPANAN KREDIT
             $sum_angsuran = DB::table('transaksi_harians')
-                            ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                            ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                            ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
-                            ->where('transaksi_harian_anggotas.anggota_id', $row->id)
-                            ->where('transaksi_harian_biayas.biaya_id', '6')
-                            ->where('divisi_id', '2')
-                            ->sum('transaksi_harian_biayas.nominal');
+                ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
+                ->where('transaksi_harian_anggotas.anggota_id', $row->id)
+                ->where('transaksi_harian_biayas.biaya_id', '6')
+                ->where('divisi_id', '2')
+                ->sum('transaksi_harian_biayas.nominal');
             $sum_bunga = DB::table('transaksi_harians')
-                            ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                            ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                            ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
-                            ->where('transaksi_harian_anggotas.anggota_id', $row->id)
-                            ->where('transaksi_harian_biayas.biaya_id', '7')
-                            ->where('divisi_id', '2')
-                            ->sum('transaksi_harian_biayas.nominal');
+                ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
+                ->where('transaksi_harian_anggotas.anggota_id', $row->id)
+                ->where('transaksi_harian_biayas.biaya_id', '7')
+                ->where('divisi_id', '2')
+                ->sum('transaksi_harian_biayas.nominal');
             //Store Saldo Pinjaman
             $transaksi_biaya = new TransaksiHarianBiaya();
             $transaksi_biaya->biaya_id = '6';
@@ -327,7 +329,7 @@ class PinjamanDebetController extends Controller
             $transaksi_biaya->transaksi_harian_id = $transaksiHarian->id;
             $transaksi_biaya->nominal = $sum_bunga;
             $transaksi_biaya->save();
-            
+
             //Save Transation Member Kopkar
             $transaksi_harian_anggota = new TransaksiHarianAnggota();
             $transaksi_harian_anggota->transaksi_harian_id = $transaksiHarian->id;
@@ -336,17 +338,16 @@ class PinjamanDebetController extends Controller
 
             //Update Simpanan All
             $transaksi_harian = DB::table('transaksi_harians')
-                    ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                    ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                    ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
-                    ->where('transaksi_harian_anggotas.anggota_id', $row->id)
-                    ->where('divisi_id', '2')
-                    ->whereIn('transaksi_harian_biayas.biaya_id', ['6', '7'])
-                    ->select('transaksi_harians.id as id')
-                    ->get();
-            
-            foreach($transaksi_harian as $item)
-            {
+                ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                ->whereBetween('transaksi_harians.tgl', [$want_close->open_date, $want_close->close_date])
+                ->where('transaksi_harian_anggotas.anggota_id', $row->id)
+                ->where('divisi_id', '2')
+                ->whereIn('transaksi_harian_biayas.biaya_id', ['6', '7'])
+                ->select('transaksi_harians.id as id')
+                ->get();
+
+            foreach ($transaksi_harian as $item) {
                 $transaksi_harian = TransaksiHarian::find($item->id);
                 $transaksi_harian->is_close = '1';
                 $transaksi_harian->update();

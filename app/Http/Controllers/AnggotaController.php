@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use App\UserAnggota;
 use App\Exports\AnggotaExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Session;
 
 class AnggotaController extends Controller
 {
@@ -47,9 +48,8 @@ class AnggotaController extends Controller
                             'edit_url' => route('anggota.edit', $anggota->id)
                         ]);
                     })
-                    ->editColumn('is_close', function($anggota){
-                        if($anggota->status == '0')
-                        {
+                    ->editColumn('is_close', function ($anggota) {
+                        if ($anggota->status == '0') {
                             return 'Status Tidak Aktif';
                         }
                     })
@@ -86,38 +86,45 @@ class AnggotaController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'nik' => 'required|unique:anggotas',
-            'nama' => 'required',
-            'tgl_daftar' => 'required'
-        ]);
-        $anggota = new Anggota();
-        $anggota->nik = $request->nik;
-        $anggota->nama = $request->nama;
-        $anggota->inisial = $request->inisial;
-        $anggota->tgl_daftar = Tanggal::convert_tanggal($request->tgl_daftar);
-        $anggota->status = $request->status;
-        $anggota->homebase = $request->homebase;
-        $anggota->save();
+        if (\Auth::user()->can('create-anggota')) {
+            $this->validate($request, [
+                'nik' => 'required|unique:anggotas',
+                'nama' => 'required',
+                'tgl_daftar' => 'required'
+            ]);
+            $anggota = new Anggota();
+            $anggota->nik = $request->nik;
+            $anggota->nama = $request->nama;
+            $anggota->inisial = $request->inisial;
+            $anggota->tgl_daftar = Tanggal::convert_tanggal($request->tgl_daftar);
+            $anggota->status = $request->status;
+            $anggota->homebase = $request->homebase;
+            $anggota->save();
 
-        $user = new User();
-        $user->email = $request->nik;
-        $user->password = bcrypt('Kopkar2019');
-        $user->name = $request->nama;
-        $user->save();
+            $user = new User();
+            $user->email = $request->nik;
+            $user->password = bcrypt('Kopkar2019');
+            $user->name = $request->nama;
+            $user->save();
 
-        DB::table('role_user')->insert([
-            'user_id' => $user->id,
-            'role_id' => '2',
-            'user_type' => 'App\User'
-        ]);
+            DB::table('role_user')->insert([
+                'user_id' => $user->id,
+                'role_id' => '2',
+                'user_type' => 'App\User'
+            ]);
 
-        $userAnggota = new UserAnggota();
-        $userAnggota->anggota_id = $anggota->id;
-        $userAnggota->user_id = $user->id;
-        $userAnggota->save();
-        activity()->log('Menambahkan Data Anggota');
-        return redirect()->route('anggota.index');
+            $userAnggota = new UserAnggota();
+            $userAnggota->anggota_id = $anggota->id;
+            $userAnggota->user_id = $user->id;
+            $userAnggota->save();
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil ditambah !!!"
+            ]);
+            return redirect()->route('anggota.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -139,10 +146,13 @@ class AnggotaController extends Controller
      */
     public function edit($id)
     {
-        //
-        $anggota = Anggota::find($id);
-        $anggota->tgl_daftar = date('d-m-Y', strtotime($anggota->tgl_daftar));
-        return view('anggota.edit')->with(compact('anggota'));
+        if (\Auth::user()->can('edit-anggota')) {
+            $anggota = Anggota::find($id);
+            $anggota->tgl_daftar = date('d-m-Y', strtotime($anggota->tgl_daftar));
+            return view('anggota.edit')->with(compact('anggota'));
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -154,29 +164,35 @@ class AnggotaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
-        $this->validate($request, [
-            'nik' => 'required|unique:anggotas,nik,' . $id,
-            'nama' => 'required',
-            'tgl_daftar' => 'required'
-        ]);
-        $anggota = Anggota::find($id);
-        $anggota->nik = $request->nik;
-        $anggota->nama = $request->nama;
-        $anggota->inisial = $request->inisial;
-        $anggota->status = $request->status;
-        $anggota->tgl_daftar = Tanggal::convert_tanggal($request->tgl_daftar);
-        $anggota->homebase = $request->homebase;
-        $anggota->update();
+        if (\Auth::user()->can('edit-anggota')) {
+            $this->validate($request, [
+                'nik' => 'required|unique:anggotas,nik,' . $id,
+                'nama' => 'required',
+                'tgl_daftar' => 'required'
+            ]);
+            $anggota = Anggota::find($id);
+            $anggota->nik = $request->nik;
+            $anggota->nama = $request->nama;
+            $anggota->inisial = $request->inisial;
+            $anggota->status = $request->status;
+            $anggota->tgl_daftar = Tanggal::convert_tanggal($request->tgl_daftar);
+            $anggota->homebase = $request->homebase;
+            $anggota->update();
 
-        $userAnggota = UserAnggota::where('anggota_id', $id)->first();
+            $userAnggota = UserAnggota::where('anggota_id', $id)->first();
 
-        $user = User::find($userAnggota->user_id);
-        $user->email = $request->nik;
-        $user->name = $request->nama;
-        $user->save();
-        activity()->log('Merubah Data Anggota');
-        return redirect()->route('anggota.index');
+            $user = User::find($userAnggota->user_id);
+            $user->email = $request->nik;
+            $user->name = $request->nama;
+            $user->save();
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil diubah !!!"
+            ]);
+            return redirect()->route('anggota.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
