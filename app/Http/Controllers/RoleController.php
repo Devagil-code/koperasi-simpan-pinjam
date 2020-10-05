@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Module;
+use App\PermissionRole;
 use App\Role;
 use Illuminate\Http\Request;
 use DataTables;
@@ -67,6 +69,13 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         //
+        $role = new Role();
+        $role->name = $request->name;
+        $role->display_name = $request->display_name;
+        $role->description = $request->description;
+        $role->save();
+
+        return redirect()->route('role.edit', $role->id);
     }
 
     /**
@@ -89,6 +98,13 @@ class RoleController extends Controller
     public function edit($id)
     {
         //
+        $module = Module::with([
+            'permission'
+        ])
+        ->whereHas('permission')
+                ->get();
+        $role = Role::find($id);
+        return view('role.edit')->with(compact('module', 'role'));
     }
 
     /**

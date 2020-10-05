@@ -17,11 +17,11 @@
         @yield('style')
         <!-- Toastr css -->
         <link href="{{ asset('plugins/jquery-toastr/jquery.toast.min.css') }}" rel="stylesheet" />
-        <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('css/icons.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
-        <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
-        <script src="{{ asset('js/modernizr.min.js') }}"></script>
+        <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+        <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
     </head>
     <body>
         <!-- Begin page -->
@@ -112,19 +112,19 @@
         <!-- END wrapper -->
         <!-- jQuery  -->
         <script src="{{ asset('js/jquery.min.js') }}"></script>
-        <script src="{{ asset('js/popper.min.js') }}"></script>
-        <script src="{{ asset('js/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('js/metisMenu.min.js') }}"></script>
+        <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+        <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/metisMenu.min.js') }}"></script>
         <script src="{{ asset('js/waves.js') }}"></script>
         <script src="{{ asset('js/jquery.slimscroll.js') }}"></script>
 
-        @yield('script')
+
         <!-- App js -->
         <script src="{{ asset('js/jquery.core.js') }}"></script>
         <script src="{{ asset('js/jquery.app.js') }}"></script>
         <script src="{{ asset('plugins/jquery-toastr/jquery.toast.min.js') }}" type="text/javascript"></script>
+        @yield('script')
         @if ($message = Session::get('error'))
-
             <script>
                 $.toast({
                     heading: 'Error !',

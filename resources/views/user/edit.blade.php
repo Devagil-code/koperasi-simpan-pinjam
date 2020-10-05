@@ -38,17 +38,17 @@
                     <div class="form-group row">
                         <label class="col-4 col-form-label" for="example-input-normal">Hak Akses</label>
                         <div class="col-8">
-                                {!! Form::select('role_id', [''=>'Hak Akses']+App\Role::where('id', '1')->pluck('name','id')->all(), null, ['class' => 'form-control select2']) !!}
+                                {!! Form::select('role_id', [''=>'Hak Akses']+App\Role::whereNotIn('name', ['member'])->pluck('name','id')->all(), null, ['class' => 'form-control select2']) !!}
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary">Simpan</button>                
+                    <button type="submit" class="btn btn-primary">Simpan</button>
                 {!! Form::close() !!}
             </div>
         </div> <!-- end card-box -->
     </div> <!-- end col -->
 </div>
 @endsection
-@section('script')    
+@section('script')
 <script src="{{ asset('plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.js') }}" type="text/javascript"></script>
 <script>

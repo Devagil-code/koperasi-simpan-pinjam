@@ -13,7 +13,7 @@
 <div class="form-group row">
     <label class="col-4 col-form-label" for="example-input-normal">Hak Akses</label>
     <div class="col-8">
-            {!! Form::select('role_id', [''=>'Hak Akses']+App\Role::where('id', '1')->pluck('name','id')->all(), null, ['class' => 'form-control select2']) !!}
+            {!! Form::select('role_id', [''=>'Hak Akses']+App\Role::whereNotIn('name', ['member'])->pluck('name','id')->all(), null, ['class' => 'form-control select2']) !!}
     </div>
 </div>
 <div class="form-group row">

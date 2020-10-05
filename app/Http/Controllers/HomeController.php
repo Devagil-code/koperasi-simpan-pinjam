@@ -37,7 +37,7 @@ class HomeController extends Controller
         $anggota_aktif = Anggota::select()->where('status', 1)->count();
         $anggota_disable = Anggota::select()->where('status', 0)->count();
         $status_anggota = [$anggota_aktif, $anggota_disable];
-        if($user->roles->pluck( 'name' )->contains( 'admin' ))
+        if($user->roles->pluck( 'name' )->contains( 'admin' ) || $user->roles->pluck( 'name' )->contains( 'ketua') || $user->roles->pluck( 'name' )->contains( 'operator' ))
         {
 
             $transaksi_harian = TransaksiHarian::with(['sumKreditAll', 'sumDebitAll'])
@@ -113,7 +113,7 @@ class HomeController extends Controller
                         ->orderBy('year', 'Asc')
                         ->orderBy('mon', 'Asc')
                         ->get();
-            
+
             $tr_debits = DB::table('transaksi_harians')
                             ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
                             ->where('transaksi_harians.jenis_transaksi', 1)
@@ -156,12 +156,14 @@ class HomeController extends Controller
             {
                 array_push($kreditAll, $tr_kredit->sums);
             }
-            return view('dashboard.admin')->with(compact('countAnggota', 'countDivisi', 'periode', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'kredit_simpanan', 
+            return view('dashboard.admin')->with(compact('countAnggota', 'countDivisi', 'periode', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'kredit_simpanan',
                     'debet_pinjaman', 'bunga_pinjaman', 'kredit_pinjaman', 'transaksi_harian', 'activity_log', 'saldo_kredit', 'saldo_debit', 'status_anggota',
                 'months', 'debitAll', 'kreditAll'));
         }
-        if($user->roles->pluck( 'name' )->contains( 'member' ))
+        elseif($user->roles->pluck( 'name' )->contains( 'member' ))
         {
+            return view('dashboard.member');
+        }else {
             return view('dashboard.member');
         }
     }

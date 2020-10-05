@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Permission;
+use App\Role;
 use Illuminate\Http\Request;
 use DataTables;
 use Session;
@@ -152,5 +153,18 @@ class PermissionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function attachPermission(Request $request, $role_id)
+    {
+        $role = Role::find($role_id);
+        $role->attachPermission($request->permission);
+    }
+
+    public function detachPermission(Request $request, $role_id)
+    {
+
+        $role = Role::find($role_id);
+        $role->detachPermission($request->permission);
     }
 }

@@ -16,4 +16,15 @@ class Permission extends LaratrustPermission
     {
         return $this->belongsTo('App\Module');
     }
+
+    public function permission_role()
+    {
+        return $this->hasMany('App\PermissionRole');
+    }
+
+    public function permission_with_role($permission_id, $role_id)
+    {
+        return PermissionRole::where('permission_id', $permission_id)
+                ->where('role_id', $role_id)->first();
+    }
 }

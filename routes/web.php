@@ -16,21 +16,21 @@ Route::get('/', function () {
 });
 Auth::routes();
 Route::group(['middleware' => 'web'], function () {
-    Route::group(['middleware' => ['auth', 'role:admin|member']], function () {
+    Route::group(['middleware' => ['auth']], function () {
         Route::get('laporan-simpanan', 'LaporanController@simpanan')->name('laporan.simpanan');
         Route::get('laporan-pinjaman', 'LaporanController@pinjaman')->name('laporan.pinjaman');
         Route::get('laporan-simpanan-all', 'LaporanAllController@simpananAll')->name('laporan.simpanan-all');
         Route::get('/user/{user}/profile-user/', 'UserController@editPasswordMember')->name('user.user-profile');
         Route::put('/user/profile/{user}', 'UserController@putEditPassword')->name('user.edit-password');
         Route::get('/home', 'HomeController@index')->name('home');
-    });
-    Route::group(['middleware' => ['auth', 'role:admin']], function () {
         Route::resource('anggota', 'AnggotaController');
         Route::get('/anggota-export', 'AnggotaController@export')->name('anggota.export');
         Route::resource('divisi', 'DivisiController');
         Route::resource('transaksi-harian', 'TransaksiHarianController');
         Route::resource('periode', 'PeriodeController');
         Route::resource('role', 'RoleController');
+        Route::post('detach-permission/{role_id}', 'PermissionController@detachPermission')->name('permission.detach');
+        Route::post('attach-permission/{role_id}', 'PermissionController@attachPermission')->name('permission.attach');
         Route::resource('permission', 'PermissionController');
         Route::get('laporan-kas-bank', 'LaporanController@cashBank')->name('laporan.cash-bank');
         Route::get('laporan-perdivisi', 'LaporanController@perDivisi')->name('laporan.per-divisi');
