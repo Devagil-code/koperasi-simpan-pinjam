@@ -63,26 +63,25 @@
 <script>
     $(document).ready(function(){
         var oTable = $('#datatable-buttons').DataTable({
-                        processing: true,
-                        serverSide: true,
-                        ajax: "{{ route('anggota.index') }}",
-                        columns: [
-                            { data: 'id', name: 'id' },
-                            { data: 'nik', name: 'nik' },
-                            { data: 'nama', name: 'nama' },
-                            { data: 'inisial', name: 'inisial' },
-                            { data: 'tgl_daftar', name: 'tgl_daftar' },
-                            { data: 'homebase', name: 'homebase' },
-                            { data: 'status', name: 'status', orderable: false, searchable: false },
-                            { data: 'action', name: 'action', orderable: false, searchable: false },
-                        ],
-                        dom: '<"toolbar">frtip',
-                        order: [[ 0, "desc" ]],
-                        scrollX: true
-                    });
-                    $("div.toolbar").html(`<a href="{{ route('anggota.create') }}" class="btn btn-gradient waves-light waves-effect w-md">Tambah</a>
-                    <a href="{{ route('anggota.export') }}" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download</a>`);
-
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('anggota.index') }}",
+            columns: [
+                { data: 'id', name: 'id' },
+                { data: 'nik', name: 'nik' },
+                { data: 'nama', name: 'nama' },
+                { data: 'inisial', name: 'inisial' },
+                { data: 'tgl_daftar', name: 'tgl_daftar' },
+                { data: 'homebase', name: 'homebase' },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
+                { data: 'action', name: 'action', orderable: false, searchable: false },
+            ],
+            dom: '<"toolbar">frtip',
+            order: [[ 0, "desc" ]],
+            scrollX: true
+        });
+        $("div.toolbar").html(`<a href="{{ route('anggota.create') }}" class="btn btn-gradient waves-light waves-effect w-md">Tambah</a>
+        <a href="{{ route('anggota.export') }}" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download</a>`);
     });
 </script>
 @endsection
