@@ -17,7 +17,7 @@ class PermissionController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $permission = Permission::select();
+            $permission = Permission::with('module')->select();
             return  DataTables::of($permission)
                 ->addColumn('action', function ($permission) {
                     return view('datatable._nodelete', [

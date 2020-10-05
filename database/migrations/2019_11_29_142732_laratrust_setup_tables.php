@@ -26,7 +26,11 @@ class LaratrustSetupTables extends Migration
             $table->string('name')->unique();
             $table->string('display_name')->nullable();
             $table->string('description')->nullable();
+            $table->unsignedBigInteger('module_id')->default(1);
             $table->timestamps();
+
+            $table->foreign('module_id')->references('id')->on('modules')
+                ->onUpdate('cascade')->onDelete('cascade');
         });
 
         // Create table for associating roles to users and teams (Many To Many Polymorphic)
