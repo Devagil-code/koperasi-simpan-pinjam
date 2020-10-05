@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::resource('transaksi-harian', 'TransaksiHarianController');
         Route::resource('periode', 'PeriodeController');
         Route::resource('role', 'RoleController');
+        Route::resource('permission', 'PermissionController');
         Route::get('laporan-kas-bank', 'LaporanController@cashBank')->name('laporan.cash-bank');
         Route::get('laporan-perdivisi', 'LaporanController@perDivisi')->name('laporan.per-divisi');
         Route::get('transaksi-harian.chek-anggota', 'TransaksiHarianController@cekAnggota')->name('transaksi-harian.chek-anggota');

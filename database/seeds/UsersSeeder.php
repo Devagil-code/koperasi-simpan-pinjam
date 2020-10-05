@@ -326,6 +326,36 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create option',
                 'description' => 'Bisa menambah option'
             ],
+            [
+                'name' => 'manage-role',
+                'display_name' => 'Manage Role',
+                'description' => 'Bisa Manage Role'
+            ],
+            [
+                'name' => 'edit-role',
+                'display_name' => 'Edit Role',
+                'description' => 'Bisa Mengubah Role'
+            ],
+            [
+                'name' => 'create-role',
+                'display_name' => 'Create Role',
+                'description' => 'Bisa Menambah role'
+            ],
+            [
+                'name' => 'manage-permissions',
+                'display_name' => 'Manage Permission',
+                'description' => 'Bisa Manage Permission'
+            ],
+            [
+                'name' => 'edit-permissions',
+                'display_name' => 'Edit Permission',
+                'description' => 'Bisa Mengubah Permission'
+            ],
+            [
+                'name' => 'create-permissions',
+                'display_name' => 'Create Permission',
+                'description' => 'Bisa Menambah Permission'
+            ],
         ];
 
         foreach ($permission as $key) {
@@ -408,6 +438,12 @@ class UsersSeeder extends Seeder
             'upload-debet-simpanan',
             'upload-kredit-pinjaman',
             'upload-kredit-simpanan',
+            'manage-role',
+            'create-role',
+            'edit-role',
+            'manage-permissions',
+            'create-permissions',
+            'edit-permissions',
         ];
 
         $userAdmin = User::create([

@@ -92,6 +92,11 @@
                 @role('admin')
                 <li><a href="{{ route('laporan.per-divisi') }}"><i class="fi-file"></i> <span>Laporan Per Divisi</span> </a></li>
                 <li class="menu-title">Management</li>
+                <li class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
+                    <a href="{{ route('permission.index') }}" class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
+                        <i class="fi-head"></i> <span>Permission</span>
+                    </a>
+                </li>
                 <li class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
                     <a href="{{ route('role.index') }}" class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
                         <i class="fi-head"></i> <span>Role</span>
