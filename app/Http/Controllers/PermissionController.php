@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Permission;
 use Illuminate\Http\Request;
 use DataTables;
+use Session;
 
 class PermissionController extends Controller
 {
@@ -56,7 +57,10 @@ class PermissionController extends Controller
         ]);
 
         Permission::create($request->all());
-        activity()->log('Menambahkan Data Divisi');
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data Permission Berhasil ditambah !!!"
+        ]);
         return redirect()->route('permission.index');
     }
 
@@ -102,7 +106,10 @@ class PermissionController extends Controller
         $permission->display_name = $request->display_name;
         $permission->description = $request->description;
         $permission->update();
-        activity()->log('Merubah Data Permission');
+        Session::flash("flash_notification", [
+            "level" => "success",
+            "message" => "Data Permission Berhasil update !!!"
+        ]);
         return redirect()->route('permission.index');
     }
 
