@@ -1,5 +1,6 @@
 <?php
 
+use App\Anggota;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,5 +16,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PeriodesTableSeeder::class);
         $this->call(OptionsTableSeeder::class);
         $this->call(BiayasTableSeeder::class);
+        $this->call(AnggotaSeeder::class);
     }
 }

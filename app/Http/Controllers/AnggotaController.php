@@ -50,6 +50,12 @@ class AnggotaController extends Controller
                             'edit_url' => route('anggota.edit', $anggota->id)
                         ]);
                     })
+                    ->editColumn('is_close', function($anggota){
+                        if($anggota->status == '0')
+                        {
+                            return 'Status Tidak Aktif';
+                        }
+                    })
                     ->rawColumns(['status', 'action'])
                     ->make(true);
             }
