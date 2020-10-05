@@ -18,6 +18,7 @@ class AnggotaSeeder extends Seeder
         $anggota->nama = 'Agus Permana';
         $anggota->inisial = 'AP';
         $anggota->homebase = 'Bogor';
+        $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
 
@@ -26,6 +27,7 @@ class AnggotaSeeder extends Seeder
         $anggota->nama = 'Ahmad Jaelani';
         $anggota->inisial = 'AJ';
         $anggota->homebase = 'Jakarta';
+        $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
 
@@ -34,6 +36,7 @@ class AnggotaSeeder extends Seeder
         $anggota->nama = 'Miranda';
         $anggota->inisial = 'M';
         $anggota->homebase = 'Tangerang';
+        $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
 
@@ -42,6 +45,7 @@ class AnggotaSeeder extends Seeder
         $anggota->nama = 'Raka Hadi';
         $anggota->inisial = 'RH';
         $anggota->homebase = 'Garut';
+        $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
 
@@ -50,6 +54,7 @@ class AnggotaSeeder extends Seeder
         $anggota->nama = 'Hermansyah';
         $anggota->inisial = 'H';
         $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
 
