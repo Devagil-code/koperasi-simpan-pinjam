@@ -58,5 +58,49 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $anggota = new Anggota();
+        $anggota->nik = '320209080801006';
+        $anggota->nama = 'Angga Rojak';
+        $anggota->inisial = 'H';
+        $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
+        $anggota->status = '1';
+        $anggota->save();
+
+        $anggota = new Anggota();
+        $anggota->nik = '320209080801007';
+        $anggota->nama = 'Kardun';
+        $anggota->inisial = 'H';
+        $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
+        $anggota->status = '1';
+        $anggota->save();
+
+        $anggota = new Anggota();
+        $anggota->nik = '320209080801008';
+        $anggota->nama = 'Jaja Miharja';
+        $anggota->inisial = 'H';
+        $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
+        $anggota->status = '1';
+        $anggota->save();
+
+        $anggota = new Anggota();
+        $anggota->nik = '320209080801009';
+        $anggota->nama = 'Miharja';
+        $anggota->inisial = 'H';
+        $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
+        $anggota->status = '1';
+        $anggota->save();
+
+        $anggota = new Anggota();
+        $anggota->nik = '320209080801010';
+        $anggota->nama = 'Salsa';
+        $anggota->inisial = 'H';
+        $anggota->homebase = 'Bekasi';
+        $anggota->tgl_daftar = '2020-10-05';
+        $anggota->status = '1';
+        $anggota->save();
     }
 }
