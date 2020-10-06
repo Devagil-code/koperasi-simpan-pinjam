@@ -119,7 +119,7 @@
                 <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Simpanan</span> </a></li>
                 @endpermission
                 @permission('manage-laporan-pinjaman-all')
-                <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
+                <li><a href="{{ route('laporan.pinjaman-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
                 @endpermission
                 @permission('manage-simpanan-anggota')
                 <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Simpanan Anggota</span> </a></li>

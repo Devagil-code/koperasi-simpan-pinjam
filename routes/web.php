@@ -20,6 +20,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('laporan-simpanan', 'LaporanController@simpanan')->name('laporan.simpanan');
         Route::get('laporan-pinjaman', 'LaporanController@pinjaman')->name('laporan.pinjaman');
         Route::get('laporan-simpanan-all', 'LaporanAllController@simpananAll')->name('laporan.simpanan-all');
+        Route::get('laporan-pinjaman-all', 'LaporanAllController@pinjamanAll')->name('laporan.pinjaman-all');
         Route::get('/user/{user}/profile-user/', 'UserController@editPasswordMember')->name('user.user-profile');
         Route::put('/user/profile/{user}', 'UserController@putEditPassword')->name('user.edit-password');
         Route::get('/home', 'HomeController@index')->name('home');
