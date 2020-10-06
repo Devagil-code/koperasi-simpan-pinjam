@@ -61,6 +61,7 @@
                     </tbody>
                 </table>
                 @endrole
+                <input type="submit" value="Excell" class="btn btn-primary text-right" name="export_excell">
         </div>
     </div>
 </div>
