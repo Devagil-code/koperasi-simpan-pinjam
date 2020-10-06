@@ -27,7 +27,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box table-responsive">
-            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="datatable-buttons" class="table-sm table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>#ID</th>
