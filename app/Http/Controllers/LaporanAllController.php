@@ -33,6 +33,8 @@ class LaporanAllController extends Controller
     public function simpananAll(Request $request)
     {
         // dd($request->all());
+
+        $anggota = Anggota::get();
         $tgl_awal = Tanggal::convert_tanggal($request->start_date);
         $tgl_akhir = Tanggal::convert_tanggal($request->end_date);
         $date_before = date('Y-m-d', strtotime($tgl_awal . ' -1 day'));
@@ -41,7 +43,7 @@ class LaporanAllController extends Controller
         $year_start = date('Y', strtotime($tgl_awal));
         $user = Auth::user();
         if ($year_start != $year_periode) {
-            return view('laporan.simpanan-all');
+            return view('laporan.simpanan-all', compact('anggota'));
         } else {
             if ($user->roles->pluck('name')->contains('admin')) {
                 if (!empty($request->anggota_id)) {
