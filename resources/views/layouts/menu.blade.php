@@ -147,7 +147,7 @@
                     </a>
                 </li>
                 @endpermission
-                @permission('manage-user')
+                @permission('manage-users')
                 <li class="{{ set_active(['user.index', 'user.create', 'user.edit'])}}">
                     <a href="{{ route('user.index') }}" class="{{ set_active(['user.index', 'user.create', 'user.edit'])}}">
                         <i class="fi-head"></i> <span>Pengguna</span>
