@@ -96,7 +96,7 @@ class AnggotaSeeder extends Seeder
 
         $anggota = new Anggota();
         $anggota->nik = '320209080801010';
-        $anggota->nama = 'Salsa';
+        $anggota->nama = 'Santika';
         $anggota->inisial = 'H';
         $anggota->homebase = 'Bekasi';
         $anggota->tgl_daftar = '2020-10-05';
