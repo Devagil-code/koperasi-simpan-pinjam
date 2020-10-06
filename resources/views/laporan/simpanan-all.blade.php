@@ -21,7 +21,7 @@
 </div>
 <!-- end row -->
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="card-box">
             <form id="basic-form" action="{{ route('laporan.simpanan-all') }}" method="GET">
                 @csrf
@@ -45,10 +45,10 @@
     <div class="col-lg-12">
         <div class="card-box">
             @role('admin')
-                <table class="table table-sm">
+                <table class="table-small-font">
                     <thead>
                         <tr>
-                            <th>Nama Anggota</th>
+                            <th>Nama Anggota :</th>
                         </tr>
                     </thead>
                     <tbody>
