@@ -29,6 +29,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::resource('transaksi-harian', 'TransaksiHarianController');
         Route::resource('periode', 'PeriodeController');
         Route::resource('role', 'RoleController');
+        Route::resource('module', 'ModuleController');
         Route::post('detach-permission/{role_id}', 'PermissionController@detachPermission')->name('permission.detach');
         Route::post('attach-permission/{role_id}', 'PermissionController@attachPermission')->name('permission.attach');
         Route::resource('permission', 'PermissionController');

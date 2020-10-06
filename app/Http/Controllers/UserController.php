@@ -22,20 +22,25 @@ class UserController extends Controller
     public function index(Request $request)
     {
         //
-        if($request->ajax())
-        {
-            $user = User::with('roles');  
-            return DataTables::of($user)
-                ->addColumn('action', function($user){
-                    return view('datatable._resetpassword', [
-                        'edit_url' => route('user.edit', $user->id),
-                        'reset_url' => route('user.reset-password', $user->id),
-                        'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran '.$user->name.'?'
-                    ]);
-                })
-                ->make(true);
+        if (\Auth::user()->can('manage-user')) {
+            # code...
+            if ($request->ajax()) {
+                $user = User::with('roles');
+                return DataTables::of($user)
+                    ->addColumn('action', function ($user) {
+                        return view('datatable._resetpassword', [
+                            'edit_url' => route('user.edit', $user->id),
+                            'reset_url' => route('user.reset-password', $user->id),
+                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $user->name . '?'
+                        ]);
+                    })
+                    ->make(true);
+            }
+            return view('user.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
         }
-        return view('user.index');
     }
 
     /**
@@ -46,7 +51,13 @@ class UserController extends Controller
     public function create()
     {
         //
-        return view('user.create');
+        if (\Auth::user()->can('create-user')) {
+            # code...
+            return view('user.create');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -58,32 +69,38 @@ class UserController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'email' => 'required|unique:users',
-            'password' => 'min:8|required_with:password_confirmation|same:password_confirmation',
-            'password_confirmation' => 'min:8',
-            'role_id' => 'required'
-        ]);
+        if (\Auth::user()->can('create-user')) {
+            # code...
+            $this->validate($request, [
+                'email' => 'required|unique:users',
+                'password' => 'min:8|required_with:password_confirmation|same:password_confirmation',
+                'password_confirmation' => 'min:8',
+                'role_id' => 'required'
+            ]);
 
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->password = bcrypt($request->password);
-        $user->save();
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->password = bcrypt($request->password);
+            $user->save();
 
-        $role_user = new RoleUser();
-        $role_user->user_id = $user->id;
-        $role_user->role_id = $request->role_id;
-        $role_user->user_type = 'App\User';
-        $role_user->save();
+            $role_user = new RoleUser();
+            $role_user->user_id = $user->id;
+            $role_user->role_id = $request->role_id;
+            $role_user->user_type = 'App\User';
+            $role_user->save();
 
-        //Sent Session Message To View
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Berhasil Menambah Pengguna !!!"
-        ]);
+            //Sent Session Message To View
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Berhasil Menambah Pengguna !!!"
+            ]);
 
-        return redirect()->route('user.index');
+            return redirect()->route('user.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -106,22 +123,27 @@ class UserController extends Controller
     public function edit($id)
     {
         //
-        $user = DB::table('users')
-                    ->join('role_user', 'role_user.user_id', '=', 'users.id')
-                    ->join('roles', 'role_user.role_id', '=', 'roles.id')
-                    ->select('users.id as id', 'users.name as name', 'users.email as email', 'roles.name as role_name', 'roles.id as role_id')
-                    ->where('users.id', $id)
-                    ->first();
-        if($user->role_name == 'member')
-        {
-            Session::flash("flash_notification", [
-                "level" => "success",
-                "message" => "Silahkan Update Pengguna Ini Di Menu Anggota !!!"
-            ]);
-            return redirect()->route('user.index');
-        }else {
-            return view('user.edit')->with(compact('user'));
-        }        
+        if (\Auth::user()->can('edit-user')) {
+            # code...
+            $user = DB::table('users')
+                ->join('role_user', 'role_user.user_id', '=', 'users.id')
+                ->join('roles', 'role_user.role_id', '=', 'roles.id')
+                ->select('users.id as id', 'users.name as name', 'users.email as email', 'roles.name as role_name', 'roles.id as role_id')
+                ->where('users.id', $id)
+                ->first();
+            if ($user->role_name == 'member') {
+                Session::flash("flash_notification", [
+                    "level" => "success",
+                    "message" => "Silahkan Update Pengguna Ini Di Menu Anggota !!!"
+                ]);
+                return redirect()->route('user.index');
+            } else {
+                return view('user.edit')->with(compact('user'));
+            }
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -134,29 +156,35 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $this->validate($request, [
-            'email' => 'required|unique:users,email,'.$id,
-            'role_id' => 'required',
-            'name' => 'required'
-        ]);
+        if (\Auth::user()->can('edit-user')) {
+            # code...
+            $this->validate($request, [
+                'email' => 'required|unique:users,email,' . $id,
+                'role_id' => 'required',
+                'name' => 'required'
+            ]);
 
-        $user = User::find($id);
-        $user->email = $request->email;
-        $user->name = $request->name;
-        $user->update();
-        
-        $role_user = RoleUser::where('user_id', $id)->first();
-        $role_user->role_id = $request->role_id;
-        $role_user->user_type = 'App\User';
-        $role_user->update();
+            $user = User::find($id);
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->update();
 
-        //Sent Session Message To View
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Berhasil Merubah Pengguna !!!"
-        ]);
+            $role_user = RoleUser::where('user_id', $id)->first();
+            $role_user->role_id = $request->role_id;
+            $role_user->user_type = 'App\User';
+            $role_user->update();
 
-        return redirect()->route('user.index');
+            //Sent Session Message To View
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Berhasil Merubah Pengguna !!!"
+            ]);
+
+            return redirect()->route('user.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -197,13 +225,11 @@ class UserController extends Controller
     public function editPasswordMember($id)
     {
         $user = User::find($id);
-        if($user->id == Auth::user()->id)
-        {
+        if ($user->id == Auth::user()->id) {
             return view('user-profile.reset-password')->with(compact('user'));
-        }else {
+        } else {
             return view('errors.404');
         }
-        
     }
 
     public function putEditPassword(Request $request, $id)
@@ -215,18 +241,17 @@ class UserController extends Controller
             'confirm-password' => 'required_with:password|same:password|min:8'
         ]);
         //dd(bcrypt($request->old_password), $user->password);
-        if(Hash::check($request->old_password, $user->password))
-        {
+        if (Hash::check($request->old_password, $user->password)) {
             $user->fill([
                 'password' => bcrypt($request->password)
             ])->save();
-            
+
             Session::flash("flash_notification", [
                 "level" => "success",
                 "message" => "Password Berhasil Di Rubah !!!"
             ]);
             return redirect()->route('user.user-profile', Auth::user()->id);
-        }else {
+        } else {
             Session::flash("flash_notification", [
                 "level" => "error",
                 "message" => "Password does not match !!"
@@ -234,5 +259,4 @@ class UserController extends Controller
             return redirect()->route('user.user-profile', Auth::user()->id);
         }
     }
-
 }

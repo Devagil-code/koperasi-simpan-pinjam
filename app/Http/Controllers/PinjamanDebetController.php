@@ -28,7 +28,7 @@ class PinjamanDebetController extends Controller
     public function index(Request $request)
     {
         //
-        if (condition) {
+        if (\Auth::user()->can('manage-debet-pinjaman')) {
             # code...
             if ($request->ajax()) {
                 $transaksiHarian = TransaksiHarian::with([
@@ -91,7 +91,13 @@ class PinjamanDebetController extends Controller
     public function create()
     {
         //
-        return view('pinjaman-debet.create');
+        if (\Auth::user()->can('create-debet-pinjaman')) {
+            # code...
+            return view('pinjaman-debet.create');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -103,47 +109,53 @@ class PinjamanDebetController extends Controller
     public function store(Request $request)
     {
         //
-        $this->validate($request, [
-            'tgl' => 'required',
-            'divisi_id' => 'required',
-            'jenis_transaksi' => 'required'
-        ]);
+        if (\Auth::user()->can('create-debet-pinjaman')) {
+            # code...
+            $this->validate($request, [
+                'tgl' => 'required',
+                'divisi_id' => 'required',
+                'jenis_transaksi' => 'required'
+            ]);
 
-        //Save Transaction Kopkar
-        $periode = Periode::where('status', '1')->first();
-        $transaksiHarian = new TransaksiHarian();
-        $transaksiHarian->tgl = Tanggal::convert_tanggal($request->tgl);
-        $transaksiHarian->divisi_id = $request->divisi_id;
-        $transaksiHarian->jenis_pembayaran = $request->jenis_pembayaran;
-        $transaksiHarian->jenis_transaksi = $request->jenis_transaksi;
-        $transaksiHarian->keterangan = $request->keterangan;
-        $transaksiHarian->periode_id = $periode->id;
-        $transaksiHarian->save();
+            //Save Transaction Kopkar
+            $periode = Periode::where('status', '1')->first();
+            $transaksiHarian = new TransaksiHarian();
+            $transaksiHarian->tgl = Tanggal::convert_tanggal($request->tgl);
+            $transaksiHarian->divisi_id = $request->divisi_id;
+            $transaksiHarian->jenis_pembayaran = $request->jenis_pembayaran;
+            $transaksiHarian->jenis_transaksi = $request->jenis_transaksi;
+            $transaksiHarian->keterangan = $request->keterangan;
+            $transaksiHarian->periode_id = $periode->id;
+            $transaksiHarian->save();
 
-        //Save Transation Member Kopkar
-        $transaksi_harian_anggota = new TransaksiHarianAnggota();
-        $transaksi_harian_anggota->transaksi_harian_id = $transaksiHarian->id;
-        $transaksi_harian_anggota->anggota_id = $request->anggota_id;
-        $transaksi_harian_anggota->save();
+            //Save Transation Member Kopkar
+            $transaksi_harian_anggota = new TransaksiHarianAnggota();
+            $transaksi_harian_anggota->transaksi_harian_id = $transaksiHarian->id;
+            $transaksi_harian_anggota->anggota_id = $request->anggota_id;
+            $transaksi_harian_anggota->save();
 
-        $transaksi_biaya = new TransaksiHarianBiaya();
-        $transaksi_biaya->biaya_id = $request->id_biaya_pinjaman;
-        $transaksi_biaya->transaksi_harian_id = $transaksiHarian->id;
-        $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_pinjaman);
-        $transaksi_biaya->save();
+            $transaksi_biaya = new TransaksiHarianBiaya();
+            $transaksi_biaya->biaya_id = $request->id_biaya_pinjaman;
+            $transaksi_biaya->transaksi_harian_id = $transaksiHarian->id;
+            $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_pinjaman);
+            $transaksi_biaya->save();
 
-        $transaksi_biaya = new TransaksiHarianBiaya();
-        $transaksi_biaya->biaya_id = $request->id_biaya_bunga_pinjaman;
-        $transaksi_biaya->transaksi_harian_id = $transaksiHarian->id;
-        $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_bunga);
-        $transaksi_biaya->save();
+            $transaksi_biaya = new TransaksiHarianBiaya();
+            $transaksi_biaya->biaya_id = $request->id_biaya_bunga_pinjaman;
+            $transaksi_biaya->transaksi_harian_id = $transaksiHarian->id;
+            $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_bunga);
+            $transaksi_biaya->save();
 
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Berhasil Menambah Data Transaksi !!!"
-        ]);
-        activity()->log('Menambahkan Data Pinjaman Debet');
-        return redirect()->route('pinjaman-debet.index');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Berhasil Menambah Data Transaksi !!!"
+            ]);
+            activity()->log('Menambahkan Data Pinjaman Debet');
+            return redirect()->route('pinjaman-debet.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -166,24 +178,30 @@ class PinjamanDebetController extends Controller
     public function edit($id)
     {
         //
-        $transaksiHarian = DB::table('transaksi_harians')
-            ->join('transaksi_harian_biayas', 'transaksi_harian_biayas.transaksi_harian_id', '=', 'transaksi_harians.id')
-            ->join('transaksi_harian_anggotas', 'transaksi_harian_anggotas.transaksi_harian_id', '=', 'transaksi_harians.id')
-            ->where('transaksi_harians.id', $id)
-            ->first();
-        $nominal_pinjaman = DB::table('transaksi_harian_biayas')
-            ->where('transaksi_harian_id', $id)
-            ->where('biaya_id', '6')
-            ->sum('nominal');
-        $nominal_bunga = DB::table('transaksi_harian_biayas')
-            ->where('transaksi_harian_id', $id)
-            ->where('biaya_id', '7')
-            ->sum('nominal');
-        $nominal_pinjaman = Money::stringToRupiah($nominal_pinjaman);
-        $nominal_bunga = Money::stringToRupiah($nominal_bunga);
-        $transaksiHarian->nominal = Money::stringToRupiah($transaksiHarian->nominal);
-        $transaksiHarian->tgl = date('d-m-Y', strtotime($transaksiHarian->tgl));
-        return view('pinjaman-debet.edit')->with(compact('transaksiHarian', 'nominal_pinjaman', 'nominal_bunga'));
+        if (\Auth::user()->can('edit-debet-pinjaman')) {
+            # code...
+            $transaksiHarian = DB::table('transaksi_harians')
+                ->join('transaksi_harian_biayas', 'transaksi_harian_biayas.transaksi_harian_id', '=', 'transaksi_harians.id')
+                ->join('transaksi_harian_anggotas', 'transaksi_harian_anggotas.transaksi_harian_id', '=', 'transaksi_harians.id')
+                ->where('transaksi_harians.id', $id)
+                ->first();
+            $nominal_pinjaman = DB::table('transaksi_harian_biayas')
+                ->where('transaksi_harian_id', $id)
+                ->where('biaya_id', '6')
+                ->sum('nominal');
+            $nominal_bunga = DB::table('transaksi_harian_biayas')
+                ->where('transaksi_harian_id', $id)
+                ->where('biaya_id', '7')
+                ->sum('nominal');
+            $nominal_pinjaman = Money::stringToRupiah($nominal_pinjaman);
+            $nominal_bunga = Money::stringToRupiah($nominal_bunga);
+            $transaksiHarian->nominal = Money::stringToRupiah($transaksiHarian->nominal);
+            $transaksiHarian->tgl = date('d-m-Y', strtotime($transaksiHarian->tgl));
+            return view('pinjaman-debet.edit')->with(compact('transaksiHarian', 'nominal_pinjaman', 'nominal_bunga'));
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -196,39 +214,45 @@ class PinjamanDebetController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $this->validate($request, [
-            'tgl' => 'required',
-            'divisi_id' => 'required',
-            'jenis_transaksi' => 'required'
-        ]);
+        if (\Auth::user()->can('edit-debet-pinjaman')) {
+            # code...
+            $this->validate($request, [
+                'tgl' => 'required',
+                'divisi_id' => 'required',
+                'jenis_transaksi' => 'required'
+            ]);
 
-        //Save Transaction Kopkar
-        $transaksiHarian = TransaksiHarian::find($id);
-        $transaksiHarian->tgl = Tanggal::convert_tanggal($request->tgl);
-        $transaksiHarian->jenis_pembayaran = $request->jenis_pembayaran;
-        $transaksiHarian->jenis_transaksi = $request->jenis_transaksi;
-        $transaksiHarian->keterangan = $request->keterangan;
-        $transaksiHarian->update();
+            //Save Transaction Kopkar
+            $transaksiHarian = TransaksiHarian::find($id);
+            $transaksiHarian->tgl = Tanggal::convert_tanggal($request->tgl);
+            $transaksiHarian->jenis_pembayaran = $request->jenis_pembayaran;
+            $transaksiHarian->jenis_transaksi = $request->jenis_transaksi;
+            $transaksiHarian->keterangan = $request->keterangan;
+            $transaksiHarian->update();
 
-        //Save Transation Member Kopkar
-        $transaksi_harian_anggota = TransaksiHarianAnggota::where('transaksi_harian_id', $id)->first();
-        $transaksi_harian_anggota->anggota_id = $request->anggota_id;
-        $transaksi_harian_anggota->update();
+            //Save Transation Member Kopkar
+            $transaksi_harian_anggota = TransaksiHarianAnggota::where('transaksi_harian_id', $id)->first();
+            $transaksi_harian_anggota->anggota_id = $request->anggota_id;
+            $transaksi_harian_anggota->update();
 
-        $transaksi_biaya = TransaksiHarianBiaya::where('transaksi_harian_id', $id)->where('biaya_id', '6')->first();
-        $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_pinjaman);
-        $transaksi_biaya->update();
+            $transaksi_biaya = TransaksiHarianBiaya::where('transaksi_harian_id', $id)->where('biaya_id', '6')->first();
+            $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_pinjaman);
+            $transaksi_biaya->update();
 
-        $transaksi_biaya = TransaksiHarianBiaya::where('transaksi_harian_id', $id)->where('biaya_id', '7')->first();
-        $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_bunga);
-        $transaksi_biaya->update();
+            $transaksi_biaya = TransaksiHarianBiaya::where('transaksi_harian_id', $id)->where('biaya_id', '7')->first();
+            $transaksi_biaya->nominal = Money::rupiahToString($request->nominal_bunga);
+            $transaksi_biaya->update();
 
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Berhasil Merubah Data Transaksi !!!"
-        ]);
-        activity()->log('Merubah Data Pinjaman Debet');
-        return redirect()->route('pinjaman-debet.index');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Berhasil Merubah Data Transaksi !!!"
+            ]);
+            activity()->log('Merubah Data Pinjaman Debet');
+            return redirect()->route('pinjaman-debet.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -254,7 +278,13 @@ class PinjamanDebetController extends Controller
 
     public function upload()
     {
-        return view('pinjaman-debet.upload');
+        if (\Auth::user()->can('upload-debet-pinjaman')) {
+            # code...
+            return view('pinjaman-debet.upload');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     public function doUpload(Request $request)

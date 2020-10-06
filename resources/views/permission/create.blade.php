@@ -21,6 +21,12 @@
             <h4 class="m-t-0 header-title">FORM TAMBAH PERMISSION</h4>
             <div class="p-20">
                 {!! Form::open(['url' => route('permission.store'), 'class' => 'form-horizontal']) !!}
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label" for="example-input-normal">Nama Permission</label>
+                        <div class="col-8">
+                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama Permission'])!!}
+                        </div>
+                    </div>
                     @include('permission.form')
                 {!! Form::close() !!}
             </div>

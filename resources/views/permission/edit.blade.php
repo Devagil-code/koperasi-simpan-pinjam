@@ -22,6 +22,12 @@
 
             <div class="p-20">
                 {!! Form::model($permission, ['route' => ['permission.update', $permission->id], 'method'=>'put', 'class' => 'form-horizontal']) !!}
+                    <div class="form-group row">
+                        <label class="col-4 col-form-label" for="example-input-normal">Nama Permission</label>
+                        <div class="col-8">
+                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama Permission', 'disabled'=>'disabled'])!!}
+                        </div>
+                    </div>
                     @include('permission.form')
                 {!! Form::close() !!}
             </div>

@@ -130,8 +130,15 @@
                 @permission('manage-laporan-divisi')
                 <li><a href="{{ route('laporan.per-divisi') }}"><i class="fi-file"></i> <span>Laporan Per Divisi</span> </a></li>
                 @endpermission
-                @permission('manage-permissions|manage-user|manage-role|manage-option')
+                @permission('manage-permissions|manage-user|manage-role|manage-option|manage-module')
                 <li class="menu-title">Management</li>
+                @endpermission
+                @permission('manage-module')
+                <li class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
+                    <a href="{{ route('module.index') }}" class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
+                        <i class="fi-head"></i> <span>Module</span>
+                    </a>
+                </li>
                 @endpermission
                 @permission('manage-permissions')
                 <li class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
