@@ -121,10 +121,10 @@
                 @permission('manage-laporan-pinjaman-all')
                 <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
                 @endpermission
-                @permission('manage-laporan-simpanan-anggota')
+                @permission('manage-simpanan-anggota')
                 <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Simpanan Anggota</span> </a></li>
                 @endpermission
-                @permission('manage-laporan-pinjaman-anggota')
+                @permission('manage-pinjaman-anggota')
                 <li><a href="{{ route('laporan.pinjaman') }}"><i class="fi-file"></i> <span>Pinjaman Anggota</span> </a></li>
                 @endpermission
                 @permission('manage-laporan-divisi')

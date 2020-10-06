@@ -492,6 +492,11 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create user',
                 'description' => 'Bisa menambah user'
             ],
+            [
+                'name' => 'reset-password',
+                'display_name' => 'Reset Password',
+                'description' => 'Bisa reset password'
+            ],
         ];
 
         foreach ($permissionPengguna as $key) {
@@ -699,6 +704,7 @@ class UsersSeeder extends Seeder
             'manage-user',
             'edit-user',
             'create-user',
+            'reset-password',
             'manage-option',
             'edit-option',
             'create-option',
