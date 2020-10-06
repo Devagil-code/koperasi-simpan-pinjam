@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Module;
 use Illuminate\Http\Request;
+use DataTables;
+use PhpParser\Node\Expr\AssignOp\Mod;
+use Session;
 
 class ModuleController extends Controller
 {
@@ -12,9 +15,27 @@ class ModuleController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if (\Auth::user()->can('manage-module')) {
+            # code...
+            if ($request->ajax()) {
+                $module = Module::select();
+                return  DataTables::of($module)
+                    ->addColumn('action', function ($module) {
+                        return view('datatable._nodelete', [
+                            'model' => $module,
+                            'form_url' => route('module.destroy', $module->id),
+                            'edit_url' => route('module.edit', $module->id),
+                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $module->name . '?'
+                        ]);
+                    })
+                    ->make(true);
+            }
+            return view('module.index');
+        } else {
+            # code...
+        }
     }
 
     /**
@@ -24,7 +45,11 @@ class ModuleController extends Controller
      */
     public function create()
     {
-        //
+        if (\Auth::user()->can('create-module')) {
+            return view('module.create');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -35,7 +60,21 @@ class ModuleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (\Auth::user()->can('create-module')) {
+            $this->validate($request, [
+                'name' => 'required|unique:modules'
+            ]);
+
+            Module::create($request->all());
+            activity()->log('Menambahkan Data Module');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil ditambah !!!"
+            ]);
+            return redirect()->route('module.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -57,7 +96,13 @@ class ModuleController extends Controller
      */
     public function edit(Module $module)
     {
-        //
+        if (\Auth::user()->can('edit-module')) {
+            # code...
+            return view('module.edit')->with(compact('module'));
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
@@ -69,7 +114,22 @@ class ModuleController extends Controller
      */
     public function update(Request $request, Module $module)
     {
-        //
+        if (\Auth::user()->can('edit-module')) {
+            $this->validate($request, [
+                'name' => 'required|unique:modules,name,' . $module->id
+            ]);
+            $module = Module::find($module->id);
+            $module->name = $request->name;
+            $module->update();
+            activity()->log('Merubah Data module');
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Data Berhasil diubah !!!"
+            ]);
+            return redirect()->route('module.index');
+        } else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**

@@ -136,21 +136,21 @@
                 @permission('manage-module')
                 <li class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
                     <a href="{{ route('module.index') }}" class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
-                        <i class="fi-head"></i> <span>Module</span>
+                        <i class="fi-file-add"></i> <span>Module</span>
                     </a>
                 </li>
                 @endpermission
                 @permission('manage-permissions')
                 <li class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
                     <a href="{{ route('permission.index') }}" class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
-                        <i class="fi-head"></i> <span>Permission</span>
+                        <i class="fi-lock"></i> <span>Permission</span>
                     </a>
                 </li>
                 @endpermission
                 @permission('manage-role')
                 <li class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
                     <a href="{{ route('role.index') }}" class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
-                        <i class="fi-head"></i> <span>Role</span>
+                        <i class="fi-help"></i> <span>Role</span>
                     </a>
                 </li>
                 @endpermission
