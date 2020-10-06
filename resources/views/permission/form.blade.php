@@ -1,10 +1,4 @@
 <div class="form-group row">
-    <label class="col-4 col-form-label" for="example-input-normal">Nama Permission</label>
-    <div class="col-8">
-        {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama Permission'])!!}
-    </div>
-</div>
-<div class="form-group row">
     <label class="col-4 col-form-label" for="example-input-normal">Display Name</label>
     <div class="col-8">
         {!! Form::text('display_name', null, ['class' => 'form-control', 'placeholder' => 'Display Name'])!!}

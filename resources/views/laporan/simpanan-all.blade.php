@@ -33,20 +33,38 @@
                     <label for="">Tanggal Akhir</label>
                     <input type="text" class="form-control datepicker" name="end_date" autocomplete="off">
                 </div>
-                @role('admin')
-                <div class="form-group clearfix">
-                    <label class="control-label " for="confirm">No Anggota *</label>
-                    {!! Form::select('anggota_id', App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2', 'multiple'=>"multiple"]) !!}
-                </div>
-                @endrole
-                <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                {{-- <input type="submit" value="Cari" class="btn btn-primary" name="search">
                 @role('admin')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
-                @endrole
+                @endrole --}}
             </form>
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card-box">
+            @role('admin')
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Nama Anggota</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($anggota as $item)
+                            <td class="checkbox checkbox-success form-check-inline">
+                                <input type="checkbox" id="inlineCheckbox{{$item->id}}" value="{{$item->id}}">
+                                <label for="inlineCheckbox{{$item->id}}"> {{ $item->nama }} </label>
+                            </td>
+                        @endforeach
+                    </tbody>
+                </table>
+                @endrole
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-lg-12">
         <div class="card text-center m-b-30">

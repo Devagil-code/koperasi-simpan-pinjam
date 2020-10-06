@@ -43,7 +43,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionModuleAnggota as $key){
+        foreach ($permissionModuleAnggota as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -74,8 +74,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionModuleDivisi as $key)
-        {
+        foreach ($permissionModuleDivisi as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -106,8 +105,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionModulePeriode as $key)
-        {
+        foreach ($permissionModulePeriode as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -133,8 +131,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionModuleBiaya as $key)
-        {
+        foreach ($permissionModuleBiaya as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -175,7 +172,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionSimpananDebet as $key){
+        foreach ($permissionSimpananDebet as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -281,8 +278,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionLaporan as $key)
-        {
+        foreach ($permissionLaporan as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -323,8 +319,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionSimpananKredit as $key)
-        {
+        foreach ($permissionSimpananKredit as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -365,8 +360,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionPinjamanDebet as $key)
-        {
+        foreach ($permissionPinjamanDebet as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -407,8 +401,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionPinjamanKredit as $key)
-        {
+        foreach ($permissionPinjamanKredit as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -439,8 +432,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionDivisiDebet as $key)
-        {
+        foreach ($permissionDivisiDebet as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -471,8 +463,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionDivisiKredit as $key)
-        {
+        foreach ($permissionDivisiKredit as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -501,10 +492,14 @@ class UsersSeeder extends Seeder
                 'display_name' => 'create user',
                 'description' => 'Bisa menambah user'
             ],
+            [
+                'name' => 'reset-password',
+                'display_name' => 'Reset Password',
+                'description' => 'Bisa reset password'
+            ],
         ];
 
-        foreach($permissionPengguna as $key)
-        {
+        foreach ($permissionPengguna as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -535,8 +530,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionOption as $key)
-        {
+        foreach ($permissionOption as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -567,8 +561,7 @@ class UsersSeeder extends Seeder
             ],
         ];
 
-        foreach($permissionRole as $key)
-        {
+        foreach ($permissionRole as $key) {
             Permission::create([
                 'name' => $key['name'],
                 'display_name' => $key['display_name'],
@@ -607,6 +600,39 @@ class UsersSeeder extends Seeder
                 'display_name' => $key['display_name'],
                 'description' => $key['description'],
                 'module_id' => $modulePermission->id
+            ]);
+        }
+
+        $module = Module::create([
+            'name' => 'Module'
+        ]);
+
+        $permission = [
+
+            [
+                'name' => 'manage-module',
+                'display_name' => 'Manage Module',
+                'description' => 'Bisa Manage Module'
+            ],
+            [
+                'name' => 'edit-module',
+                'display_name' => 'Edit Module',
+                'description' => 'Bisa Mengubah Module'
+            ],
+            [
+                'name' => 'create-module',
+                'display_name' => 'Create Module',
+                'description' => 'Bisa Menambah Module'
+            ],
+        ];
+
+        foreach ($permission as $key) {
+
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $module->id
             ]);
         }
 
@@ -678,6 +704,7 @@ class UsersSeeder extends Seeder
             'manage-user',
             'edit-user',
             'create-user',
+            'reset-password',
             'manage-option',
             'edit-option',
             'create-option',
@@ -687,6 +714,9 @@ class UsersSeeder extends Seeder
             'manage-permissions',
             'edit-permissions',
             'create-permissions',
+            'manage-module',
+            'create-module',
+            'edit-module'
         ];
 
         $userAdmin = User::create([

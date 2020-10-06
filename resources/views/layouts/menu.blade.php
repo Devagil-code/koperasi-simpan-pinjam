@@ -121,29 +121,36 @@
                 @permission('manage-laporan-pinjaman-all')
                 <li><a href="{{ route('laporan.simpanan-all') }}"><i class="fi-file"></i> <span>Laporan Pinjaman</span> </a></li>
                 @endpermission
-                @permission('manage-laporan-simpanan-anggota')
+                @permission('manage-simpanan-anggota')
                 <li><a href="{{ route('laporan.simpanan') }}"><i class="fi-file"></i> <span>Simpanan Anggota</span> </a></li>
                 @endpermission
-                @permission('manage-laporan-pinjaman-anggota')
+                @permission('manage-pinjaman-anggota')
                 <li><a href="{{ route('laporan.pinjaman') }}"><i class="fi-file"></i> <span>Pinjaman Anggota</span> </a></li>
                 @endpermission
                 @permission('manage-laporan-divisi')
                 <li><a href="{{ route('laporan.per-divisi') }}"><i class="fi-file"></i> <span>Laporan Per Divisi</span> </a></li>
                 @endpermission
-                @permission('manage-permissions|manage-user|manage-role|manage-option')
+                @permission('manage-permissions|manage-user|manage-role|manage-option|manage-module')
                 <li class="menu-title">Management</li>
+                @endpermission
+                @permission('manage-module')
+                <li class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
+                    <a href="{{ route('module.index') }}" class="{{ set_active(['module.index', 'module.create', 'module.edit'])}}">
+                        <i class="fi-file-add"></i> <span>Module</span>
+                    </a>
+                </li>
                 @endpermission
                 @permission('manage-permissions')
                 <li class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
                     <a href="{{ route('permission.index') }}" class="{{ set_active(['permission.index', 'permission.create', 'permission.edit'])}}">
-                        <i class="fi-head"></i> <span>Permission</span>
+                        <i class="fi-lock"></i> <span>Permission</span>
                     </a>
                 </li>
                 @endpermission
                 @permission('manage-role')
                 <li class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
                     <a href="{{ route('role.index') }}" class="{{ set_active(['role.index', 'role.create', 'role.edit'])}}">
-                        <i class="fi-head"></i> <span>Role</span>
+                        <i class="fi-help"></i> <span>Role</span>
                     </a>
                 </li>
                 @endpermission
