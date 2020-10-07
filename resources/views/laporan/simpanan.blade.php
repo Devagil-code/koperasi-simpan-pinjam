@@ -33,20 +33,18 @@
                     <label for="">Tanggal Akhir</label>
                     <input type="text" class="form-control datepicker" name="end_date" autocomplete="off">
                 </div>
-                @role('admin')
+                @permission('filter-simpanan-anggota')
                 <div class="form-group clearfix">
                     <label class="control-label " for="confirm">No Anggota *</label>
                     {!! Form::select('anggota_id', [''=>'Pilih Anggota']+App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2']) !!}
                 </div>
-                @endrole
+                @endpermission
                 @permission('search-simpanan-anggota')
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
                 @endpermission
-                @role('admin')
                 @permission('excell-simpanan-anggota')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
                 @endpermission
-                @endrole
             </form>
         </div>
     </div>

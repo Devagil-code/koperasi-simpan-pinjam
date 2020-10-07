@@ -257,6 +257,16 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Download simpanan anggota'
             ],
             [
+                'name' => 'filter-simpanan-anggota',
+                'display_name' => 'Filter Simpanan Anggota',
+                'description' => 'Bisa Filter simpanan anggota'
+            ],
+            [
+                'name' => 'filter-pinjaman-anggota',
+                'display_name' => 'Filter Pinjaman Anggota',
+                'description' => 'Bisa Filter Pinjaman anggota'
+            ],
+            [
                 'name' => 'manage-pinjaman-anggota',
                 'display_name' => 'Manage pinjaman anggota',
                 'description' => 'Bisa Memanage pinjaman anggota'
@@ -736,9 +746,11 @@ class UsersSeeder extends Seeder
             'manage-simpanan-anggota',
             'search-simpanan-anggota',
             'excell-simpanan-anggota',
+            'filter-simpanan-anggota',
             'manage-pinjaman-anggota',
             'search-pinjaman-anggota',
             'excell-pinjaman-anggota',
+            'filter-pinjaman-anggota',
             'manage-laporan-divisi',
             'search-laporan-divisi',
             'excell-laporan-divisi',

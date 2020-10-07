@@ -49,6 +49,8 @@ class DivisiDebetController extends Controller
                             'model' => $transaksiHarian,
                             'form_url' => route('divisi-debet.destroy', $transaksiHarian->id),
                             'edit_url' => route('divisi-debet.edit', $transaksiHarian->id),
+                            'can_edit' => 'edit-debet-divisi',
+                            'can_delete' => 'delete-debet-divisi',
                             'confirm_message' => 'Apakah anda yakin mau Transaksi'
                         ]);
                     })
