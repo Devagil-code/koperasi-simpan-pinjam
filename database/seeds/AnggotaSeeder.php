@@ -2,6 +2,9 @@
 
 use Illuminate\Database\Seeder;
 use App\Anggota;
+use App\User;
+use App\UserAnggota;
+use Laratrust\Models\LaratrustRole as Role;
 
 class AnggotaSeeder extends Seeder
 {
@@ -22,6 +25,19 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'agus@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+        $roleUser = Role::where('name', 'member')->first();
+        $user->attachRole($roleUser);
+
         $anggota = new Anggota();
         $anggota->nik = '320209050501002';
         $anggota->nama = 'Ahmad Jaelani';
@@ -30,6 +46,19 @@ class AnggotaSeeder extends Seeder
         $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
+
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'ahmad@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
 
         $anggota = new Anggota();
         $anggota->nik = '320209060601003';
@@ -40,6 +69,19 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'miranda@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
+
         $anggota = new Anggota();
         $anggota->nik = '320209070701004';
         $anggota->nama = 'Raka Hadi';
@@ -48,6 +90,19 @@ class AnggotaSeeder extends Seeder
         $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
+
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'raka@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
 
         $anggota = new Anggota();
         $anggota->nik = '320209080801005';
@@ -58,6 +113,19 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'herman@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
+
         $anggota = new Anggota();
         $anggota->nik = '320209080801006';
         $anggota->nama = 'Angga Rojak';
@@ -66,6 +134,19 @@ class AnggotaSeeder extends Seeder
         $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
+
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'rojak@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
 
         $anggota = new Anggota();
         $anggota->nik = '320209080801007';
@@ -76,6 +157,19 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'kardun@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
+
         $anggota = new Anggota();
         $anggota->nik = '320209080801008';
         $anggota->nama = 'Jaja Miharja';
@@ -84,6 +178,19 @@ class AnggotaSeeder extends Seeder
         $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
+
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'jaja@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
+        $user->attachRole($roleUser);
 
         $anggota = new Anggota();
         $anggota->nik = '320209080801009';
@@ -94,6 +201,19 @@ class AnggotaSeeder extends Seeder
         $anggota->status = '1';
         $anggota->save();
 
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'mihajra@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user->attachRole($roleUser);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
+
         $anggota = new Anggota();
         $anggota->nik = '320209080801010';
         $anggota->nama = 'Santika';
@@ -102,5 +222,18 @@ class AnggotaSeeder extends Seeder
         $anggota->tgl_daftar = '2020-10-05';
         $anggota->status = '1';
         $anggota->save();
+
+        $user = User::create([
+            'name' => $anggota->nama,
+            'email' => 'santika@gmail.com',
+            'password' => bcrypt('Kopkar2019')
+        ]);
+
+        $user->attachRole($roleUser);
+
+        $user_anggota = new UserAnggota();
+        $user_anggota->anggota_id = $anggota->id;
+        $user_anggota->user_id = $user->id;
+        $user_anggota->save();
     }
 }

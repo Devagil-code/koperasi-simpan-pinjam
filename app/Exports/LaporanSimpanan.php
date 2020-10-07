@@ -27,11 +27,6 @@ class LaporanSimpanan implements FromView
         $this->sum_kredit_simpanan = $sum_kredit_simpanan;
     }
 
-    public function collection()
-    {
-        return $this->transaksi_harian;
-    }
-
     public function view(): View
     {
         return view('excell.simpanan', [
