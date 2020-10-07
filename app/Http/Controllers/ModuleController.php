@@ -27,6 +27,7 @@ class ModuleController extends Controller
                             'model' => $module,
                             'form_url' => route('module.destroy', $module->id),
                             'edit_url' => route('module.edit', $module->id),
+                            'can_edit' => 'edit-module',
                             'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $module->name . '?'
                         ]);
                     })

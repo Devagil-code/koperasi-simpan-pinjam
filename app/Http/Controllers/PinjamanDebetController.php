@@ -57,6 +57,8 @@ class PinjamanDebetController extends Controller
                             'model' => $transaksiHarian,
                             'form_url' => route('pinjaman-debet.destroy', $transaksiHarian->id),
                             'edit_url' => route('pinjaman-debet.edit', $transaksiHarian->id),
+                            'can_edit' => 'edit-debet-pinjaman',
+                            'can_delete' => 'delete-debet-pinjaman',
                             'confirm_message' => 'Apakah anda yakin mau Transaksi'
                         ]);
                     })

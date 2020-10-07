@@ -50,6 +50,8 @@ class PeriodeController extends Controller
                             'model' => $periode,
                             'form_url' => route('periode.destroy', $periode->id),
                             'edit_url' => route('periode.edit', $periode->id),
+                            'can_edit' => 'edit-periode',
+                            'can_delete' => 'delete-periode',
                             'confirm_message' => 'Apakah anda yakin mau menghapus periode'
                         ]);
                     })

@@ -57,6 +57,8 @@ class SimpananDebetController extends Controller
                             'model' => $transaksiHarian,
                             'form_url' => route('simpanan-debet.destroy', $transaksiHarian->id),
                             'edit_url' => route('simpanan-debet.edit', $transaksiHarian->id),
+                            'can_edit' => 'edit-debet-simpanan',
+                            'can_delete' => 'delete-debet-simpanan',
                             'confirm_message' => 'Apakah anda yakin mau Transaksi'
                         ]);
                     })

@@ -27,6 +27,7 @@ class PermissionController extends Controller
                             'model' => $permission,
                             'form_url' => route('permission.destroy', $permission->id),
                             'edit_url' => route('permission.edit', $permission->id),
+                            'can_edit' => 'edit-permissions',
                             'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $permission->name . '?'
                         ]);
                     })

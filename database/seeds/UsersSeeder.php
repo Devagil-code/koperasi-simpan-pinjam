@@ -103,6 +103,11 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Edit Periode',
                 'description' => 'Bisa Mengubah Periode'
             ],
+            [
+                'name' => 'delete-periode',
+                'display_name' => 'Delete Periode',
+                'description' => 'Bisa Menghapus Periode'
+            ],
         ];
 
         foreach ($permissionModulePeriode as $key) {
@@ -159,6 +164,11 @@ class UsersSeeder extends Seeder
                 'name' => 'edit-debet-simpanan',
                 'display_name' => 'Edit Debet Simpanan',
                 'description' => 'Bisa Mengubah debet simpanan'
+            ],
+            [
+                'name' => 'delete-debet-simpanan',
+                'display_name' => 'Delete Debet Simpanan',
+                'description' => 'Bisa Menghapus debet simpanan'
             ],
             [
                 'name' => 'download-debet-simpanan',
@@ -308,6 +318,11 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Mengubah kredit simpanan'
             ],
             [
+                'name' => 'delete-kredit-simpanan',
+                'display_name' => 'Delete Kredit Simpanan',
+                'description' => 'Bisa Menghapus kredit simpanan'
+            ],
+            [
                 'name' => 'download-kredit-simpanan',
                 'display_name' => 'Download Kredit Simpanan',
                 'description' => 'Bisa Mendownload kredit simpanan'
@@ -347,6 +362,11 @@ class UsersSeeder extends Seeder
                 'name' => 'edit-debet-pinjaman',
                 'display_name' => 'Edit Debet Pinjaman',
                 'description' => 'Bisa Mengubah debet pinjaman'
+            ],
+            [
+                'name' => 'delete-debet-pinjaman',
+                'display_name' => 'Delete Debet Pinjaman',
+                'description' => 'Bisa Menghapus debet pinjaman'
             ],
             [
                 'name' => 'download-debet-pinjaman',
@@ -430,6 +450,11 @@ class UsersSeeder extends Seeder
                 'display_name' => 'Edit Debet Divisi',
                 'description' => 'Bisa Mengubah debet divisi'
             ],
+            [
+                'name' => 'delete-debet-divisi',
+                'display_name' => 'Delete Debet Divisi',
+                'description' => 'Bisa Menghapus Debet Divisi'
+            ],
         ];
 
         foreach ($permissionDivisiDebet as $key) {
@@ -460,6 +485,11 @@ class UsersSeeder extends Seeder
                 'name' => 'edit-kredit-divisi',
                 'display_name' => 'Edit Kredit Divisi',
                 'description' => 'Bisa Mengubah debet kredit'
+            ],
+            [
+                'name' => 'delete-kredit-divisi',
+                'display_name' => 'Delete Kredit Divisi',
+                'description' => 'Bisa Menghapus Debet Kredit'
             ],
         ];
 
@@ -527,6 +557,11 @@ class UsersSeeder extends Seeder
                 'name' => 'create-option',
                 'display_name' => 'create option',
                 'description' => 'Bisa menambah option'
+            ],
+            [
+                'name' => 'delete-option',
+                'display_name' => 'Delete Option',
+                'description' => 'Bisa Menghapus Option'
             ],
         ];
 
@@ -655,21 +690,25 @@ class UsersSeeder extends Seeder
             'manage-periode',
             'create-periode',
             'edit-periode',
+            'delete-periode',
             'manage-biaya',
             'create-biaya',
             'manage-debet-simpanan',
             'create-debet-simpanan',
             'edit-debet-simpanan',
+            'delete-debet-simpanan',
             'download-debet-simpanan',
             'upload-debet-simpanan',
             'manage-kredit-simpanan',
             'create-kredit-simpanan',
             'edit-kredit-simpanan',
+            'delete-kredit-simpanan',
             'download-kredit-simpanan',
             'upload-kredit-simpanan',
             'manage-debet-pinjaman',
             'create-debet-pinjaman',
             'edit-debet-pinjaman',
+            'delete-debet-pinjaman',
             'download-debet-pinjaman',
             'upload-debet-pinjaman',
             'manage-kredit-pinjaman',
@@ -680,9 +719,11 @@ class UsersSeeder extends Seeder
             'manage-debet-divisi',
             'create-debet-divisi',
             'edit-debet-divisi',
+            'delete-debet-divisi',
             'manage-kredit-divisi',
             'create-kredit-divisi',
             'edit-kredit-divisi',
+            'delete-kredit-divisi',
             'manage-laporan-kas-bank',
             'search-laporan-kas-bank',
             'excell-laporan-kas-bank',
@@ -708,6 +749,7 @@ class UsersSeeder extends Seeder
             'manage-option',
             'edit-option',
             'create-option',
+            'delete-option',
             'manage-role',
             'edit-role',
             'create-role',

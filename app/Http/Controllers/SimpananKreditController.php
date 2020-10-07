@@ -56,6 +56,8 @@ class SimpananKreditController extends Controller
                             'model' => $transaksiHarian,
                             'form_url' => route('simpanan-kredit.destroy', $transaksiHarian->id),
                             'edit_url' => route('simpanan-kredit.edit', $transaksiHarian->id),
+                            'can_edit' => 'edit-kredit-simpanan',
+                            'can_delete' => 'delete-kredit-simpanan',
                             'confirm_message' => 'Apakah anda yakin mau menghapus Transaksi'
                         ]);
                     })

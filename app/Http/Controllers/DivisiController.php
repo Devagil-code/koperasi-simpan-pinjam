@@ -33,6 +33,7 @@ class DivisiController extends Controller
                             'model' => $divisi,
                             'form_url' => route('divisi.destroy', $divisi->id),
                             'edit_url' => route('divisi.edit', $divisi->id),
+                            'can_edit' => 'edit-divisi',
                             'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $divisi->name . '?'
                         ]);
                     })

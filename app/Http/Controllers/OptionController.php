@@ -33,6 +33,8 @@ class OptionController extends Controller
                             'model' => $option,
                             'form_url' => route('option.destroy', $option->id),
                             'edit_url' => route('option.edit', $option->id),
+                            'can_edit' => 'edit-option',
+                            'can_delete' => 'delete-option',
                             'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $option->name . '?'
                         ]);
                     })
