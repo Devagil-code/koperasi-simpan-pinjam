@@ -31,6 +31,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::resource('periode', 'PeriodeController');
         Route::resource('role', 'RoleController');
         Route::resource('module', 'ModuleController');
+        Route::resource('copy-saldo', 'CopySaldoController');
         Route::post('detach-permission/{role_id}', 'PermissionController@detachPermission')->name('permission.detach');
         Route::post('attach-permission/{role_id}', 'PermissionController@attachPermission')->name('permission.attach');
         Route::resource('permission', 'PermissionController');

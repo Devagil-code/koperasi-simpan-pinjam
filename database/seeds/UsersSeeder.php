@@ -681,6 +681,39 @@ class UsersSeeder extends Seeder
             ]);
         }
 
+        $moduleCopySaldo = Module::create([
+            'name' => 'Module Copy Saldo '
+        ]);
+
+        $permission = [
+
+            [
+                'name' => 'manage-copy-saldo',
+                'display_name' => 'Manage Copy Saldo',
+                'description' => 'Bisa Manage Module'
+            ],
+            [
+                'name' => 'edit-copy-saldo',
+                'display_name' => 'Edit Copy Saldo',
+                'description' => 'Bisa Mengubah Copy Saldo'
+            ],
+            [
+                'name' => 'create-copy-saldo',
+                'display_name' => 'Create Copy Saldo',
+                'description' => 'Bisa Menambah Copy Saldo'
+            ],
+        ];
+
+        foreach ($permission as $key) {
+
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleCopySaldo->id
+            ]);
+        }
+
         //Adminstrator Rules
         Role::create([
             'name' => 'admin',
@@ -770,7 +803,10 @@ class UsersSeeder extends Seeder
             'create-permissions',
             'manage-module',
             'create-module',
-            'edit-module'
+            'edit-module',
+            'manage-copy-saldo',
+            'create-copy-saldo',
+            'edit-copy-saldo',
         ];
 
         $userAdmin = User::create([
