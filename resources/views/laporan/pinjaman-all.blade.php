@@ -8,11 +8,11 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Simpanan</h4>
+            <h4 class="page-title float-left">Laporan Pinjaman</h4>
 
             <ol class="breadcrumb float-right">
                 <li class="breadcrumb-item"><a href="#">Laporan</a></li>
-                <li class="breadcrumb-item active">Laporan Simpanan</li>
+                <li class="breadcrumb-item active">Laporan Pinjaman</li>
             </ol>
 
             <div class="clearfix"></div>
@@ -23,7 +23,7 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="card-box">
-            <form id="basic-form" action="{{ route('laporan.simpanan-all') }}" method="GET">
+            <form id="basic-form" action="{{ route('laporan.pinjaman-all') }}" method="GET">
                 @csrf
                 <div class="form-group">
                     <label for="">Tanggal Awal</label>
@@ -48,7 +48,7 @@
                 <table class="table-small-font">
                     <thead>
                         <tr>
-                            <th>Nama Anggota :</th>
+                            <th>Nama Anggota : </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -65,6 +65,7 @@
         </div>
     </div>
 </div>
+
 @endsection
 @section('script')
 <script src="{{ asset('plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
