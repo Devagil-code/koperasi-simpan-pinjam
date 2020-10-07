@@ -37,7 +37,8 @@ class RoleController extends Controller
                     ->addColumn('action', function ($role) {
                         return view('datatable._nodelete', [
                             'edit_url' => route('role.edit', $role->id),
-                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $role->name . '?'
+                            'confirm_message' => 'Apakah anda yakin mau menghapus pendaftaran ' . $role->name . '?',
+                            'can_edit' => 'edit-role'
                         ]);
                     })
                     ->editColumn('permission_role', function ($role) {
