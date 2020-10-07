@@ -98,9 +98,9 @@
                         order: [[ 0, "desc" ]],
                         scrollX: true
                     });
-                    $("div.toolbar").html(`<a href="{{ route('pinjaman-debet.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>
-                    <a href="https://docs.google.com/spreadsheets/d/1-fMrfyFf7ThvUuNbljLfJPGL19WR3yOl/export?format=xlsx" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download Template</a>
-                    <a href="{{ route('pinjaman-debet.upload') }}" class="btn btn-warning waves-light waves-effect w-md"><i class="mdi mdi-cloud-upload"></i> Upload</a>
+                    $("div.toolbar").html(`@permission('create-debet-pinjaman')<a href="{{ route('pinjaman-debet.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>@endpermission
+                    @permission('download-debet-pinjaman')<a href="https://docs.google.com/spreadsheets/d/1-fMrfyFf7ThvUuNbljLfJPGL19WR3yOl/export?format=xlsx" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download Template</a>@endpermission
+                    @permission('upload-debet-pinjaman')<a href="{{ route('pinjaman-debet.upload') }}" class="btn btn-warning waves-light waves-effect w-md"><i class="mdi mdi-cloud-upload"></i> Upload</a>@endpermission
                     @if(Pembukuan::closeBook('2', '1', ['6', '7']) == '1')
                         <a href="{{ route('pinjaman-debet.close-book') }}" class="btn btn-danger waves-light waves-effect w-md"><i class="fa fa-book"></i> Tutup Buku</a>
                     @endif

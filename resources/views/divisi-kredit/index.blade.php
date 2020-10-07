@@ -93,11 +93,13 @@
                         dom: '<"toolbar">frtip',
                         order: [[ 0, "desc" ]]
                     });
+                    @permission('create-kredit-divisi')
                     $("div.toolbar").html(`<a href="{{ route('divisi-kredit.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>
                     @if(Pembukuan::closeBookDivisi('2') == '1')
                         <a href="{{ route('divisi-kredit.close-book') }}" class="btn btn-danger waves-light waves-effect w-md"><i class="fa fa-book"></i> Tutup Buku</a>
                     @endif
                     `);
+                    @endpermission
 
     });
 </script>

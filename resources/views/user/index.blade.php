@@ -86,7 +86,10 @@
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
                     });
+
+        @permission('create-user')
         $("div.toolbar").html(`<a href="{{ route('user.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah User</a>`);
+        @endpermission
 
     });
 </script>

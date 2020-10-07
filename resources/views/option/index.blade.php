@@ -73,7 +73,10 @@
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
                     });
+
+        @permission('create-option')
         $("div.toolbar").html(`<a href="{{ route('option.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Option</a>`);
+        @endpermission
 
     });
 </script>

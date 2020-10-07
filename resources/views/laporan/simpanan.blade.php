@@ -39,9 +39,13 @@
                     {!! Form::select('anggota_id', [''=>'Pilih Anggota']+App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2']) !!}
                 </div>
                 @endrole
+                @permission('search-simpanan-anggota')
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                @endpermission
                 @role('admin')
+                @permission('excell-simpanan-anggota')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
+                @endpermission
                 @endrole
             </form>
         </div>

@@ -37,8 +37,12 @@
                     <label class="control-label " for="confirm">Nama Divisi *</label>
                     {!! Form::select('divisi_id', [''=>'Pilih Divisi']+App\Divisi::pluck('name','id')->all(), null, ['class' => 'form-control select2']) !!}
                 </div>
+                @permission('search-laporan-divisi')
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                @endpermission
+                @permission('excell-laporan-divisi')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
+                @endpermission
             </form>
         </div>
     </div>
@@ -78,7 +82,7 @@
                         @foreach ($transaksi_harian as $row)
                             @php
                                 $saldo += $row->sumDebitAll->sum('nominal') - $row->sumKreditAll->sum('nominal');
-                            @endphp                            
+                            @endphp
                             <tr>
                                 <th scope="row">{{ $no }}</th>
                                 <td>{{ Tanggal::tanggal_id($row->tgl )}}</td>
@@ -92,7 +96,7 @@
                             @endphp
                         @endforeach
                     </tbody>
-                @endif                
+                @endif
             </table>
         </div>
     </div>

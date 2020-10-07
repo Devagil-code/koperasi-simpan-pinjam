@@ -82,7 +82,9 @@
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
                     });
+        @permission('create-role')
         $("div.toolbar").html(`<a href="{{ route('role.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Role</a>`);
+        @endpermission
 
     });
 </script>

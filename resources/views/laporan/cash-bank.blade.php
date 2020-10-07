@@ -41,8 +41,12 @@
                         <option value="2">Bank</option>
                     </select>
                 </div>
+                @permission('search-laporan-kas-bank')
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                @endpermission
+                @permission('excell-laporan-kas-bank')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
+                @endpermission
             </form>
         </div>
     </div>
@@ -93,7 +97,7 @@
                             @php
                                 $no++;
                             @endphp
-                        @endforeach                    
+                        @endforeach
                     </tbody>
                 @endif
             </table>
