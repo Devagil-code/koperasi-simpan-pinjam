@@ -71,7 +71,9 @@
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
                     });
+                    @permission('create-biaya')
                     $("div.toolbar").html('<a href="{{ route('biaya.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Biaya</a>');
+                    @endpermission
 
     });
 </script>

@@ -71,7 +71,10 @@
                         order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
                     });
+
+        @permission('create-module')
         $("div.toolbar").html('<a href="{{ route('module.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Module</a>');
+        @endpermission
 
     });
 </script>

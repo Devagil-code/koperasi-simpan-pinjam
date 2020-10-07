@@ -95,9 +95,9 @@
                         dom: '<"toolbar">frtip',
                         order: [[ 0, "desc" ]]
                     });
-                    $("div.toolbar").html(`<a href="{{ route('simpanan-kredit.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>
-                    <a href="https://docs.google.com/spreadsheets/d/10dX04_h2kjcdJ5-HHNzwwza8ks75_709/export?format=xlsx" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download Template</a>
-                    <a href="{{ route('simpanan-kredit.upload') }}" class="btn btn-warning waves-light waves-effect w-md"><i class="mdi mdi-cloud-upload"></i> Upload</a>
+                    $("div.toolbar").html(`@permission('create-kredit-simpanan')<a href="{{ route('simpanan-kredit.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>@endpermission
+                    @permission('download-kredit-simpanan')<a href="https://docs.google.com/spreadsheets/d/10dX04_h2kjcdJ5-HHNzwwza8ks75_709/export?format=xlsx" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download Template</a>@endpermission
+                    @permission('upload-kredit-simpanan')<a href="{{ route('simpanan-kredit.upload') }}" class="btn btn-warning waves-light waves-effect w-md"><i class="mdi mdi-cloud-upload"></i> Upload</a>@endpermission
                     @if(Pembukuan::closeBook('1', '2', ['4']) == '1')
                         <a href="{{ route('simpanan-kredit.close-book') }}" class="btn btn-danger waves-light waves-effect w-md"><i class="fa fa-book"></i> Tutup Buku</a>
                     @endif`);
