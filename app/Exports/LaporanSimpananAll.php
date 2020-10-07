@@ -2,34 +2,35 @@
 
 namespace App\Exports;
 
-use App\TransaksiHarian;
+use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\{FromView};
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Contracts\View\View;
 
-class LaporanSimpananAll implements FromView
+class LaporanSimpananAll implements WithTitle, FromView
 {
     /**
-     * @return \Illuminate\Support\Collection
-     */
-    protected $transaksi_harian;
+    * @return \Illuminate\Support\Collection
+    */
+    protected $shet_name;
     protected $sum_pokok;
+    protected $transaksi_harian;
     protected $sum_wajib;
     protected $sum_sukarela;
     protected $sum_kredit_simpanan;
 
-    public function __construct($transaksi_harian, $sum_pokok, $sum_wajib, $sum_sukarela, $sum_kredit_simpanan)
+    public function __construct($shet_name, $sum_pokok, $transaksi_harian, $sum_wajib, $sum_sukarela, $sum_kredit_simpanan)
     {
-        $this->transaksi_harian = $transaksi_harian;
+        $this->shet_name = $shet_name;
         $this->sum_pokok = $sum_pokok;
+        $this->transaksi_harian = $transaksi_harian;
         $this->sum_wajib = $sum_wajib;
         $this->sum_sukarela = $sum_sukarela;
         $this->sum_kredit_simpanan = $sum_kredit_simpanan;
     }
 
-    public function collection()
+    public function title(): string
     {
-        return $this->transaksi_harian;
+        return $this->shet_name;
     }
 
     public function view(): View

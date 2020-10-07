@@ -35,8 +35,6 @@
                 <tr>
                     <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
                     <td>{{ $row->keterangan }}</td>
-                    <td></td>
-                    <td></td>
                     <td>{{ Money::stringToRupiah($row->sumPokok->sum('nominal')) }}</td>
                     <td>{{ Money::stringToRupiah($row->sumWajib->sum('nominal')) }}</td>
                     <td>{{ Money::stringToRupiah($row->sumSukarela->sum('nominal')) }}</td>

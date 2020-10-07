@@ -151,9 +151,9 @@ class LaporanController extends Controller
                 }
             }
             if ($user->roles->pluck( 'name' )->contains( 'member' )) {
-                        
+
                 $anggota = Anggota::find($user->user_anggota->anggota_id);
-    
+
                 if($anggota->status == '1')
                 {
                     $anggota->status = 'Aktif';
@@ -206,11 +206,11 @@ class LaporanController extends Controller
                         {
                             return view('laporan.simpanan')->with(compact('transaksi_harian', 'anggota', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'sum_kredit_simpanan'));
                         }else {
-                            return view('laporan.simpanan')->with(compact('anggota'));        
+                            return view('laporan.simpanan')->with(compact('anggota'));
                         }
                 }else {
                     return view('laporan.simpanan')->with(compact('anggota'));
-                }           
+                }
             }
         }
     }
@@ -326,11 +326,11 @@ class LaporanController extends Controller
                         {
                             return view('laporan.pinjaman')->with(compact('transaksi_harian', 'anggota', 'sum_cicilan', 'sum_bunga', 'sum_kredit_pinjaman'));
                         }else {
-                            return view('laporan.pinjaman')->with(compact('anggota'));        
+                            return view('laporan.pinjaman')->with(compact('anggota'));
                         }
                 }else {
                     return view('laporan.pinjaman')->with(compact('anggota'));
-                }   
+                }
             }
         }
     }
