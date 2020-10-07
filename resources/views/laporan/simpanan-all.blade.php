@@ -83,19 +83,17 @@
         $('#export').click(function(e){
             var data = $('#anggota-form, #periode').serialize();
             $.ajax({
-                xhrFields: {
-                    responseType: 'blob',
-                },
                 type: 'POST',
-                url: '{{ route('laporan-simpanan-all.export')}}',
+                url: '{{ route('laporan-simpanan-all.validation')}}',
                 data: data,
                 success: function(result, status, xhr)
                 {
-                    if(data.error){
+                    if(result.error){
+
                         console.log("Jika Error Selain Dari Kosong Ke Error");
                         $.toast({
                             heading: 'Error !',
-                            text: data.error,
+                            text: result.error,
                             position: 'top-right',
                             loaderBg: '#bf441d',
                             icon: 'error',
@@ -103,22 +101,30 @@
                             stack: 1
                         });
                     }else {
-                        var disposition = xhr.getResponseHeader('content-disposition');
-                        var matches = /"([^"]*)"/.exec(disposition);
-                        var filename = (matches != null && matches[1] ? matches[1] : 'salary.xlsx');
-
-                        // The actual download
-                        var blob = new Blob([result], {
-                            type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        $.ajax({
+                            xhrFields: {
+                                responseType: 'blob',
+                            },
+                            type: 'POST',
+                            url: '{{ route('laporan-simpanan-all.export')}}',
+                            data: data,
+                            success: function(result, status, xhr)
+                            {
+                                var disposition = xhr.getResponseHeader('content-disposition');
+                                var matches = /"([^"]*)"/.exec(disposition);
+                                var filename = (matches != null && matches[1] ? matches[1] : 'salary.xlsx');
+                                // The actual download
+                                var blob = new Blob([result], {
+                                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                                });
+                                var link = document.createElement('a');
+                                link.href = window.URL.createObjectURL(blob);
+                                link.download = filename;
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                            }
                         });
-                        var link = document.createElement('a');
-                        link.href = window.URL.createObjectURL(blob);
-                        link.download = filename;
-
-                        document.body.appendChild(link);
-
-                        link.click();
-                        document.body.removeChild(link);
                     }
                 }
             })

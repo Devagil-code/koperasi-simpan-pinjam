@@ -52,7 +52,7 @@ class LaporanAllController extends Controller
 
     }
 
-    public function exportSimpanan(Request $request)
+    public function validationSimpanan(Request $request)
     {
         if($request->ajax())
         {
@@ -72,7 +72,13 @@ class LaporanAllController extends Controller
                     'error' => $messages->first()
                 ]);
             }
+        }
+    }
 
+    public function exportSimpanan(Request $request)
+    {
+        if($request->ajax())
+        {
             $tgl_awal = Tanggal::convert_tanggal($request->start_date);
             $tgl_akhir = Tanggal::convert_tanggal($request->end_date);
             $date_before = date('Y-m-d', strtotime($tgl_awal . ' -1 day'));
