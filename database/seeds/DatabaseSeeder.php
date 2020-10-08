@@ -18,5 +18,6 @@ class DatabaseSeeder extends Seeder
         $this->call(OptionsTableSeeder::class);
         $this->call(BiayasTableSeeder::class);
         $this->call(AnggotaSeeder::class);
+        $this->call(CopySaldoSeeder::class);
     }
 }
