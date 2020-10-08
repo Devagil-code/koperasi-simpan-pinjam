@@ -23,6 +23,8 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('laporan-simpanan-validation', 'LaporanAllController@validationSimpanan')->name('laporan-simpanan-all.validation');
         Route::post('laporan-simpanan-export', 'LaporanAllController@exportSimpanan')->name('laporan-simpanan-all.export');
         Route::get('laporan-pinjaman-all', 'LaporanAllController@pinjamanAll')->name('laporan.pinjaman-all');
+        Route::post('laporan-pinjaman-validation', 'LaporanAllController@validationPinjaman')->name('laporan-pinjaman-all.validation');
+        Route::post('laporan-pinjaman-export', 'LaporanAllController@exportPinjaman')->name('laporan-pinjaman-all.export');
         Route::get('/user/{user}/profile-user/', 'UserController@editPasswordMember')->name('user.user-profile');
         Route::put('/user/profile/{user}', 'UserController@putEditPassword')->name('user.edit-password');
         Route::get('/home', 'HomeController@index')->name('home');
