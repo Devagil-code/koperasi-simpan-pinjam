@@ -5,7 +5,6 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\WithTitle;
 use Maatwebsite\Excel\Concerns\{FromView};
 use Illuminate\Contracts\View\View;
-use App\TransaksiHarian;
 use Illuminate\Database\Eloquent\Collection;
 
 class LaporanPinjamanAll implements WithTitle, FromView

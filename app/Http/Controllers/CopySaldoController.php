@@ -83,14 +83,13 @@ class CopySaldoController extends Controller
                 'from_periode_id' => 'required',
                 'to_periode_id' => 'required',
                 'divisi_id' => 'required',
-                'status_saldo' => 'required'
             ]);
 
             $copy_saldo = new CopySaldo();
             $copy_saldo->from_periode_id = $request->from_periode_id;
             $copy_saldo->to_periode_id = $request->to_periode_id;
             $copy_saldo->divisi_id = $request->divisi_id;
-            $copy_saldo->status_saldo = $request->status_saldo;
+            $copy_saldo->status_saldo = 0;
             $copy_saldo->save();
 
             return redirect()->route('copy-saldo.index');
@@ -121,8 +120,7 @@ class CopySaldoController extends Controller
     {
 
         if (\Auth::user()->can('edit-copy-saldo')) {
-            $copy_saldo = CopySaldo::where('id', $id)->first();
-
+            $copy_saldo = CopySaldo::find($id);
             return view('copy-saldo.edit')->with(compact('copy_saldo'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -138,7 +136,26 @@ class CopySaldoController extends Controller
      */
     public function update(Request $request, CopySaldo $copySaldo)
     {
-        //
+        if (\Auth::user()->can('edit-copy-saldo')) {
+            # code...
+            $this->validate($request, [
+                'from_periode_id' => 'required',
+                'to_periode_id' => 'required',
+                'divisi_id' => 'required',
+            ]);
+
+            $copy_saldo = CopySaldo::find($copySaldo->id);
+            $copy_saldo->from_periode_id = $request->from_periode_id;
+            $copy_saldo->to_periode_id = $request->to_periode_id;
+            $copy_saldo->divisi_id = $request->divisi_id;
+            $copy_saldo->status_saldo = 0;
+            $copy_saldo->update();
+
+            return redirect()->route('copy-saldo.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     /**
