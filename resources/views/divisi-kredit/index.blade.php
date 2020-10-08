@@ -37,7 +37,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card-box table-responsive">
-            <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table id="datatable-buttons" class="table table-striped table-bordered display nowrap" cellspacing="0" width="100%">
                 <thead>
                     <tr>
                         <th>#ID</th>
@@ -91,7 +91,8 @@
                             { data: 'action', name: 'action' },
                         ],
                         dom: '<"toolbar">frtip',
-                        order: [[ 0, "desc" ]]
+                        order: [[ 0, "desc" ]],
+                        scrollX: true
                     });
                     @permission('create-kredit-divisi')
                     $("div.toolbar").html(`<a href="{{ route('divisi-kredit.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>

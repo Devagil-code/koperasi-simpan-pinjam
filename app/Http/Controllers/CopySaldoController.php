@@ -389,6 +389,7 @@ class CopySaldoController extends Controller
                         ->where('jenis_transaksi', 2);
                 })
                 ->sum('nominal');
+            $divisi = Divisi::find($copy_saldo->divisi_id);
             $biaya_debet = Biaya::where('divisi_id', $copy_saldo->divisi_id)->where('jenis_biaya', 1)->first();
             $biaya_kredit = Biaya::where('divisi_id', $copy_saldo->divisi_id)->where('jenis_biaya', 2)->first();
             $transaksi_harian_debet = new TransaksiHarian();
@@ -397,6 +398,7 @@ class CopySaldoController extends Controller
             $transaksi_harian_debet->jenis_pembayaran = 1;
             $transaksi_harian_debet->jenis_transaksi = 1;
             $transaksi_harian_debet->periode_id = $to_periode->id;
+            $transaksi_harian_debet->keterangan = "Saldo Debet Periode " . $from_periode->name .' Divisi ' . $divisi->name;
             $transaksi_harian_debet->save();
 
             $transaksi_harian_debet_biaya = new TransaksiHarianBiaya();
@@ -410,6 +412,7 @@ class CopySaldoController extends Controller
             $transaksi_harian_kredit->tgl = $to_periode->open_date;
             $transaksi_harian_kredit->jenis_pembayaran = 1;
             $transaksi_harian_kredit->jenis_transaksi = 2;
+            $transaksi_harian_kredit->keterangan = "Saldo Kredit Periode " . $from_periode->name .' Divisi ' . $divisi->name;
             $transaksi_harian_kredit->periode_id = $to_periode->id;
             $transaksi_harian_kredit->save();
 
