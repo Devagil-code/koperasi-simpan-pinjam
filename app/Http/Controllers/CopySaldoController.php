@@ -29,12 +29,14 @@ class CopySaldoController extends Controller
     {
         if (\Auth::user()->can('manage-copy-saldo')) {
             if ($request->ajax()) {
-                $copy_saldo = CopySaldo::with('divisi', 'from_periode', 'to_periode');
+                $copy_saldo = CopySaldo::with('divisi', 'from_periode', 'to_periode')->select('copy_saldos.*');
                 return DataTables::of($copy_saldo)
                     ->addColumn('action', function ($copy_saldo) {
                         return view('datatable.copysaldo', [
                             'edit_url' => route('copy-saldo.edit', $copy_saldo->id),
-                            'can_edit' => 'edit-copy-saldo'
+                            'copy_saldo' => route('copy-saldo.copy', $copy_saldo->id),
+                            'can_edit' => 'edit-copy-saldo',
+                            'model' => $copy_saldo
                         ]);
                     })
                     ->editColumn('status_saldo', function ($copy_saldo) {
@@ -44,7 +46,7 @@ class CopySaldoController extends Controller
                             return '<span class="badge badge-danger badge-pill">Sudah dicopy</span>';
                         }
                     })
-                    ->rawColumns(['status_saldo', 'action', 'is_close'])
+                    ->rawColumns(['status_saldo', 'action'])
                     ->make(true);
             }
             return view('copy-saldo.index');
@@ -167,5 +169,19 @@ class CopySaldoController extends Controller
     public function destroy(CopySaldo $copySaldo)
     {
         //
+    }
+
+    public function copySaldo($id)
+    {
+        $copy_saldo = CopySaldo::find($id);
+        if($copy_saldo->divisi_id == 1)
+        {
+            echo "Divisi Simpanan";
+        }else if($copy_saldo->divisi_id == 2)
+        {
+            echo "Divisi Pinjaman";
+        }else {
+            echo "Selain Divisi Pinjaman Dan Simpanan";
+        }
     }
 }

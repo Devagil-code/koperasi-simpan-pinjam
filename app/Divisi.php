@@ -10,4 +10,9 @@ class Divisi extends Model
     protected $fillable = [
         'name'
     ];
+
+    public function copy_saldo()
+    {
+        return $this->hasMany('App\CopySaldo');
+    }
 }

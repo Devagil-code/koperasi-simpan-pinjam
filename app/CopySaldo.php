@@ -18,16 +18,16 @@ class CopySaldo extends Model
 
     public function divisi()
     {
-        return $this->belongsTo('App\Divisi');
+        return $this->belongsTo('App\Divisi', 'divisi_id', 'id');
     }
 
     public function from_periode()
     {
-        return $this->belongsTo('App\Periode', 'from_periode_id');
+        return $this->belongsTo('App\Periode');
     }
 
     public function to_periode()
     {
-        return $this->belongsTo('App\Periode', 'to_periode_id');
+        return $this->belongsTo('App\Periode');
     }
 }
