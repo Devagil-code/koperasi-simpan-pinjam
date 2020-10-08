@@ -122,7 +122,6 @@ class CopySaldoController extends Controller
 
         if (\Auth::user()->can('edit-copy-saldo')) {
             $copy_saldo = CopySaldo::where('id', $id)->first();
-            dd($copy_saldo);
 
             return view('copy-saldo.edit')->with(compact('copy_saldo'));
         } else {

@@ -420,6 +420,11 @@ class UsersSeeder extends Seeder
                 'description' => 'Bisa Mengubah kredit pinjaman'
             ],
             [
+                'name' => 'delete-kredit-pinjaman',
+                'display_name' => 'Delete Kredit Pinjaman',
+                'description' => 'Bisa Menghapus kredit pinjaman'
+            ],
+            [
                 'name' => 'download-kredit-pinjaman',
                 'display_name' => 'Download Kredit Pinjaman',
                 'description' => 'Bisa Mendownload kredit pinjaman'
