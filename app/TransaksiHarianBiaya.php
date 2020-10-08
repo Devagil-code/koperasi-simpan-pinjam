@@ -17,4 +17,9 @@ class TransaksiHarianBiaya extends Model
     {
         return $this->belongsTo('App\Biaya', 'biaya_id');
     }
+
+    public function transaksi_harian()
+    {
+        return $this->belongsTo('App\TransaksiHarian', 'transaksi_harian_id');
+    }
 }
