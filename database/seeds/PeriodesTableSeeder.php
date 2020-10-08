@@ -21,7 +21,7 @@ class PeriodesTableSeeder extends Seeder
         $periode->save();
 
         $periode = new Periode();
-        $periode->name = date('Y');
+        $periode->name = '2021';
         $periode->open_date = '2021-01-01';
         $periode->close_date = '2021-12-31';
         $periode->status = '0';
