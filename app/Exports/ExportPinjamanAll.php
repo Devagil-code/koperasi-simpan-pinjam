@@ -65,7 +65,7 @@ class ExportPinjamanAll implements WithMultipleSheets
                 ->where('divisi_id', '2')
                 ->sum('transaksi_harian_biayas.nominal');
 
-            $sheets[] = new LaporanPinjamanAll($row->nama, $sum_cicilan, $transaksi_harian, $sum_kredit_pinjaman, $sum_bunga);
+            $sheets[] = new LaporanPinjamanAll($row->nama, $transaksi_harian, $sum_cicilan, $sum_bunga, $sum_kredit_pinjaman);
         }
 
         return $sheets;

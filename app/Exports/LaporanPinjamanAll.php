@@ -41,9 +41,4 @@ class LaporanPinjamanAll implements WithTitle, FromView
             'sum_kredit_pinjaman' => $this->sum_kredit_pinjaman
         ]);
     }
-
-    public function collection()
-    {
-        return $this->transaksi_harian;
-    }
 }
