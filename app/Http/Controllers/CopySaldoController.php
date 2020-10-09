@@ -183,43 +183,41 @@ class CopySaldoController extends Controller
         if ($copy_saldo->divisi_id == 1) {
             // simpanan
             $anggota = Anggota::get();
-            foreach($anggota as $row)
-            {
+            foreach ($anggota as $row) {
                 $simpanan_pokok_debet = TransaksiHarianBiaya::with('transaksi_harian')
-                                            ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
-                                                $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
-                                                    ->where('divisi_id', $copy_saldo->divisi_id)
-                                                    ->where('jenis_transaksi', 1)
-                                                    ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
-                                                        $query->where('anggota_id', $row->id);
-                                                    });
-                                            })
-                                            ->where('biaya_id', 1)
-                                            ->sum('nominal');
+                    ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
+                        $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                            ->where('divisi_id', $copy_saldo->divisi_id)
+                            ->where('jenis_transaksi', 1)
+                            ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
+                                $query->where('anggota_id', $row->id);
+                            });
+                    })
+                    ->where('biaya_id', 1)
+                    ->sum('nominal');
                 $simpanan_wajib_debet = TransaksiHarianBiaya::with('transaksi_harian')
-                                            ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
-                                                $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
-                                                    ->where('divisi_id', $copy_saldo->divisi_id)
-                                                    ->where('jenis_transaksi', 1)
-                                                    ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
-                                                        $query->where('anggota_id', $row->id);
-                                                    });
-                                            })
-                                            ->where('biaya_id', 2)
-                                            ->sum('nominal');
+                    ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
+                        $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                            ->where('divisi_id', $copy_saldo->divisi_id)
+                            ->where('jenis_transaksi', 1)
+                            ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
+                                $query->where('anggota_id', $row->id);
+                            });
+                    })
+                    ->where('biaya_id', 2)
+                    ->sum('nominal');
                 $simpanan_sukarela_debet = TransaksiHarianBiaya::with('transaksi_harian')
-                                            ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
-                                                $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
-                                                    ->where('divisi_id', $copy_saldo->divisi_id)
-                                                    ->where('jenis_transaksi', 1)
-                                                    ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
-                                                        $query->where('anggota_id', $row->id);
-                                                    });
-                                            })
-                                            ->where('biaya_id', 3)
-                                            ->sum('nominal');
-                if($simpanan_pokok_debet > 0 || $simpanan_wajib_debet > 0 || $simpanan_sukarela_debet > 0)
-                {
+                    ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
+                        $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                            ->where('divisi_id', $copy_saldo->divisi_id)
+                            ->where('jenis_transaksi', 1)
+                            ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
+                                $query->where('anggota_id', $row->id);
+                            });
+                    })
+                    ->where('biaya_id', 3)
+                    ->sum('nominal');
+                if ($simpanan_pokok_debet > 0 || $simpanan_wajib_debet > 0 || $simpanan_sukarela_debet > 0) {
                     $transaksi_simpanan_debet = new TransaksiHarian();
                     $transaksi_simpanan_debet->divisi_id = $copy_saldo->divisi_id;
                     $transaksi_simpanan_debet->tgl = $to_periode->open_date;
@@ -253,18 +251,17 @@ class CopySaldoController extends Controller
                     $trx_anggota->save();
                 }
                 $simpanan_kredit = TransaksiHarianBiaya::with('transaksi_harian')
-                                            ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
-                                                $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
-                                                    ->where('divisi_id', $copy_saldo->divisi_id)
-                                                    ->where('jenis_transaksi', 2)
-                                                    ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
-                                                        $query->where('anggota_id', $row->id);
-                                                    });
-                                            })
-                                            ->where('biaya_id', 4)
-                                            ->sum('nominal');
-                if($simpanan_kredit > 0)
-                {
+                    ->whereHas('transaksi_harian', function ($sql) use ($from_periode, $copy_saldo, $row) {
+                        $sql->with('transaksi_harian_anggota')->whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                            ->where('divisi_id', $copy_saldo->divisi_id)
+                            ->where('jenis_transaksi', 2)
+                            ->whereHas('transaksi_harian_anggota', function ($query) use ($row) {
+                                $query->where('anggota_id', $row->id);
+                            });
+                    })
+                    ->where('biaya_id', 4)
+                    ->sum('nominal');
+                if ($simpanan_kredit > 0) {
                     $transaksi_simpanan_kredit = new TransaksiHarian();
                     $transaksi_simpanan_kredit->divisi_id = $copy_saldo->divisi_id;
                     $transaksi_simpanan_kredit->tgl = $to_periode->open_date;
@@ -286,7 +283,6 @@ class CopySaldoController extends Controller
                     $trx_anggota->save();
                 }
             }
-
         } else if ($copy_saldo->divisi_id == 2) {
             $anggota = Anggota::get();
             foreach ($anggota as $row) {
@@ -398,7 +394,7 @@ class CopySaldoController extends Controller
             $transaksi_harian_debet->jenis_pembayaran = 1;
             $transaksi_harian_debet->jenis_transaksi = 1;
             $transaksi_harian_debet->periode_id = $to_periode->id;
-            $transaksi_harian_debet->keterangan = "Saldo Debet Periode " . $from_periode->name .' Divisi ' . $divisi->name;
+            $transaksi_harian_debet->keterangan = "Saldo Debet Periode " . $from_periode->name . ' Divisi ' . $divisi->name;
             $transaksi_harian_debet->save();
 
             $transaksi_harian_debet_biaya = new TransaksiHarianBiaya();
@@ -412,7 +408,7 @@ class CopySaldoController extends Controller
             $transaksi_harian_kredit->tgl = $to_periode->open_date;
             $transaksi_harian_kredit->jenis_pembayaran = 1;
             $transaksi_harian_kredit->jenis_transaksi = 2;
-            $transaksi_harian_kredit->keterangan = "Saldo Kredit Periode " . $from_periode->name .' Divisi ' . $divisi->name;
+            $transaksi_harian_kredit->keterangan = "Saldo Kredit Periode " . $from_periode->name . ' Divisi ' . $divisi->name;
             $transaksi_harian_kredit->periode_id = $to_periode->id;
             $transaksi_harian_kredit->save();
 

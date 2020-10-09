@@ -45,6 +45,7 @@
             <table id="role" class="table table-sm table-striped table-bordered" cellspacing="0" width="100%">
                 <thead>
                     <tr>
+                        <th>Code</th>
                         <th>From Periode</th>
                         <th>To Periode</th>
                         <th>Divisi</th>
@@ -81,6 +82,7 @@
                         serverSide: true,
                         ajax: "{{ route('copy-saldo.index') }}",
                         columns: [
+                            { data: 'id', name: 'id'},
                             { data: 'from_periode.name', name: 'from_periode.name' },
                             { data: 'to_periode.name', name: 'to_periode.name' },
                             { data: 'divisi.name', name: 'divisi.name' },
