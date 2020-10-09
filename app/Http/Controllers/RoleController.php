@@ -85,6 +85,12 @@ class RoleController extends Controller
         //
         if (\Auth::user()->can('create-role')) {
             # code...
+            $this->validate($request, [
+                'name' => 'required|unique:roles',
+                'display_name' => 'required',
+                'description' => 'required'
+            ]);
+
             $role = new Role();
             $role->name = $request->name;
             $role->display_name = $request->display_name;

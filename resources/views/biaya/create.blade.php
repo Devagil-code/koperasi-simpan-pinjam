@@ -31,19 +31,34 @@
                     <div class="form-group row">
                         <label class="col-4 col-form-label" for="example-input-normal">Nama Biaya</label>
                         <div class="col-8">
-                            {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Nama Biaya'])!!}
+                            {!! Form::text('name', null, ['class' => $errors->has('name') ? 'form-control is-invalid' : 'form-control', 'placeholder' => 'Nama Biaya'])!!}
+                            @error('name')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-4 col-form-label" for="example-input-normal">Jenis Biaya</label>
                         <div class="col-8">
-                            {!! Form::select('jenis_biaya', ['1' => 'Debet', '2' => 'Kredit'], null, ['class' => 'form-control', 'placeholder' => 'Pilih Jenis Biaya']) !!}
+                            {!! Form::select('jenis_biaya', ['1' => 'Debet', '2' => 'Kredit'], null, ['class' => $errors->has('jenis_biaya') ? 'form-control is-invalid' : 'form-control', 'placeholder' => 'Pilih Jenis Biaya']) !!}
+                            @error('jenis_biaya')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-4 col-form-label" for="example-input-normal">Divisi Biaya</label>
                         <div class="col-8">
-                            {!! Form::select('divisi_id', [''=>'']+App\Divisi::pluck('name','id')->all(), null, ['class' => 'form-control']) !!}
+                            {!! Form::select('divisi_id', [''=>'']+App\Divisi::pluck('name','id')->all(), null, ['class' => $errors->has('divisi_id') ? 'form-control is-invalid' : 'form-control']) !!}
+                            @error('divisi_id')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>

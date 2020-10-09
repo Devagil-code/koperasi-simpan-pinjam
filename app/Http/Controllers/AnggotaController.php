@@ -94,7 +94,10 @@ class AnggotaController extends Controller
             $this->validate($request, [
                 'nik' => 'required|unique:anggotas',
                 'nama' => 'required',
-                'tgl_daftar' => 'required'
+                'inisial' => 'required',
+                'status' => 'required',
+                'tgl_daftar' => 'required',
+                'homebase' => 'required'
             ]);
             $anggota = new Anggota();
             $anggota->nik = $request->nik;
@@ -172,7 +175,10 @@ class AnggotaController extends Controller
             $this->validate($request, [
                 'nik' => 'required|unique:anggotas,nik,' . $id,
                 'nama' => 'required',
-                'tgl_daftar' => 'required'
+                'inisial' => 'required',
+                'status' => 'required',
+                'tgl_daftar' => 'required',
+                'homebase' => 'required'
             ]);
             $anggota = Anggota::find($id);
             $anggota->nik = $request->nik;

@@ -14,7 +14,7 @@
             </div>
             <div class="float-right">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Laporan</a></li>
+                    <li class="breadcrumb-item"><a href="#">Transaksi</a></li>
                 <li class="breadcrumb-item active"><a href="{{route('laporan.cash-bank')}}">Laporan Kas Bank</a></li>
                 </ol>
                 <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
