@@ -186,6 +186,15 @@ class CopySaldoController extends Controller
     public function copySaldo($id)
     {
         $copy_saldo = CopySaldo::find($id);
+        $periodeaktif = Periode::where('status', 1)->find($copy_saldo->from_periode_id);
+        $periodetujuan = Periode::where('status', 0)->find($copy_saldo->to_periode_id);
+        if ($periodeaktif) {
+            return redirect()->back()->with('error', __('Status From Periode Masih Aktif.'));
+        }
+        if ($periodetujuan) {
+            return redirect()->back()->with('error', __('Status Buku Tujuan Belum Aktif.'));
+        }
+
         $from_periode = Periode::find($copy_saldo->from_periode_id);
         $to_periode = Periode::find($copy_saldo->to_periode_id);
         if ($copy_saldo->divisi_id == 1) {
