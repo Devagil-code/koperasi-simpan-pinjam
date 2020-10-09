@@ -86,19 +86,29 @@ class CopySaldoController extends Controller
         if (\Auth::user()->can('create-copy-saldo')) {
             # code...
             $this->validate($request, [
-                'from_periode_id' => 'required',
-                'to_periode_id' => 'required',
+                'from_periode_id' => 'required|lte:to_periode_id|different:to_periode_id',
+                'to_periode_id' => 'required|gte:from_periode_id|different:from_periode_id',
                 'divisi_id' => 'required',
             ]);
 
-            $copy_saldo = new CopySaldo();
-            $copy_saldo->from_periode_id = $request->from_periode_id;
-            $copy_saldo->to_periode_id = $request->to_periode_id;
-            $copy_saldo->divisi_id = $request->divisi_id;
-            $copy_saldo->status_saldo = 0;
-            $copy_saldo->save();
+            $copySaldoExist = CopySaldo::where('from_periode_id', $request->from_periode_id)
+                                ->where('to_periode_id', $request->to_periode_id)
+                                ->where('divisi_id', $request->divisi_id)
+                                ->first();
 
-            return redirect()->route('copy-saldo.index');
+            if($copySaldoExist)
+            {
+                return redirect()->route('copy-saldo.index')->with('error', __('Copy Saldo Sudah Pernah Di Lakukan !!'));
+            }else {
+                $copy_saldo = new CopySaldo();
+                $copy_saldo->from_periode_id = $request->from_periode_id;
+                $copy_saldo->to_periode_id = $request->to_periode_id;
+                $copy_saldo->divisi_id = $request->divisi_id;
+                $copy_saldo->status_saldo = 0;
+                $copy_saldo->save();
+                return redirect()->route('copy-saldo.index');
+            }
+
         } else {
             # code...
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -421,6 +431,16 @@ class CopySaldoController extends Controller
             $transaksi_harian_kredit_biaya->biaya_id = $biaya_kredit->id;
             $transaksi_harian_kredit_biaya->nominal = $kredit;
             $transaksi_harian_kredit_biaya->save();
+
+            $transaksi_divisi = TransaksiHarian::whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                ->where('divisi_id', $copy_saldo->divisi_id)
+                ->get();
+            foreach($transaksi_divisi as $trxdiv)
+            {
+                $trx_up_divisi = TransaksiHarian::find($trxdiv->id);
+                $trx_up_divisi->is_close = 1;
+                $trx_up_divisi->update();
+            }
         }
 
         $copy_saldo->status_saldo = 1;
