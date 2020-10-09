@@ -291,6 +291,14 @@ class CopySaldoController extends Controller
                     $trx_anggota->save();
                 }
             }
+            $transaksi_simpanan = TransaksiHarian::whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                ->where('divisi_id', $copy_saldo->divisi_id)
+                ->get();
+            foreach ($transaksi_simpanan as $trxsim) {
+                $trx_up_simpanan = TransaksiHarian::find($trxsim->id);
+                $trx_up_simpanan->is_close = 1;
+                $trx_up_simpanan->update();
+            }
         } else if ($copy_saldo->divisi_id == 2) {
             $anggota = Anggota::get();
             foreach ($anggota as $row) {
@@ -377,6 +385,14 @@ class CopySaldoController extends Controller
                     $trx_anggota->anggota_id = $row->id;
                     $trx_anggota->save();
                 }
+            }
+            $transaki_pinjaman = TransaksiHarian::whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
+                ->where('divisi_id', $copy_saldo->divisi_id)
+                ->get();
+            foreach ($transaki_pinjaman as $trxpim) {
+                $trx_up_pinjaman = TransaksiHarian::find($trxpim->id);
+                $trx_up_pinjaman->is_close = 1;
+                $trx_up_pinjaman->update();
             }
         } else {
             $debet = TransaksiHarianBiaya::with('transaksi_harian')
