@@ -14,7 +14,7 @@
             <div class="float-right">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="#">Management</a></li>
-                <li class="breadcrumb-item active"><a href="{{route('user.index')}}"></a>Pengguna</li>
+                <li class="breadcrumb-item active"><a href="{{route('user.index')}}">Pengguna</a></li>
                     <li class="breadcrumb-item active">Tambah</li>
                 </ol>
                 <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
