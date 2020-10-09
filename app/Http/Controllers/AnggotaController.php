@@ -9,9 +9,11 @@ use Tanggal;
 use App\User;
 use Illuminate\Support\Facades\DB;
 use App\UserAnggota;
+use App\Periode;
 use App\Exports\AnggotaExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Session;
+
 
 class AnggotaController extends Controller
 {
@@ -31,6 +33,7 @@ class AnggotaController extends Controller
         //
         if (\Auth::user()->can('manage-anggota')) {
             if ($request->ajax()) {
+                $periode = Periode::select()->where('status', 1)->first();
                 $anggota = Anggota::select();
                 return DataTables::of($anggota)
                     ->editColumn('status', function ($anggota) {
@@ -150,7 +153,7 @@ class AnggotaController extends Controller
         if (\Auth::user()->can('edit-anggota')) {
             $anggota = Anggota::find($id);
             $anggota->tgl_daftar = date('d-m-Y', strtotime($anggota->tgl_daftar));
-            return view('anggota.edit')->with(compact('anggota'));
+            return view('anggota.edit')->with(compact('anggota', 'periode'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
