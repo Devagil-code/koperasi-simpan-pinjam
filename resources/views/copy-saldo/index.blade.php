@@ -11,7 +11,7 @@
     <div class="col-12">
         <div class="page-title-box">
             <div class="float-left">
-                <h4 class="page-title">Copy Biaya </h4>
+                <h4 class="page-title">Copy Saldo </h4>
                 <small class="text-danger">Periode : {{ periode()->name }}</small>
             </div>
             <div class="float-right">

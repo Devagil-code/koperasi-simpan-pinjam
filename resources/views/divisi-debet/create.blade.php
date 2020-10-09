@@ -90,10 +90,15 @@
             });
         });
 
+        var start = new Date('{{ periode()->open_date }}');
+        var end = new Date('{{ periode()->close_date }}');
+
         $(".datepicker").datepicker({
             format: 'dd-mm-yyyy',
             autoclose: true,
             todayHighlight: true,
+            startDate: start,
+            endDate   : end
         });
 
 
