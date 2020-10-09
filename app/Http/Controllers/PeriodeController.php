@@ -41,8 +41,6 @@ class PeriodeController extends Controller
                             return '<span class="badge badge-gradient badge-pill">Aktif</span>';
                         } elseif ($periode->status == '0') {
                             return '<span class="badge badge-danger badge-pill">Non Aktif</span>';
-                        } else {
-                            return '<span class="badge badge-warning badge-pill">Tutup Buku</span>';
                         }
                     })
                     ->addColumn('action', function ($periode) {

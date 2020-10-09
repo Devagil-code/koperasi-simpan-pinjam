@@ -3,7 +3,7 @@
     <h3>Divisi</h3>
     <section>
         <div class="form-group clearfix">
-            <label class="control-label " for="userName">Tanggal Transaksi</label>
+            <label class="control-label" for="userName" id="datepicker">Tanggal Transaksi</label>
             <div class="">
                 {!! Form::text('tgl', null, ['class' => 'form-control required datepicker', 'autocomplete' => 'off'])!!}
             </div>

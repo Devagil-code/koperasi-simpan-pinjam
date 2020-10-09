@@ -36,7 +36,7 @@
 <div class="form-group row">
     <label class="col-4 col-form-label" for="example-input-normal">Status</label>
     <div class="col-8">
-        {!! Form::select('status', ['1' => 'Aktif', '0' => 'None Aktif', '2' => 'Tutup Buku'], null, ['class'=>$errors->has('status') ? 'form-control is-invalid' : 'form-control','placeholder'=>'Select Status']) !!}
+        {!! Form::select('status', ['1' => 'Aktif', '0' => 'None Aktif'], null, ['class'=>$errors->has('status') ? 'form-control is-invalid' : 'form-control','placeholder'=>'Select Status']) !!}
         @error('status')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
