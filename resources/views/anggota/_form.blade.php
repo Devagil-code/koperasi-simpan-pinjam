@@ -34,7 +34,7 @@
 <div class="form-group row">
     <label class="col-4 col-form-label" for="example-input-normal">Tanggal Daftar</label>
     <div class="col-8">
-        {{ Form::text('tgl_daftar', null, ['class' => $errors->has('tgl_daftar') ? 'form-control is-invalid' : 'form-control', 'placeholder' => 'Tanggal Daftar']) }}
+        {{ Form::text('tgl_daftar', null, ['class' => $errors->has('tgl_daftar') ? 'form-control datepicker is-invalid' : 'form-control datepicker', 'placeholder' => 'Tanggal Daftar']) }}
         @error('tgl_daftar')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>

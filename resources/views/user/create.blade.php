@@ -7,11 +7,18 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Pengguna</h4>
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="#">Management</a></li>
-                <li class="breadcrumb-item active">Tambah Pengguna</li>
-            </ol>
+            <div class="float-left">
+                <h4 class="page-title">Pengguna</h4>
+                <small class="text-danger">Periode : {{ periode()->name }}</small>
+            </div>
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Management</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('user.index')}}"></a>Pengguna</li>
+                    <li class="breadcrumb-item active">Tambah</li>
+                </ol>
+                <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
@@ -30,7 +37,7 @@
     </div> <!-- end col -->
 </div>
 @endsection
-@section('script')    
+@section('script')
 <script src="{{ asset('plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.js') }}" type="text/javascript"></script>
 <script>
