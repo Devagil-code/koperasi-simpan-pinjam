@@ -6,13 +6,18 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Role</h4>
-
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                <li class="breadcrumb-item active">Tambah Role</li>
-            </ol>
-
+            <div class="float-left">
+                <h4 class="page-title">Role </h4>
+                <small class="text-danger">Periode : {{ periode()->name }}</small>
+            </div>
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Management</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('role.index')}}">Role</a></li>
+                <li class="breadcrumb-item active">Tambah </li>
+                </ol>
+                <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>

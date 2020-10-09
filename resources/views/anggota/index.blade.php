@@ -10,13 +10,17 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Anggota</h4>
-
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                <li class="breadcrumb-item active">Anggota</li>
-            </ol>
-
+            <div class="float-left">
+                <h4 class="page-title">Anggota </h4>
+                <small class="text-danger">Periode : {{ periode()->name }}</small>
+            </div>
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+                    <li class="breadcrumb-item active">Anggota</li>
+                </ol>
+                <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>

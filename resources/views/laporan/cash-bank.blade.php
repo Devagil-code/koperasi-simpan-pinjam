@@ -8,13 +8,17 @@
 <div class="row">
     <div class="col-12">
         <div class="page-title-box">
-            <h4 class="page-title float-left">Laporan Kas/Bank</h4>
-
-            <ol class="breadcrumb float-right">
-                <li class="breadcrumb-item"><a href="#">Laporan</a></li>
-                <li class="breadcrumb-item active">Laporan Kas/Bank</li>
-            </ol>
-
+            <div class="float-left">
+                <h4 class="page-title">Laporan Kas Bank </h4>
+                <small class="text-danger">Periode : {{ periode()->name }}</small>
+            </div>
+            <div class="float-right">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Laporan</a></li>
+                <li class="breadcrumb-item active"><a href="{{route('laporan.cash-bank')}}">Laporan Kas Bank</a></li>
+                </ol>
+                <small class="text-danger">Tahun Buku : {{ periode()->open_date }} - {{ periode()->close_date }}</small>
+            </div>
             <div class="clearfix"></div>
         </div>
     </div>
