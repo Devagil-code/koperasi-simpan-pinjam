@@ -88,7 +88,7 @@
                             { data: 'sumKreditAll', name: 'sumKreditAll' },
                             { data: 'keterangan', name: 'keterangan' },
                             { data: 'is_close', name: 'is_close' },
-                            { data: 'action', name: 'action' },
+                            { data: 'action', name: 'action', orderable: false, searchable: false},
                         ],
                         dom: '<"toolbar">frtip',
                         order: [[ 0, "desc" ]],
