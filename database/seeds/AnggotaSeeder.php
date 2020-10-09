@@ -27,7 +27,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'agus@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -49,7 +49,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'ahmad@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -71,7 +71,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'miranda@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -93,7 +93,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'raka@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -115,7 +115,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'herman@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -137,7 +137,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'rojak@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -159,7 +159,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'kardun@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -181,7 +181,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'jaja@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -203,7 +203,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'mihajra@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 
@@ -225,7 +225,7 @@ class AnggotaSeeder extends Seeder
 
         $user = User::create([
             'name' => $anggota->nama,
-            'email' => 'santika@gmail.com',
+            'email' => $anggota->nik,
             'password' => bcrypt('Kopkar2019')
         ]);
 

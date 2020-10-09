@@ -837,7 +837,12 @@ class UsersSeeder extends Seeder
 
         $memberRole = Role::where('name', 'member')->first();
         $memberPermission = [
-            'create-debet-simpanan',
+            'manage-simpanan-anggota',
+            'search-simpanan-anggota',
+            'excell-simpanan-anggota',
+            'manage-pinjaman-anggota',
+            'search-pinjaman-anggota',
+            'excell-pinjaman-anggota'
         ];
 
         $memberUser = User::create([

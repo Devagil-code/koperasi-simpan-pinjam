@@ -225,11 +225,17 @@ class UserController extends Controller
     public function editPasswordMember($id)
     {
         $user = User::find($id);
-        if ($user->id == Auth::user()->id) {
-            return view('user-profile.reset-password')->with(compact('user'));
-        } else {
+        if($user)
+        {
+            if ($user->id == Auth::user()->id) {
+                return view('user-profile.reset-password')->with(compact('user'));
+            } else {
+                return view('errors.404');
+            }
+        }else {
             return view('errors.404');
         }
+
     }
 
     public function putEditPassword(Request $request, $id)

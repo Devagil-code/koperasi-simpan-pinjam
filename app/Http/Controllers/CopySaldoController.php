@@ -97,7 +97,7 @@ class CopySaldoController extends Controller
                 ->first();
 
             if ($copySaldoExist) {
-                return redirect()->route('copy-saldo.index')->with('error', __('Copy Saldo Sudah Pernah Di Lakukan !!'));
+                return redirect()->route('copy-saldo.index')->with('error', __('Copy Saldo Sudah Pernah Di Lakukan atau Data Sudah Ada !!'));
             } else {
                 $copy_saldo = new CopySaldo();
                 $copy_saldo->from_periode_id = $request->from_periode_id;
@@ -153,19 +153,29 @@ class CopySaldoController extends Controller
         if (\Auth::user()->can('edit-copy-saldo')) {
             # code...
             $this->validate($request, [
-                'from_periode_id' => 'required',
-                'to_periode_id' => 'required',
+                'from_periode_id' => 'required|lte:to_periode_id|different:to_periode_id',
+                'to_periode_id' => 'required|gte:from_periode_id|different:from_periode_id',
                 'divisi_id' => 'required',
             ]);
 
-            $copy_saldo = CopySaldo::find($copySaldo->id);
-            $copy_saldo->from_periode_id = $request->from_periode_id;
-            $copy_saldo->to_periode_id = $request->to_periode_id;
-            $copy_saldo->divisi_id = $request->divisi_id;
-            $copy_saldo->status_saldo = 0;
-            $copy_saldo->update();
+            $copySaldoExist = CopySaldo::where('from_periode_id', $request->from_periode_id)
+                ->where('to_periode_id', $request->to_periode_id)
+                ->where('divisi_id', $request->divisi_id)
+                ->whereNotIn('id', [$copySaldo->id])
+                ->first();
+            if($copySaldoExist)
+            {
+                return redirect()->route('copy-saldo.index')->with('error', __('Copy Saldo Sudah Pernah Di Lakukan atau Data Sudah Ada !!'));
+            }else {
+                $copy_saldo = CopySaldo::find($copySaldo->id);
+                $copy_saldo->from_periode_id = $request->from_periode_id;
+                $copy_saldo->to_periode_id = $request->to_periode_id;
+                $copy_saldo->divisi_id = $request->divisi_id;
+                $copy_saldo->status_saldo = 0;
+                $copy_saldo->update();
 
-            return redirect()->route('copy-saldo.index');
+                return redirect()->route('copy-saldo.index')->with('success', __('Data Berhasil Di Update'));
+            }
         } else {
             # code...
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -241,7 +251,7 @@ class CopySaldoController extends Controller
                     $transaksi_simpanan_debet->jenis_pembayaran = 1;
                     $transaksi_simpanan_debet->jenis_transaksi = 1;
                     $transaksi_simpanan_debet->periode_id = $to_periode->id;
-                    $transaksi_simpanan_debet->keterangan = "Saldo Simpanan Pokok, Wajib Dan Sukarela" . $from_periode->name;
+                    $transaksi_simpanan_debet->keterangan = "Saldo Simpanan Pokok, Wajib Dan Sukarela " . $from_periode->name;
                     $transaksi_simpanan_debet->save();
 
                     $biaya_simpanan_debet_pokok = new TransaksiHarianBiaya();
@@ -352,7 +362,7 @@ class CopySaldoController extends Controller
                     $trx_pinjaman_debet->jenis_pembayaran = 1;
                     $trx_pinjaman_debet->jenis_transaksi = 1;
                     $trx_pinjaman_debet->periode_id = $to_periode->id;
-                    $trx_pinjaman_debet->keterangan = "Saldo Cicilan dan Bunga" . $from_periode->name;
+                    $trx_pinjaman_debet->keterangan = "Saldo Cicilan dan Bunga " . $from_periode->name;
                     $trx_pinjaman_debet->save();
 
                     $biaya_pinjam_debet = new TransaksiHarianBiaya();

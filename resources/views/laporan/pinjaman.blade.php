@@ -48,11 +48,9 @@
                 @permission('search-pinjaman-anggota')
                 <input type="submit" value="Cari" class="btn btn-primary" name="search">
                 @endpermission
-                @role('admin')
                 @permission('excell-pinjaman-anggota')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
                 @endpermission
-                @endrole
             </form>
         </div>
     </div>
