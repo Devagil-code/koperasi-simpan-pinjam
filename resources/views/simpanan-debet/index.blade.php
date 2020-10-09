@@ -55,7 +55,7 @@
                         <th>Sukarela</th>
                         <th>Keterangan</th>
                         <th>Status Buku</th>
-                        <th>ACTION DEFAULT</th>
+                        <th>ACTION DEFAULT S</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
