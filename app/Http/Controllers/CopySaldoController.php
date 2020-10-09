@@ -92,14 +92,13 @@ class CopySaldoController extends Controller
             ]);
 
             $copySaldoExist = CopySaldo::where('from_periode_id', $request->from_periode_id)
-                                ->where('to_periode_id', $request->to_periode_id)
-                                ->where('divisi_id', $request->divisi_id)
-                                ->first();
+                ->where('to_periode_id', $request->to_periode_id)
+                ->where('divisi_id', $request->divisi_id)
+                ->first();
 
-            if($copySaldoExist)
-            {
+            if ($copySaldoExist) {
                 return redirect()->route('copy-saldo.index')->with('error', __('Copy Saldo Sudah Pernah Di Lakukan !!'));
-            }else {
+            } else {
                 $copy_saldo = new CopySaldo();
                 $copy_saldo->from_periode_id = $request->from_periode_id;
                 $copy_saldo->to_periode_id = $request->to_periode_id;
@@ -108,7 +107,6 @@ class CopySaldoController extends Controller
                 $copy_saldo->save();
                 return redirect()->route('copy-saldo.index');
             }
-
         } else {
             # code...
             return redirect()->back()->with('error', __('Permission denied.'));
@@ -431,8 +429,7 @@ class CopySaldoController extends Controller
             $transaksi_divisi = TransaksiHarian::whereBetween('tgl', [$from_periode->open_date, $from_periode->close_date])
                 ->where('divisi_id', $copy_saldo->divisi_id)
                 ->get();
-            foreach($transaksi_divisi as $trxdiv)
-            {
+            foreach ($transaksi_divisi as $trxdiv) {
                 $trx_up_divisi = TransaksiHarian::find($trxdiv->id);
                 $trx_up_divisi->is_close = 1;
                 $trx_up_divisi->update();

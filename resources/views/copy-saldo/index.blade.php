@@ -89,8 +89,8 @@
                             { data: 'status_saldo', name: 'status_saldo' },
                             { data: 'action', name: 'action', searchable: false, orderable: false }
                         ],
-                        order: [[ 0, "desc" ]],
                         dom: '<"toolbar">frtip',
+                        order: [[ 0, "desc" ]]
                     });
         @permission('create-copy-saldo')
         $("div.toolbar").html(`<a href="{{ route('copy-saldo.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Copy Saldo</a>`);

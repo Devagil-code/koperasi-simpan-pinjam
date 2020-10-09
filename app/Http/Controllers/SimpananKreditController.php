@@ -52,7 +52,7 @@ class SimpananKreditController extends Controller
                         return '<span class="badge badge-info badge-pill">Kredit</span>';
                     })
                     ->addColumn('action', function ($transaksiHarian) {
-                        return view('datatable._action-default', [
+                        return view('datatable._action-transaction', [
                             'model' => $transaksiHarian,
                             'form_url' => route('simpanan-kredit.destroy', $transaksiHarian->id),
                             'edit_url' => route('simpanan-kredit.edit', $transaksiHarian->id),

@@ -53,7 +53,7 @@ class PinjamanDebetController extends Controller
                         return '<span class="badge badge-info badge-pill">Debet</span>';
                     })
                     ->addColumn('action', function ($transaksiHarian) {
-                        return view('datatable._action-default', [
+                        return view('datatable._action-transaction', [
                             'model' => $transaksiHarian,
                             'form_url' => route('pinjaman-debet.destroy', $transaksiHarian->id),
                             'edit_url' => route('pinjaman-debet.edit', $transaksiHarian->id),

@@ -89,6 +89,7 @@
                             { data: 'action', name: 'action', searchable: false, orderable: false},
                         ],
                         dom: '<"toolbar">frtip',
+                        order: [[ 0, "desc" ]]
                     });
                     @permission('create-periode')
                     $("div.toolbar").html('<a href="{{ route('periode.create') }}" class="btn btn-gradient btn-rounded waves-light waves-effect w-md">Tambah Periode</a>');
