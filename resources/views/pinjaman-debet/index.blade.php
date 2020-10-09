@@ -54,7 +54,7 @@
                         <th>Bunga</th>
                         <th>Keterangan</th>
                         <th>Status Buku</th>
-                        <th>ACTIN DEFAULT</th>
+                        <th>ACTION DEFAULT</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
