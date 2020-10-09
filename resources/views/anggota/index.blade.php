@@ -84,12 +84,9 @@
             order: [[ 0, "desc" ]],
             scrollX: true
         });
-        @permission('create-anggota')
-        $("div.toolbar").html(`<a href="{{ route('anggota.create') }}" class="btn btn-gradient waves-light waves-effect w-md">Tambah</a>
-        @endpermission
-        @permission('download-anggota')
-        <a href="{{ route('anggota.export') }}" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download</a>`);
-        @endpermission
+        $("div.toolbar").html(`@permission('create-anggota')<a href="{{ route('anggota.create') }}" class="btn btn-gradient waves-light waves-effect w-md">Tambah</a>@endpermission
+        @permission('download-anggota')<a href="{{ route('anggota.export') }}" class="btn btn-success waves-light waves-effect w-md"><i class="mdi mdi-file-excel"></i>Download</a>@endpermission`);
+
     });
 </script>
 @endsection
