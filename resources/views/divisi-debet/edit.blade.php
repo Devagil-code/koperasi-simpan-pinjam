@@ -78,7 +78,8 @@
             autoclose: true,
             todayHighlight: true,
             startDate: start,
-            endDate   : end
+            endDate   : end,
+            orientation: 'bottom'
         });
 
 

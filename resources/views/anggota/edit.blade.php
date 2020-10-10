@@ -44,6 +44,7 @@
                 format: 'dd-mm-yyyy',
                 autoclose: true,
                 todayHighlight: true,
+                orientation: 'bottom'
             });
         });
     </script>
