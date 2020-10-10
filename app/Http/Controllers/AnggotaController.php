@@ -156,7 +156,7 @@ class AnggotaController extends Controller
         if (\Auth::user()->can('edit-anggota')) {
             $anggota = Anggota::find($id);
             $anggota->tgl_daftar = date('d-m-Y', strtotime($anggota->tgl_daftar));
-            return view('anggota.edit')->with(compact('anggota', 'periode'));
+            return view('anggota.edit')->with(compact('anggota'));
         } else {
             return redirect()->back()->with('error', __('Permission denied.'));
         }
