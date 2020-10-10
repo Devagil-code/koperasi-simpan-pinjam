@@ -32,10 +32,10 @@
                 <div class="topbar-left">
                     <a href="{{ route('home') }}" class="logo">
                         <span>
-                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="60">
+                            <img src="{{ asset('images/logo.png') }}" alt="" height="60">
                         </span>
                         <i>
-                            <img src="{{ asset('images/koperasi-indonesia.png') }}" alt="" height="50">
+                            <img src="{{ asset('images/logo-kopkar.png') }}" alt="" height="50">
                         </i>
                     </a>
                 </div>
