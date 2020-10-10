@@ -15,7 +15,7 @@ class OptionsTableSeeder extends Seeder
         //
         $option = new Option();
         $option->option_name = 'footer';
-        $option->option_value = 'Koperasi V1.0';
+        $option->option_value = 'Koperasi V2.0';
         $option->save();
 
         $option = new Option();
