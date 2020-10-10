@@ -22,4 +22,9 @@ class TransaksiHarianBiaya extends Model
     {
         return $this->belongsTo('App\TransaksiHarian', 'transaksi_harian_id');
     }
+
+    public function transaksi_pinjaman()
+    {
+        return $this->hasOne('App\TransaksiPinjaman', 'transaksi_harian_biaya_id');
+    }
 }

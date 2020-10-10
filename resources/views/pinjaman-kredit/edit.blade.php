@@ -33,7 +33,7 @@
             <p class="text-muted m-b-30 font-13">
                 Silahkan Lakukan Pengisian Transaksi Secara Lengkap
             </p>
-            {!! Form::model($transaksiHarian, ['route' => ['pinjaman-kredit.update', $transaksiHarian->transaksi_harian_id], 'method'=>'put', 'class' => 'form-horizontal', 'id' => 'basic-form']) !!}
+            {!! Form::model($transaksiHarian, ['route' => ['pinjaman-kredit.update', $transaksiHarian->id], 'method'=>'put', 'class' => 'form-horizontal', 'id' => 'basic-form']) !!}
                 @csrf
                 @include('pinjaman-kredit._form')
             {!! Form::close() !!}

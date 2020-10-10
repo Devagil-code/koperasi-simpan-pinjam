@@ -178,14 +178,14 @@ class PinjamanKreditController extends Controller
         //
         if (\Auth::user()->can('edit-kredit-pinjaman')) {
             # code...
-            $transaksiHarian = DB::table('transaksi_harians')
-                ->join('transaksi_harian_biayas', 'transaksi_harian_biayas.transaksi_harian_id', '=', 'transaksi_harians.id')
-                ->join('transaksi_harian_anggotas', 'transaksi_harian_anggotas.transaksi_harian_id', '=', 'transaksi_harians.id')
-                ->join('transaksi_pinjamen', 'transaksi_pinjamen.transaksi_harian_biaya_id', '=', 'transaksi_harian_biayas.id')
-                ->where('transaksi_harians.id', $id)
-                ->first();
-            $transaksiHarian->nominal = Money::stringToRupiah($transaksiHarian->nominal);
+            $transaksiHarian = TransaksiHarian::with('transaksi_harian_biaya', 'transaksi_harian_anggota')->find($id);
+            $transaksi_biaya = TransaksiHarianBiaya::where('transaksi_harian_id', $id)->first();
+            $transaksiHarian->nominal = Money::stringToRupiah($transaksiHarian->transaksi_harian_biaya->sum('nominal'));
             $transaksiHarian->tgl = date('d-m-Y', strtotime($transaksiHarian->tgl));
+            $transaksiHarian->anggota_id = $transaksiHarian->transaksi_harian_anggota->anggota_id;
+            $transaksiHarian->biaya_id = '6';
+            $lama_cicilan = TransaksiPinjaman::where('transaksi_harian_biaya_id', $transaksi_biaya->id)->first();
+            $transaksiHarian->lama_cicilan = ($lama_cicilan == '') ? '' : $lama_cicilan->lama_cicilan;
             return view('pinjaman-kredit.edit')->with(compact('transaksiHarian'));
         } else {
             # code...

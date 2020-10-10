@@ -160,7 +160,7 @@ class DivisiKreditController extends Controller
                 ->join('transaksi_harian_biayas', 'transaksi_harian_biayas.transaksi_harian_id', '=', 'transaksi_harians.id')
                 ->where('transaksi_harians.id', $id)
                 ->first();
-            $transaksiHarian->nominal = Money::stringToRupiah($transaksiHarian->nominal);
+            $transaksiHarian->nominal = ($transaksiHarian->nominal == '') ? '0' : Money::stringToRupiah($transaksiHarian->nominal);
             $transaksiHarian->tgl = date('d-m-Y', strtotime($transaksiHarian->tgl));
             return view('divisi-kredit.edit')->with(compact('transaksiHarian'));
         } else {
