@@ -49,7 +49,7 @@ class SimpananDebet implements ToCollection, WithStartRow
 
             $transaksiHarian = TransaksiHarian::create([
                 'divisi_id' => '1',
-                'tgl' => date('Y-m-d', strtotime($row[1])),
+                'tgl' => Tanggal::transformDate($row[1]),
                 'jenis_pembayaran' => $row[2],
                 'keterangan' => $row[3],
                 'jenis_transaksi' => '1',

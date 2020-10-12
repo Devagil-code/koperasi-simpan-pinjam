@@ -40,7 +40,7 @@ class PinjamanKredit implements ToCollection, WithStartRow
         {
             $transaksiHarian = TransaksiHarian::create([
                 'divisi_id' => '2',
-                'tgl' => date('Y-m-d', strtotime($row[1])),
+                'tgl' => Tanggal::transformDate($row[1]),
                 'jenis_pembayaran' => $row[2],
                 'keterangan' => $row[3],
                 'jenis_transaksi' => '2',
