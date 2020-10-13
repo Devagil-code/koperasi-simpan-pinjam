@@ -16,13 +16,15 @@ class LaporanPinjaman implements FromView
     protected $sum_cicilan;
     protected $sum_bunga;
     protected $sum_kredit_pinjaman;
+    protected $nik;
 
-    public function __construct($transaksi_harian, $sum_cicilan, $sum_bunga, $sum_kredit_pinjaman)
+    public function __construct($transaksi_harian, $sum_cicilan, $sum_bunga, $sum_kredit_pinjaman, $nik)
     {
         $this->transaksi_harian = $transaksi_harian;
         $this->sum_bunga = $sum_bunga;
         $this->sum_cicilan = $sum_cicilan;
         $this->sum_kredit_pinjaman = $sum_kredit_pinjaman;
+        $this->nik = $nik;
     }
 
     public function collection()
@@ -36,7 +38,8 @@ class LaporanPinjaman implements FromView
             'transaksi_harian' => $this->transaksi_harian,
             'sum_bunga' => $this->sum_bunga,
             'sum_cicilan' => $this->sum_cicilan,
-            'sum_kredit_pinjaman' => $this->sum_kredit_pinjaman
+            'sum_kredit_pinjaman' => $this->sum_kredit_pinjaman,
+            'nik' => $this->nik
         ]);
     }
 }

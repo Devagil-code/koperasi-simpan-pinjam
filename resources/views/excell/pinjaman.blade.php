@@ -3,6 +3,7 @@
         <tr>
             <th>#</th>
             <th>Tgl</th>
+            <th>No Anggota</th>
             <th>Keterangan</th>
             <th>Pinjaman</th>
             <th>Cicilan Pinjaman</th>
@@ -26,6 +27,7 @@
             <tr>
                 <th scope="row"></th>
                 <td></td>
+                <td>{{ $nik }}</td>
                 <td><strong>Saldo Mutasi</strong></td>
                 <td>{{ Money::stringToRupiah($sum_kredit_pinjaman) }}</td>
                 <td>{{ Money::stringToRupiah($sum_cicilan) }}</td>
@@ -39,6 +41,7 @@
                 <tr>
                     <th scope="row">{{ $no }}</th>
                     <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
+                    <th>{{ $nik }}</th>
                     <td>{{ $row->keterangan }}</td>
                     <td>{{ Money::stringToRupiah($row->sumKreditPinjaman->sum('nominal')) }}</td>
                     <td>{{ Money::stringToRupiah($row->sumCicilan->sum('nominal')) }}</td>

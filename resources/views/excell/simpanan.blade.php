@@ -2,6 +2,7 @@
     <thead>
         <tr>
             <th>Tgl</th>
+            <th>No Anggota</th>
             <th>Keterangan</th>
             <th>Pokok</th>
             <th>Wajib</th>
@@ -21,6 +22,7 @@
             @endphp
             <tr>
                 <td></td>
+                <td>{{ $nik }}</td>
                 <td><strong>Saldo Mutasi</strong></td>
                 <td>{{ Money::stringToRupiah($sum_pokok) }}</td>
                 <td>{{ Money::stringToRupiah($sum_wajib) }}</td>
@@ -34,6 +36,7 @@
                 @endphp
                 <tr>
                     <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
+                    <td>{{ $nik }}</td>
                     <td>{{ $row->keterangan }}</td>
                     <td>{{ Money::stringToRupiah($row->sumPokok->sum('nominal')) }}</td>
                     <td>{{ Money::stringToRupiah($row->sumWajib->sum('nominal')) }}</td>

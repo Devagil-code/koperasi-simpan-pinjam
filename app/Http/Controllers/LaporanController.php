@@ -81,74 +81,6 @@ class LaporanController extends Controller
         if ($year_start != $year_periode) {
             return view('laporan.simpanan');
         } else {
-            if ($user->roles->pluck('name')->contains('admin')) {
-                if (!empty($request->anggota_id)) {
-                    $transaksi_harian = TransaksiHarian::with(
-                        'transaksi_harian_biaya',
-                        'transaksi_harian_anggota',
-                        'sumPokok',
-                        'sumWajib',
-                        'sumSukarela',
-                        'sumKredit'
-                    )
-                        ->whereHas('transaksi_harian_anggota', function ($q) use ($request) {
-                            $q->where('anggota_id', $request->anggota_id);
-                        })
-                        ->whereBetween('tgl', [$tgl_awal, $tgl_akhir])
-                        ->where('divisi_id', '1')
-                        ->orderBy('tgl', 'ASC')
-                        ->get();
-                    $sum_pokok = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '1')
-                        ->where('divisi_id', '1')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $sum_wajib = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '2')
-                        ->where('divisi_id', '1')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $sum_sukarela = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '3')
-                        ->where('divisi_id', '1')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $sum_kredit_simpanan = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '4')
-                        ->where('divisi_id', '1')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $anggota = Anggota::find($request->anggota_id);
-                    if ($anggota->status == '1') {
-                        $anggota->status = 'Aktif';
-                    } else {
-                        $anggota->status = 'None Aktif';
-                    }
-                    if ($request->search == 'Cari') {
-                        if (!empty($transaksi_harian)) {
-                            return view('laporan.simpanan')->with(compact('transaksi_harian', 'anggota', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'sum_kredit_simpanan'));
-                        } else {
-                            return redirect()->route('laporan.simpanan');
-                        }
-                    } else {
-                        return Excel::download(new LaporanSimpanan($transaksi_harian, $sum_pokok, $sum_wajib, $sum_sukarela, $sum_kredit_simpanan), Tanggal::tanggal_id($tgl_awal) . ' sampai ' . Tanggal::tanggal_id($tgl_akhir) . '-' . $anggota->nama . '-simpanan.xlsx');
-                    }
-                } else {
-                    return view('laporan.simpanan');
-                }
-            }
             if ($user->roles->pluck('name')->contains('member')) {
 
                 $anggota = Anggota::find($user->user_anggota->anggota_id);
@@ -214,6 +146,73 @@ class LaporanController extends Controller
                 } else {
                     return view('laporan.simpanan')->with(compact('anggota'));
                 }
+            }else {
+                if (!empty($request->anggota_id)) {
+                    $transaksi_harian = TransaksiHarian::with(
+                        'transaksi_harian_biaya',
+                        'transaksi_harian_anggota',
+                        'sumPokok',
+                        'sumWajib',
+                        'sumSukarela',
+                        'sumKredit'
+                    )
+                        ->whereHas('transaksi_harian_anggota', function ($q) use ($request) {
+                            $q->where('anggota_id', $request->anggota_id);
+                        })
+                        ->whereBetween('tgl', [$tgl_awal, $tgl_akhir])
+                        ->where('divisi_id', '1')
+                        ->orderBy('tgl', 'ASC')
+                        ->get();
+                    $sum_pokok = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '1')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $sum_wajib = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '2')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $sum_sukarela = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '3')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $sum_kredit_simpanan = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '4')
+                        ->where('divisi_id', '1')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $anggota = Anggota::find($request->anggota_id);
+                    if ($anggota->status == '1') {
+                        $anggota->status = 'Aktif';
+                    } else {
+                        $anggota->status = 'None Aktif';
+                    }
+                    if ($request->search == 'Cari') {
+                        if (!empty($transaksi_harian)) {
+                            return view('laporan.simpanan')->with(compact('transaksi_harian', 'anggota', 'sum_pokok', 'sum_wajib', 'sum_sukarela', 'sum_kredit_simpanan'));
+                        } else {
+                            return redirect()->route('laporan.simpanan');
+                        }
+                    } else {
+                        return Excel::download(new LaporanSimpanan($transaksi_harian, $sum_pokok, $sum_wajib, $sum_sukarela, $sum_kredit_simpanan, $anggota->nik), Tanggal::tanggal_id($tgl_awal) . ' sampai ' . Tanggal::tanggal_id($tgl_akhir) . '-' . $anggota->nama . '-simpanan.xlsx');
+                    }
+                } else {
+                    return view('laporan.simpanan');
+                }
             }
         }
     }
@@ -231,56 +230,6 @@ class LaporanController extends Controller
         if ($year_start != $year_periode) {
             return view('laporan.pinjaman');
         } else {
-            if ($user->roles->pluck('name')->contains('admin')) {
-                if (!empty($request->anggota_id)) {
-                    $sum_cicilan = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '6')
-                        ->where('divisi_id', '2')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $sum_bunga = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '7')
-                        ->where('divisi_id', '2')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $sum_kredit_pinjaman = DB::table('transaksi_harians')
-                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
-                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
-                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
-                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
-                        ->where('transaksi_harian_biayas.biaya_id', '8')
-                        ->where('divisi_id', '2')
-                        ->sum('transaksi_harian_biayas.nominal');
-                    $transaksi_harian = TransaksiHarian::with('transaksi_harian_biaya', 'transaksi_harian_anggota', 'sumCicilan', 'sumBunga', 'sumKreditPinjaman')
-                        ->whereHas('transaksi_harian_anggota', function ($q) use ($request) {
-                            $q->where('anggota_id', $request->anggota_id);
-                        })
-                        ->whereBetween('tgl', [$tgl_awal, $tgl_akhir])
-                        ->where('divisi_id', '2')
-                        ->orderBy('tgl', 'ASC')
-                        ->get();
-
-                    $anggota = Anggota::find($request->anggota_id);
-                    if ($anggota->status == '1') {
-                        $anggota->status = 'Aktif';
-                    } else {
-                        $anggota->status = 'None Aktif';
-                    }
-                    if ($request->search == 'Cari') {
-                        return view('laporan.pinjaman')->with(compact('transaksi_harian', 'anggota', 'sum_cicilan', 'sum_bunga', 'sum_kredit_pinjaman'));
-                    } else {
-                        return Excel::download(new LaporanPinjaman($transaksi_harian, $sum_cicilan, $sum_bunga, $sum_kredit_pinjaman), Tanggal::tanggal_id($tgl_awal) . ' sampai ' . Tanggal::tanggal_id($tgl_akhir) . '-' . $anggota->nama . '-pinjaman.xlsx');
-                    }
-                } else {
-                    return view('laporan.pinjaman');
-                }
-            }
             if ($user->roles->pluck('name')->contains('member')) {
                 $anggota = Anggota::find($user->user_anggota->anggota_id);
                 if ($anggota->status == '1') {
@@ -328,6 +277,55 @@ class LaporanController extends Controller
                     }
                 } else {
                     return view('laporan.pinjaman')->with(compact('anggota'));
+                }
+            }else {
+                if (!empty($request->anggota_id)) {
+                    $sum_cicilan = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '6')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $sum_bunga = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '7')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $sum_kredit_pinjaman = DB::table('transaksi_harians')
+                        ->join('transaksi_harian_biayas', 'transaksi_harians.id', '=', 'transaksi_harian_biayas.transaksi_harian_id')
+                        ->join('transaksi_harian_anggotas', 'transaksi_harians.id', '=', 'transaksi_harian_anggotas.transaksi_harian_id')
+                        ->whereBetween('transaksi_harians.tgl', [$periode_aktif->open_date, $date_before])
+                        ->where('transaksi_harian_anggotas.anggota_id', $request->anggota_id)
+                        ->where('transaksi_harian_biayas.biaya_id', '8')
+                        ->where('divisi_id', '2')
+                        ->sum('transaksi_harian_biayas.nominal');
+                    $transaksi_harian = TransaksiHarian::with('transaksi_harian_biaya', 'transaksi_harian_anggota', 'sumCicilan', 'sumBunga', 'sumKreditPinjaman')
+                        ->whereHas('transaksi_harian_anggota', function ($q) use ($request) {
+                            $q->where('anggota_id', $request->anggota_id);
+                        })
+                        ->whereBetween('tgl', [$tgl_awal, $tgl_akhir])
+                        ->where('divisi_id', '2')
+                        ->orderBy('tgl', 'ASC')
+                        ->get();
+
+                    $anggota = Anggota::find($request->anggota_id);
+                    if ($anggota->status == '1') {
+                        $anggota->status = 'Aktif';
+                    } else {
+                        $anggota->status = 'None Aktif';
+                    }
+                    if ($request->search == 'Cari') {
+                        return view('laporan.pinjaman')->with(compact('transaksi_harian', 'anggota', 'sum_cicilan', 'sum_bunga', 'sum_kredit_pinjaman'));
+                    } else {
+                        return Excel::download(new LaporanPinjaman($transaksi_harian, $sum_cicilan, $sum_bunga, $sum_kredit_pinjaman, $anggota->nik), Tanggal::tanggal_id($tgl_awal) . ' sampai ' . Tanggal::tanggal_id($tgl_akhir) . '-' . $anggota->nama . '-pinjaman.xlsx');
+                    }
+                } else {
+                    return view('laporan.pinjaman');
                 }
             }
         }
