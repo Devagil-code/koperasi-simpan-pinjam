@@ -351,7 +351,7 @@ class SimpananDebetController extends Controller
         //Excel::import(new SimpananDebet($periode), public_path('/simpanan_debet/'.$nama_file));
 
         //Mendelete File Supaya Tidak Menumpuk Di Storage
-        File::delete(public_path('/simpanan_debet/' . $nama_file));
+        File::delete(public_path('simpanan_debet/' . $nama_file));
         // notifikasi dengan session
         //Session::flash('sukses','Data Siswa Berhasil Di import!');
 
