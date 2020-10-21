@@ -16,8 +16,9 @@ use App\TransaksiPinjaman;
 use Maatwebsite\Excel\Facades\Excel;
 use File;
 use App\Imports\SimpananDebet;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class PinjamanDebet implements ToCollection, WithStartRow
+class PinjamanDebet implements ToCollection, WithStartRow, WithValidation
 {
     /**
     * @param array $row
@@ -75,5 +76,43 @@ class PinjamanDebet implements ToCollection, WithStartRow
                 }
             }
         }
+    }
+
+    public function rules(): array
+    {
+        return [
+            '0' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.0' => 'required',
+
+            '1' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.1' => 'required',
+
+            '2' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.2' => 'required',
+            '3' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.3' => 'required',
+
+            '4' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.4' => 'required',
+            '5' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.5' => 'required',
+
+            '6' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.6' => 'required'
+        ];
     }
 }

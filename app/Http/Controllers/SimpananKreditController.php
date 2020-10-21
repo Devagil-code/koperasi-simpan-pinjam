@@ -271,32 +271,28 @@ class SimpananKreditController extends Controller
 
     public function doUpload(Request $request)
     {
-        //Validasi Bermasalah Bug Pada Linux Centos karena kalo di jalankan Pada Linux Ubuntu No Problemo
-        /*
         $this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
+			'file' => 'required'
 		]);
-		//dd("S");
-		*/
         $periode = Periode::where('status', '1')->first();
-        $file = $request->file('file');
         // menangkap file excel
-
-        // membuat nama file unik
-        $nama_file = rand() . $file->getClientOriginalName();
-
-        // upload ke folder file_siswa di dalam folder public
-        $file->move('simpanan_kredit', $nama_file);
-
-        // import data
-        Excel::import(new SimpananKredit($periode), public_path('/simpanan_kredit/' . $nama_file));
-
-        File::delete(public_path('/simpanan_kredit/' . $nama_file));
-        // notifikasi dengan session
-        //Session::flash('sukses','Data Siswa Berhasil Di import!');
-
-        // alihkan halaman kembali
-        return redirect()->route('simpanan-kredit.index');
+        try {
+            Excel::import(new SimpananKredit($periode), request()->file('file'));
+            activity()->log('Upload Data Simpanan Kredit');
+            return redirect()->route('simpanan-kredit.index')->with('success', __('Data Simpanan Kredit Telah Sukses Di Tambahkan'));
+        }catch (\Maatwebsite\Excel\Validators\ValidationException $e){
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                $failure->row(); // row that went wrong
+                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $failure->errors(); // Actual error messages from Laravel validator
+                foreach($failure->errors() as $key)
+                {
+                    return redirect()->route('simpanan-kredit.index')->with('error', $key);
+                }
+                $failure->values(); // The values of the row that has failed.
+            }
+        }
     }
 
     public function closeBook()

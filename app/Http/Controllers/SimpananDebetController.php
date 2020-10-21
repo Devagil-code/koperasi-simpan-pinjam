@@ -291,16 +291,20 @@ class SimpananDebetController extends Controller
     public function destroy($id)
     {
         //
-        TransaksiHarianAnggota::where('transaksi_harian_id', $id)->delete();
-        TransaksiHarianBiaya::where('transaksi_harian_id', $id)->delete();
-        TransaksiHarian::find($id)->delete();
-        Session::flash("flash_notification", [
-            "level" => "success",
-            "message" => "Berhasil Menghapus Transaksi !!!"
-        ]);
-        activity()->log('Menghapus Data Simpanan');
-
-        return redirect()->route('simpanan-debet.index');
+        if(\Auth::user()->can('delete-debet-simpanan'))
+        {
+            TransaksiHarianAnggota::where('transaksi_harian_id', $id)->delete();
+            TransaksiHarianBiaya::where('transaksi_harian_id', $id)->delete();
+            TransaksiHarian::find($id)->delete();
+            Session::flash("flash_notification", [
+                "level" => "success",
+                "message" => "Berhasil Menghapus Transaksi !!!"
+            ]);
+            activity()->log('Menghapus Data Simpanan');
+            return redirect()->route('simpanan-debet.index');
+        }else {
+            return redirect()->back()->with('error', __('Permission denied.'));
+        }
     }
 
     public function upload()
@@ -316,48 +320,28 @@ class SimpananDebetController extends Controller
 
     public function doUpload(Request $request)
     {
-        /*Validasi Not Work Karena Bug Pada Linux Centos namun ketika Di Linux Ubuntu Work
-		$this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
-		]);
-
-		$this->validate($request, [
-			'file'=> 'required|mimes:csv,xls,xlsx'
-		]);
-		*/
+        $this->validate($request, [
+            'file' => 'required'
+        ]);
         $periode = Periode::where('status', '1')->first();
-        $file = $request->file('file');
-        // menangkap file excel
-
-        // membuat nama file unik
-        $nama_file = rand() . $file->getClientOriginalName();
-
-        // upload ke folder file_siswa di dalam folder public
-        $file->move('simpanan_debet', $nama_file);
-
         // import data
         try {
-            Excel::import(new SimpananDebet($periode), public_path('/simpanan_debet/' . $nama_file));
+            Excel::import(new SimpananDebet($periode), request()->file('file'));
+            activity()->log('Upload Data Simpanan Debet');
+            return redirect()->route('simpanan-debet.index')->with('success', __('Data Simpanan Debet Telah Sukses Di Tambahkan'));
         } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
             $failures = $e->failures();
-
             foreach ($failures as $failure) {
                 $failure->row(); // row that went wrong
                 $failure->attribute(); // either heading key (if using heading row concern) or column index
                 $failure->errors(); // Actual error messages from Laravel validator
+                foreach($failure->errors() as $key)
+                {
+                    return redirect()->route('simpanan-debet.index')->with('error', $key);
+                }
                 $failure->values(); // The values of the row that has failed.
             }
         }
-        //Excel::import(new SimpananDebet($periode), public_path('/simpanan_debet/'.$nama_file));
-
-        //Mendelete File Supaya Tidak Menumpuk Di Storage
-        File::delete(public_path('simpanan_debet/' . $nama_file));
-        // notifikasi dengan session
-        //Session::flash('sukses','Data Siswa Berhasil Di import!');
-
-        // alihkan halaman kembali
-        activity()->log('Upload Data Simpanan');
-        return redirect()->route('simpanan-debet.index');
     }
 
     public function closeBook()

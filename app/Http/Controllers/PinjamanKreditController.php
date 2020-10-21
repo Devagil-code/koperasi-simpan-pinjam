@@ -281,32 +281,30 @@ class PinjamanKreditController extends Controller
 
     public function doUpload(Request $request)
     {
-        /*
-		//Bug Pada Linux centos tidak bisa di Validasi Mime nya
         $this->validate($request, [
-			'file' => 'required|mimes:csv,xls,xlsx'
+			'file' => 'required'
 		]);
-		*/
         $periode = Periode::where('status', '1')->first();
-        $file = $request->file('file');
-        // menangkap file excel
-
-        // membuat nama file unik
-        $nama_file = rand() . $file->getClientOriginalName();
-
-        // upload ke folder file_siswa di dalam folder public
-        $file->move('pinjaman_kredit', $nama_file);
 
         // import data
-        Excel::import(new PinjamanKredit($periode), public_path('/pinjaman_kredit/' . $nama_file));
 
-        File::delete(public_path('/pinjaman_kredit/' . $nama_file));
-        // notifikasi dengan session
-        //Session::flash('sukses','Data Siswa Berhasil Di import!');
-
-        // alihkan halaman kembali
-        activity()->log('Upload Data Pinjaman Kredit');
-        return redirect()->route('pinjaman-kredit.index');
+        try{
+            Excel::import(new PinjamanKredit($periode), request()->file('file'));
+            activity()->log('Upload Data Pinjaman Kredit');
+            return redirect()->route('pinjaman-kredit.index')->with('success', __('Data Pinjaman Kredit Telah Sukses Di Tambahkan'));
+        }catch(\Maatwebsite\Excel\Validators\ValidationException $e){
+            $failures = $e->failures();
+            foreach ($failures as $failure) {
+                $failure->row(); // row that went wrong
+                $failure->attribute(); // either heading key (if using heading row concern) or column index
+                $failure->errors(); // Actual error messages from Laravel validator
+                foreach($failure->errors() as $key)
+                {
+                    return redirect()->route('pinjaman-kredit.index')->with('error', $key);
+                }
+                $failure->values(); // The values of the row that has failed.
+            }
+        }
     }
 
     public function closeBook()

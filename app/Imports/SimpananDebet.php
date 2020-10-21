@@ -13,8 +13,9 @@ use App\TransaksiHarianBiaya;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
-class SimpananDebet implements ToCollection, WithStartRow
+class SimpananDebet implements ToCollection, WithStartRow, WithValidation
 {
     /**
     * @param array $row
@@ -37,13 +38,6 @@ class SimpananDebet implements ToCollection, WithStartRow
 
     public function collection(Collection $rows)
     {
-        Validator::make($rows->toArray(), [
-            '*.0' => 'required',
-            '*.1' => 'required',
-            '*.2' => 'required',
-            '*.3' => 'required',
-            '*.4' => 'required'
-        ])->validate();
         foreach ($rows as $row)
         {
 
@@ -93,5 +87,46 @@ class SimpananDebet implements ToCollection, WithStartRow
                 }
             }
         }
+    }
+
+    public function rules(): array
+    {
+        return [
+            '0' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.0' => 'required',
+
+            '1' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.1' => 'required',
+
+            '2' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.2' => 'required',
+            '3' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.3' => 'required',
+
+            '4' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.4' => 'required',
+            '5' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.5' => 'required',
+            '6' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.6' => 'required',
+            '7' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.7' => 'required',
+        ];
     }
 }

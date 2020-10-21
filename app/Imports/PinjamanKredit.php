@@ -12,9 +12,10 @@ use App\Anggota;
 use App\TransaksiHarianBiaya;
 use Maatwebsite\Excel\Concerns\WithStartRow;
 use App\TransaksiPinjaman;
+use Maatwebsite\Excel\Concerns\WithValidation;
 
 
-class PinjamanKredit implements ToCollection, WithStartRow
+class PinjamanKredit implements ToCollection, WithStartRow, WithValidation
 {
     /**
     * @param array $row
@@ -62,5 +63,43 @@ class PinjamanKredit implements ToCollection, WithStartRow
                 'lama_cicilan' => $row[6]
             ]);
         }
+    }
+
+    public function rules(): array
+    {
+        return [
+            '0' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.0' => 'required',
+
+            '1' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.1' => 'required',
+
+            '2' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.2' => 'required',
+            '3' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.3' => 'required',
+
+            '4' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.4' => 'required',
+            '5' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.5' => 'required',
+
+            '6' => 'required',
+
+            // Above is alias for as it always validates in batches
+            '*.6' => 'required'
+        ];
     }
 }
