@@ -115,18 +115,6 @@ class SimpananDebet implements ToCollection, WithStartRow, WithValidation
 
             // Above is alias for as it always validates in batches
             '*.4' => 'required',
-            '5' => 'required',
-
-            // Above is alias for as it always validates in batches
-            '*.5' => 'required',
-            '6' => 'required',
-
-            // Above is alias for as it always validates in batches
-            '*.6' => 'required',
-            '7' => 'required',
-
-            // Above is alias for as it always validates in batches
-            '*.7' => 'required',
         ];
     }
 }
