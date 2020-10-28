@@ -115,7 +115,12 @@
     <div id="process_img" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" >
         <div class="modal-dialog">
             <div class="modal-content">
-                <img src="{{ asset('loader.png') }}" alt="">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <img src="{{ asset('loader.png') }}" alt="">
+                </div>
             </div>
         </div>
     </div>
