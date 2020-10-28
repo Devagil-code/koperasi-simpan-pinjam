@@ -200,6 +200,7 @@
                             });
                         }else {
                             $('#result').html(response);
+                            closeModal();
                         }
 
                     },
