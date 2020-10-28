@@ -205,10 +205,8 @@
                         });
                     }else {
                         $('#result').html(response);
+                        $('#loader').css("display", "none");
                     }
-                    $(document).on('hidden.bs.modal', '#responsive', function(){
-                        $("#loader").modal("hide");
-                    });
                 },
                 complete: function(e){
                     closeModal();
@@ -216,6 +214,10 @@
             }).done(function(data, textStatus, jqXHR){
                 closeModal();
             });
+        });
+        $("#myid").bind({
+            ajaxStart: function() { $(this).show(); },
+            ajaxStop: function() { $(this).hide(); }
         });
     })
 
