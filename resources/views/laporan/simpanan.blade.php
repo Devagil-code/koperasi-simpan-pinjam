@@ -181,7 +181,6 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                cache: false,
                 data: data,
                 beforeSend: function() {
                     $("#loader").modal("show");
