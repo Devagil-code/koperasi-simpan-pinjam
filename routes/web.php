@@ -11,10 +11,11 @@
 |
 */
 
+
+Auth::routes();
 Route::get('/', function () {
     return redirect()->route('login');
 });
-Auth::routes();
 Route::group(['middleware' => 'web'], function () {
     Route::group(['middleware' => ['auth']], function () {
         Route::get('laporan-simpanan', 'LaporanController@simpanan')->name('laporan.simpanan');
@@ -76,5 +77,7 @@ Route::group(['middleware' => 'web'], function () {
         Route::put('/user/reset-pass/{user}', 'UserController@putResetPass')->name('user.reset-pass');
         Route::resource('/user-anggota', 'UserAnggotaController');
         Route::post('/periode-close-book/{periode}', 'PeriodeController@closeBook')->name('periode.close-book');
+        Route::post('/simpanan-anggota/cari', 'LaporanController@cariSimpanan')->name('simpanan-anggota.cari');
+        Route::post('/simpanan-anggota/excel', 'LaporanController@simpananExcel')->name('simpanan-anggota.excel');
     });
 });

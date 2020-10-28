@@ -27,24 +27,24 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="card-box">
-            <form id="basic-form" action="{{ route('laporan.simpanan') }}" method="GET">
+            <form id="basic-form" action="{{ route('simpanan-anggota.excel') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="">Tanggal Awal</label>
-                    <input type="text" class="form-control datepicker" name="start_date" autocomplete="off">
+                    <input type="text" class="form-control datepicker" name="start_date" autocomplete="off" required>
                 </div>
                 <div class="form-group">
                     <label for="">Tanggal Akhir</label>
-                    <input type="text" class="form-control datepicker" name="end_date" autocomplete="off">
+                    <input type="text" class="form-control datepicker" name="end_date" autocomplete="off" required>
                 </div>
                 @permission('filter-simpanan-anggota')
                 <div class="form-group clearfix">
                     <label class="control-label " for="confirm">No Anggota *</label>
-                    {!! Form::select('anggota_id', [''=>'Pilih Anggota']+App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2']) !!}
+                    {!! Form::select('anggota_id', [''=>'Pilih Anggota']+App\Anggota::pluck('nama','id')->all(), null, ['class' => 'form-control select2', 'required' => 'required']) !!}
                 </div>
                 @endpermission
                 @permission('search-simpanan-anggota')
-                <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                <button type="button" class="btn btn-primary" id="cari" data-url="{{ route('simpanan-anggota.cari') }}">Cari</button>
                 @endpermission
                 @permission('excell-simpanan-anggota')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
@@ -108,71 +108,24 @@
         </div>
     @endif
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card text-center m-b-30">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table nowrap">
-                        <thead>
-                            <tr>
-                                <th>Tgl</th>
-                                <th>No Anggota</th>
-                                <th>Keterangan</th>
-                                <th>Pokok</th>
-                                <th>Wajib</th>
-                                <th>Sukarela</th>
-                                <th>Kredit</th>
-                                <th>Saldo</th>
-                            </tr>
-                        </thead>
-                        @if (!empty($transaksi_harian))
-                        <tbody>
-                                @php
-                                    $saldo = 0;
-                                    $i = 0;
-                                @endphp
-                                @php
-                                    $saldo = $sum_pokok + $sum_wajib + $sum_sukarela - $sum_kredit_simpanan;
-                                @endphp
-                                <tr>
-                                    <td></td>
-                                    <td>{{ $anggota->nik }}</td>
-                                    <td><strong>Saldo Mutasi</strong></td>
-                                    <td>{{ Money::stringToRupiah($sum_pokok) }}</td>
-                                    <td>{{ Money::stringToRupiah($sum_wajib) }}</td>
-                                    <td>{{ Money::stringToRupiah($sum_sukarela) }}</td>
-                                    <td>{{ Money::stringToRupiah($sum_kredit_simpanan) }}</td>
-                                    <td>{{ Money::stringToRupiah($saldo) }}</td>
-                                </tr>
-                                @foreach ($transaksi_harian as $row)
-                                    @php
-                                        $saldo += $row->sumPokok->sum('nominal') + $row->sumWajib->sum('nominal') + $row->sumSukarela->sum('nominal') - $row->sumKredit->sum('nominal');
-                                    @endphp
-                                    <tr>
-                                        <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
-                                        <td>{{ $anggota->nik }}</td>
-                                        <td>{{ $row->keterangan }}</td>
-                                        <td>{{ Money::stringToRupiah($row->sumPokok->sum('nominal')) }}</td>
-                                        <td>{{ Money::stringToRupiah($row->sumWajib->sum('nominal')) }}</td>
-                                        <td>{{ Money::stringToRupiah($row->sumSukarela->sum('nominal')) }}</td>
-                                        <td>{{ Money::stringToRupiah($row->sumKredit->sum('nominal')) }}</td>
-                                        <td>{{ Money::stringToRupiah($saldo) }}</td>
-                                    </tr>
-                                @endforeach
-                        </tbody>
-                        @endif
-                    </table>
-                </div>
+<div id="result">
+
+</div>
+<div id="loader" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="false" style="display: none;">
+    <div id="process_img" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img src="{{ asset('loader.png') }}" alt="">
             </div>
         </div>
     </div>
-</div>
+</div><!-- /.modal -->
 @endsection
 @section('script')
 <script src="{{ asset('plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('plugins/bootstrap-select/js/bootstrap-select.js') }}" type="text/javascript"></script>
 <script src="{{ asset('js/bootstrap-datepicker.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('plugins/parsleyjs/parsley.min.js') }}"></script>
 <script>
     $(function(){
         $(".select2").select2();
@@ -217,6 +170,52 @@
             }
 
         });
+
+        $('#cari').on('click', function(e){
+            e.preventDefault();
+            var url = $(this).data('url');
+            var data = $('#basic-form').serialize();
+            $.ajax({
+                url: url,
+                type: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                cache: false,
+                data: data,
+                beforeSend: function() {
+                    $("#loader").modal("show");
+	    	        $('#process_img').css("display", "block");
+                },
+                success: function(response){
+                    if(response.error)
+                    {
+                        $.toast({
+                            heading: 'Error !',
+                            text: response.error,
+                            position: 'top-right',
+                            loaderBg: '#bf441d',
+                            icon: 'error',
+                            hideAfter: 3000,
+                            stack: 1
+                        });
+                        location.reload();
+                    }else {
+                        $('#result').html(response);
+                    }
+
+                },
+                complete: function(e){
+                    closeModal();
+                }
+            });
+        });
     })
+
+    function closeModal() {
+        $('#loader').on('shown.bs.modal', function(e) {
+            $("#loader").modal("hide");
+        });
+    }
 </script>
 @endsection
