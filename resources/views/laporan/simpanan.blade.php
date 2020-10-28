@@ -200,8 +200,8 @@
                         });
                     }else {
                         $('#result').html(response);
-                        closeModal();
                     }
+                    closeModal();
 
                 },
                 complete: function(e){
