@@ -206,7 +206,9 @@
                     complete: function(e){
                         closeModal();
                     }
-                });
+                }).done(function(data, textStatus, jqXHR){
+                    closeModal();
+                })
             })
         })
 
