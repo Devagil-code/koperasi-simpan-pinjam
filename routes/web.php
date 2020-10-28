@@ -80,6 +80,6 @@ Route::group(['middleware' => 'web'], function () {
         Route::post('/simpanan-anggota/cari', 'LaporanController@cariSimpanan')->name('simpanan-anggota.cari');
         Route::post('/simpanan-anggota/excel', 'LaporanController@simpananExcel')->name('simpanan-anggota.excel');
         Route::post('/pinjaman-anggota/cari', 'LaporanController@cariPinjaman')->name('pinjaman-anggota.cari');
-        Route::post('/pinjaman-anggota/excel', 'LaporanController@pinjamanExcel')->name('pinajaman-anggota.excel');
+        Route::post('/pinjaman-anggota/excel', 'LaporanController@pinjamanExcel')->name('pinjaman-anggota.excel');
     });
 });
