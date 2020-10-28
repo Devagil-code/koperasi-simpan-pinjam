@@ -209,7 +209,7 @@
                 }
             }).done(function(data, textStatus, jqXHR){
                 closeModal();
-            })
+            });
         });
     })
 
