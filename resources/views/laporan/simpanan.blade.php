@@ -206,8 +206,9 @@
                     }else {
                         $('#result').html(response);
                     }
-                    closeModal();
-
+                    $(document).on('hidden.bs.modal', '#responsive', function(){
+                        $("#loader").modal("hide");
+                    });
                 },
                 complete: function(e){
                     closeModal();
@@ -223,5 +224,9 @@
             $("#loader").modal("hide");
         });
     }
+
+    $(document).on('hidden.bs.modal', '#responsive', function(){
+        $("#loader").modal("hide");
+    });
 </script>
 @endsection
