@@ -199,7 +199,6 @@
                             hideAfter: 3000,
                             stack: 1
                         });
-                        location.reload();
                     }else {
                         $('#result').html(response);
                     }

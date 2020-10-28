@@ -29,7 +29,7 @@
 <div class="row">
     <div class="col-lg-6">
         <div class="card-box">
-            <form id="basic-form" action="{{ route('laporan.pinjaman') }}" method="GET">
+            <form id="basic-form" action="{{ route('pinjaman-anggota.excel') }}" method="POST">
                 @csrf
                 <div class="form-group">
                     <label for="">Tanggal Awal</label>
@@ -46,7 +46,7 @@
                 </div>
                 @endpermission
                 @permission('search-pinjaman-anggota')
-                <input type="submit" value="Cari" class="btn btn-primary" name="search">
+                <button class="btn btn-primary" type="button" id="cari" data-url="{{ route('pinjaman-anggota.cari') }}">Cari</button>
                 @endpermission
                 @permission('excell-pinjaman-anggota')
                 <input type="submit" value="Excell" class="btn btn-danger" name="export_excell">
@@ -110,72 +110,16 @@
         </div>
     @endif
 </div>
-<div class="row">
-    <div class="col-lg-12">
-        <div class="card-box">
-            <h4 class="m-t-0 header-title">Laporan Pinjaman</h4>
-            <div class="table-responsive">
-                <table class="table ">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tgl</th>
-                            <th>No Anggota</th>
-                            <th>Keterangan</th>
-                            <th>Pinjaman</th>
-                            <th>Cicilan Pinjaman</th>
-                            <th>Akumulasi Bunga</th>
-                            <th>Saldo</th>
-                        </tr>
-                    </thead>
-                    @if (!empty($transaksi_harian))
-                        <tbody>
-                            @php
-                                $no = 1;
-                                $saldo = 0;
-                                $cicilan = 0;
-                                $sumKredit = 0;
-                                $sumCicilan = 0;
-                                $i = 0;
-                            @endphp
-                            @php
-                                $saldo =  $sum_kredit_pinjaman - ($sum_cicilan + $sum_bunga);
-                            @endphp
-                            <tr>
-                                <th scope="row"></th>
-                                <td></td>
-                                <td>{{ $anggota->nik }}</td>
-                                <td><strong>Saldo Mutasi</strong></td>
-                                <td>{{ Money::stringToRupiah($sum_kredit_pinjaman) }}</td>
-                                <td>{{ Money::stringToRupiah($sum_cicilan) }}</td>
-                                <td>{{ Money::stringToRupiah($sum_bunga) }}</td>
-                                <td>{{ Money::stringToRupiah($saldo) }}</td>
-                            </tr>
-                            @foreach ($transaksi_harian as $row)
-                                @php
-                                    $saldo +=  $row->sumKreditPinjaman->sum('nominal') - ($row->sumCicilan->sum('nominal') + $row->sumBunga->sum('nominal'));
-                                @endphp
-                                <tr>
-                                    <th scope="row">{{ $no }}</th>
-                                    <td>{{ Tanggal::tanggal_id($row->tgl) }}</td>
-                                    <td>{{ $anggota->nik }}</td>
-                                    <td>{{ $row->keterangan }}</td>
-                                    <td>{{ Money::stringToRupiah($row->sumKreditPinjaman->sum('nominal')) }}</td>
-                                    <td>{{ Money::stringToRupiah($row->sumCicilan->sum('nominal')) }}</td>
-                                    <td>{{ Money::stringToRupiah($row->sumBunga->sum('nominal')) }}</td>
-                                    <td>{{ Money::stringToRupiah($saldo) }}</td>
-                                </tr>
-                                @php
-                                    $no++;
-                                @endphp
-                            @endforeach
-                        </tbody>
-                    @endif
-                </table>
+<div id="result"></div>
+<div id="loader" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="custom-width-modalLabel" aria-hidden="false" style="display: none;">
+    <div id="process_img" style="display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img src="{{ asset('loader.png') }}" alt="">
             </div>
         </div>
     </div>
-</div>
+</div><!-- /.modal -->
 @endsection
 @section('script')
     <script src="{{ asset('plugins/select2/js/select2.min.js') }}" type="text/javascript"></script>
@@ -225,6 +169,51 @@
                 }
 
             });
+
+            $('#cari').on('click', function(e){
+                e.preventDefault();
+                var url = $(this).data('url');
+                var data = $('#basic-form').serialize();
+                $.ajax({
+                    url: url,
+                    type: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    cache: false,
+                    data: data,
+                    beforeSend: function() {
+                        $("#loader").modal("show");
+                        $('#process_img').css("display", "block");
+                    },
+                    success: function(response){
+                        if(response.error)
+                        {
+                            $.toast({
+                                heading: 'Error !',
+                                text: response.error,
+                                position: 'top-right',
+                                loaderBg: '#bf441d',
+                                icon: 'error',
+                                hideAfter: 3000,
+                                stack: 1
+                            });
+                        }else {
+                            $('#result').html(response);
+                        }
+
+                    },
+                    complete: function(e){
+                        closeModal();
+                    }
+                });
+            })
         })
+
+        function closeModal() {
+            $('#loader').on('shown.bs.modal', function(e) {
+                $("#loader").modal("hide");
+            });
+        }
     </script>
 @endsection
