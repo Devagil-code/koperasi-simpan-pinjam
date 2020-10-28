@@ -119,7 +119,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <img src="{{ asset('loader.png') }}" alt="">
+                    <div id="response">
+                        <img src="{{ asset('loader.png') }}" alt="">
+                    </div>
                 </div>
             </div>
         </div>
@@ -204,14 +206,9 @@
                             });
                         }else {
                             $('#result').html(response);
+                            $('#response').html(`<img src="{!! asset('icon-success.png') !!}" alt="" height="50" width="50">`);
                         }
-                        closeModal();
-                    },
-                    complete: function(e){
-                        closeModal();
                     }
-                }).done(function(data, textStatus, jqXHR){
-                    closeModal();
                 });
             })
         })

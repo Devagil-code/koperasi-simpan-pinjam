@@ -119,7 +119,9 @@
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
-                    <img src="{{ asset('loader.png') }}" alt="">
+                    <div id="response">
+                        <img src="{{ asset('loader.png') }}" alt="">
+                    </div>
                 </div>
             </div>
         </div>
@@ -205,19 +207,10 @@
                         });
                     }else {
                         $('#result').html(response);
-                        $('#loader').css("display", "none");
+                        $('#response').html(`<img src="{!! asset('icon-success.png') !!}" alt="" height="50" width="50">`);
                     }
                 },
-                complete: function(e){
-                    closeModal();
-                }
-            }).done(function(data, textStatus, jqXHR){
-                closeModal();
-            });
-        });
-        $("#myid").bind({
-            ajaxStart: function() { $(this).show(); },
-            ajaxStop: function() { $(this).hide(); }
+            })
         });
     })
 
@@ -226,9 +219,5 @@
             $("#loader").modal("hide");
         });
     }
-
-    $(document).on('hidden.bs.modal', '#responsive', function(){
-        $("#loader").modal("hide");
-    });
 </script>
 @endsection
