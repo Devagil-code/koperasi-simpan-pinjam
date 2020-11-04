@@ -21,7 +21,7 @@
                 $i = 0;
             @endphp
             @php
-                $saldo =  $sum_kredit_pinjaman - ($sum_cicilan + $sum_bunga);
+                $saldo =  $sum_kredit_pinjaman - $sum_cicilan;
             @endphp
             <tr>
                 <th scope="row"></th>
@@ -34,7 +34,7 @@
             </tr>
             @foreach ($transaksi_harian as $row)
                 @php
-                    $saldo +=  $row->sumKreditPinjaman->sum('nominal') - ($row->sumCicilan->sum('nominal') + $row->sumBunga->sum('nominal'));
+                    $saldo +=  $row->sumKreditPinjaman->sum('nominal') - $row->sumCicilan->sum('nominal');
                 @endphp
                 <tr>
                     <th scope="row">{{ $no }}</th>
