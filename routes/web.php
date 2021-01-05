@@ -46,6 +46,9 @@ Route::group(['middleware' => 'web'], function () {
         Route::get('transaksi-harian.chek-anggota', 'TransaksiHarianController@cekAnggota')->name('transaksi-harian.chek-anggota');
         Route::resource('user', 'UserController');
         Route::resource('option', 'OptionController');
+        Route::post('company-options', 'OptionController@saveCompany')->name('company.option');
+        Route::post('email-options', 'OptionController@saveEmail')->name('email.option');
+        Route::post('sosmed', 'OptionController@saveSosmed')->name('social-media');
         Route::resource('transaksi-simpanan', 'TransaksiSimpananController');
         Route::resource('transaksi-pinjaman', 'TransaksiPinjamanController');
         Route::resource('transaksi-divisi', 'TransaksiDivisiController');

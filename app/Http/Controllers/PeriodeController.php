@@ -185,7 +185,7 @@ class PeriodeController extends Controller
         if (\Auth::user()->can('edit-periode')) {
             # code...
             $this->validate($request, [
-                'name' => 'required|unique:periodes,name,' . $periode->id,
+                'name' => 'required',
                 'open_date' => 'required',
                 'close_date' => 'required',
                 'status' => 'required'
@@ -238,8 +238,21 @@ class PeriodeController extends Controller
      * @param  \App\Periode  $periode
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Periode $periode)
+    public function destroy($id)
     {
         //
+        if (\Auth::user()->can('delete-periode')) {
+            # code...
+            Periode::find($id)->delete();
+            Session::flash("flash_notification",[
+                "level" => "success",
+                "message" => "Berhasil Menghapus Periode"
+            ]);
+            return redirect()->route('periode.index');
+        } else {
+            # code...
+            return redirect()->back()->with('error', __('Permission denied'));
+        }
+
     }
 }

@@ -719,6 +719,40 @@ class UsersSeeder extends Seeder
             ]);
         }
 
+        //
+        $moduleEmail = Module::create([
+            'name' => 'Module Email'
+        ]);
+
+        $permissionModuleEmail = [
+
+            [
+                'name' => 'manage-email',
+                'display_name' => 'Manage Email',
+                'description' => 'Bisa Manage Email'
+            ],
+            [
+                'name' => 'edit-email',
+                'display_name' => 'Edit Email',
+                'description' => 'Bisa Mengubah Email'
+            ],
+            [
+                'name' => 'create-email',
+                'display_name' => 'Create Email',
+                'description' => 'Bisa Menambah Email'
+            ],
+        ];
+
+        foreach ($permissionModuleEmail as $key) {
+
+            Permission::create([
+                'name' => $key['name'],
+                'display_name' => $key['display_name'],
+                'description' => $key['description'],
+                'module_id' => $moduleEmail->id
+            ]);
+        }
+
         //Adminstrator Rules
         Role::create([
             'name' => 'admin',
@@ -812,6 +846,9 @@ class UsersSeeder extends Seeder
             'manage-copy-saldo',
             'create-copy-saldo',
             'edit-copy-saldo',
+            'manage-email',
+            'create-email',
+            'edit-email',
         ];
 
         $userAdmin = User::create([

@@ -101,7 +101,8 @@
                             { data: 'action', name: 'action', orderable: false, searchable: false },
                         ],
                         dom: '<"toolbar">frtip',
-                        order: [[ 0, "desc" ]]
+                        order: [[ 0, "desc" ]],
+                        scrollX: true
                     });
 
                     $("div.toolbar").html(`@permission('create-debet-simpanan')<a href="{{ route('simpanan-debet.create') }}" class="btn btn-gradient waves-light waves-effect w-md"><i class="fa fa-plus"></i> Tambah</a>

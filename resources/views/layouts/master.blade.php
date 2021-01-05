@@ -2,6 +2,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        @php
+            $logo=asset(Storage::url('logo/'));
+        @endphp
         <meta charset="utf-8" />
         <title>Sistem Informasi Koperasi Karyawan Prasetiyamulya</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,7 +12,7 @@
         <meta content="Asep IT" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+        <link rel="shortcut icon" class="img-fluid" href="{{ $logo.'/logo.png' }}">
         <!-- CSRF Token -->
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <!-- App css -->
@@ -21,47 +24,56 @@
         <link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/metismenu.min.css') }}" rel="stylesheet" type="text/css" />
         <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('assets/css/bootstrap-chosen.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('assets/css/yellow.css')}}" rel="stylesheet" />
+        <link href="{{ asset('assets/css/bootstrap-fileinput.css')}}" rel="stylesheet" />
         <script src="{{ asset('assets/js/modernizr.min.js') }}"></script>
     </head>
     <body>
+        @php
+            $logo=asset(Storage::url('logo/'));
+            $profile=asset(Storage::url('avatar/'));
+            $users=\Auth::user();
+        @endphp
         <!-- Begin page -->
         <div id="wrapper">
             <!-- Top Bar Start -->
             <div class="topbar">
                 <!-- LOGO -->
                 <div class="topbar-left">
-                    <a href="{{ route('home') }}" class="logo">
-                        <span>
-                            <img src="{{ asset('images/logo.png') }}" alt="" height="35">
+                    <a href="{{ url('/') }}" class="logo">
+                        <span class="logo-light">
+                            <img class="img-fluid" src="{{ $logo.'/logo.png' }}" alt="" width="50">
                         </span>
-                        <i>
-                            <img src="{{ asset('images/logo-kopkar.png') }}" alt="" height="28">
-                        </i>
+                        {{-- <span class="logo-sm">
+                            <img class="img-fluid" src="{{ $logo.'/small_logo.png' }}" alt="" width="50" >
+                        </span> --}}
                     </a>
                 </div>
                 <nav class="navbar-custom">
                     <ul class="list-unstyled topbar-right-menu float-right mb-0">
                         <li class="dropdown notification-list">
-                            <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button"
-                               aria-haspopup="false" aria-expanded="false">
-                                <img src="{{ asset('images/users/avatar-1.jpg') }}" alt="user" class="rounded-circle"> <span class="ml-1">{{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i> </span>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
-                                <!-- item-->
-                                <div class="dropdown-item noti-title">
-                                    <h6 class="text-overflow m-0">Selamat Datang !</h6>
-                                </div>
-                                <a href="{{ route('user.user-profile', Auth::user()->id )}}" class="dropdown-item notify-item">
-                                    <i class="fi-head"></i> <span>My Account</span>
+                            <div class="dropdown notification-list nav-pro-img">
+                                <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                    <img src="{{ asset('images/users/avatar-1.jpg') }}" alt="user" class="rounded-circle"> <span class="ml-1">{{ Auth::user()->name }} <i class="mdi mdi-chevron-down"></i> </span>
                                 </a>
-                                <a href="{{ url('/logout') }}" class="dropdown-item notify-item"
-                                    onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();"><i class="fi-power"></i> <span>Logout</span>
-                                </a>
+                                <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
+                                    <!-- item-->
+                                    <div class="dropdown-item noti-title">
+                                        <h6 class="text-overflow m-0">Selamat Datang !</h6>
+                                    </div>
+                                    <a href="{{ route('user.user-profile', Auth::user()->id )}}" class="dropdown-item notify-item">
+                                        <i class="fi-head"></i> <span>My Account</span>
+                                    </a>
+                                    <a href="{{ url('/logout') }}" class="dropdown-item notify-item"
+                                        onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();"><i class="fi-power"></i> <span>Logout</span>
+                                    </a>
 
-                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                    {{ csrf_field() }}
-                                </form>
+                                    <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                        {{ csrf_field() }}
+                                    </form>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -73,7 +85,6 @@
                         </li>
                     </ul>
                 </nav>
-
             </div>
             <!-- Top Bar End -->
 
@@ -123,6 +134,9 @@
         <script src="{{ asset('js/jquery.core.js') }}"></script>
         <script src="{{ asset('js/jquery.app.js') }}"></script>
         <script src="{{ asset('plugins/jquery-toastr/jquery.toast.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('assets/js/chosen.jquery.min.js') }}" type="text/javascript"></script>
+        <script src="{{ asset('assets/js/bootstrap-fileinput.js') }}" type="text/javascript"></script>
+
         @yield('script')
         @if ($message = Session::get('error'))
             <script>
@@ -137,5 +151,14 @@
                 });
             </script>
         @endif
+        <script>
+            $(function() {
+                $(".chosen-select").chosen();
+                $('#edit_publish').click(function(){
+                    $('.publish').show();
+                    $('#edit_publish').hide();
+                });
+            });
+        </script>
     </body>
 </html>

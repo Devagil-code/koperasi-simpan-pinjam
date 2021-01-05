@@ -171,7 +171,7 @@
                 @permission('manage-option')
                 <li class="{{ set_active(['option.index', 'option.create', 'option.edit'])}}">
                     <a href="{{ route('option.index') }}" class="{{ set_active(['option.index', 'option.create', 'option.edit'])}}">
-                        <i class="fi-cog"></i> <span>Option</span>
+                        <i class="fi-cog"></i> <span>Options</span>
                     </a>
                 </li>
                 @endpermission
