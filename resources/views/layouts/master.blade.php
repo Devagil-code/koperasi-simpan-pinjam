@@ -42,12 +42,12 @@
                 <!-- LOGO -->
                 <div class="topbar-left">
                     <a href="{{ url('/') }}" class="logo">
-                        <span class="logo-light">
+                        <span>
                             <img class="img-fluid" src="{{ $logo.'/logo.png' }}" alt="" width="50">
                         </span>
-                        {{-- <span class="logo-sm">
+                        <i>
                             <img class="img-fluid" src="{{ $logo.'/small_logo.png' }}" alt="" width="50" >
-                        </span> --}}
+                        </i>
                     </a>
                 </div>
                 <nav class="navbar-custom">
