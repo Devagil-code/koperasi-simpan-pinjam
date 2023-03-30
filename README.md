@@ -1,1 +1,1 @@
-Aplikasi Koperasi Karyawan Universitas Prasetiyamulya
+Aplikasi Koperasi simpan pinjam
