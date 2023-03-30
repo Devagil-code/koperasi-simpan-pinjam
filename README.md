@@ -1,1 +1,1 @@
-Aplikasi Koperasi 
+Aplikasi Koperasi simpan pinjam
