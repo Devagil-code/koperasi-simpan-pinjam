@@ -9,7 +9,7 @@
             </div>
             <div class="float-right">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Kopkar</a></li>
+                    <li class="breadcrumb-item"><a href="#">Devagilcode</a></li>
                     <li class="breadcrumb-item active">Dashboard</li>
                 </ol>
                 <small class="text-danger">Tahun Buku : {{ date('d-m-Y', strtotime($periode->open_date)) }} - {{ date('d-m-Y', strtotime($periode->close_date)) }}</small>
@@ -212,7 +212,7 @@
                         return 'Rp ' + value;
                     }
                 }
-            }] 
+            }]
         }
     };
 
